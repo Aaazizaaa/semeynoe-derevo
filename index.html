@@ -1415,7 +1415,7 @@ function commit(chg) {
 }
 function flushSnap() { let ch = false; if (lastSnap.p) { S.persons = lastSnap.p; ch = true; } if (lastSnap.u) { S.unions = lastSnap.u; ch = true; } lastSnap = { p: null, u: null }; if (ch) render({ fit: false }); }
 /* on a phone all three trees open fully expanded right away */
-function firstView() { if (firstView.done || !Object.keys(S.persons).length) return; firstView.done = true; if (isPhone()) S.exp = new Set(Object.keys(S.persons)); }
+function firstView() { if (firstView.done || !Object.keys(S.persons).length) return; firstView.done = true; S.exp = new Set(Object.keys(S.persons)); }
 function onSnap(kind, snap) {
   const d = snap.exists ? snap.data() : null; const items = d && d.items ? JSON.parse(JSON.stringify(d.items)) : {};
   S.loaded = true;
