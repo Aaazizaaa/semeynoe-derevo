@@ -1,0 +1,3144 @@
+{
+ "app": "family-tree",
+ "version": 1,
+ "persons": {
+  "p1": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p1",
+   "name": "Мадраим",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p10": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p10",
+   "name": "Абдулла",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p100": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p100",
+   "name": "Малика",
+   "note": "",
+   "parentUnion": "u25",
+   "surname": ""
+  },
+  "p101": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p101",
+   "name": "Дилзода",
+   "note": "",
+   "parentUnion": "u25",
+   "surname": ""
+  },
+  "p102": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p102",
+   "name": "Абдукабир",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p103": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p103",
+   "name": "Шукриддин",
+   "note": "",
+   "parentUnion": "u26",
+   "surname": ""
+  },
+  "p104": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p104",
+   "name": "Райхона",
+   "note": "",
+   "parentUnion": "u26",
+   "surname": ""
+  },
+  "p105": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p105",
+   "name": "Улугбек",
+   "note": "",
+   "parentUnion": "u26",
+   "surname": ""
+  },
+  "p106": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p106",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u26",
+   "surname": ""
+  },
+  "p107": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p107",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p108": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p108",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u27",
+   "surname": ""
+  },
+  "p109": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p109",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u27",
+   "surname": ""
+  },
+  "p11": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p11",
+   "name": "Ибодат",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p110": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p110",
+   "name": "Латофат",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p111": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p111",
+   "name": "Гузал",
+   "note": "",
+   "parentUnion": "u28",
+   "surname": ""
+  },
+  "p112": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p112",
+   "name": "Дилшода",
+   "note": "",
+   "parentUnion": "u28",
+   "surname": ""
+  },
+  "p113": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p113",
+   "name": "Мафтуна",
+   "note": "",
+   "parentUnion": "u28",
+   "surname": ""
+  },
+  "p114": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p114",
+   "name": "Мохизар",
+   "note": "",
+   "parentUnion": "u28",
+   "surname": ""
+  },
+  "p115": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p115",
+   "name": "Земфира",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p116": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p116",
+   "name": "Севара",
+   "note": "",
+   "parentUnion": "u29",
+   "surname": ""
+  },
+  "p117": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p117",
+   "name": "Улугбек",
+   "note": "",
+   "parentUnion": "u29",
+   "surname": ""
+  },
+  "p118": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p118",
+   "name": "Дилфуза",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p119": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p119",
+   "name": "Мадина",
+   "note": "",
+   "parentUnion": "u30",
+   "surname": ""
+  },
+  "p12": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p12",
+   "name": "Мухаббат",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p120": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p120",
+   "name": "Дийер",
+   "note": "",
+   "parentUnion": "u30",
+   "surname": ""
+  },
+  "p121": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p121",
+   "name": "Иброхим",
+   "note": "",
+   "parentUnion": "u30",
+   "surname": ""
+  },
+  "p122": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p122",
+   "name": "Ирина",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p123": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p123",
+   "name": "Жавохир",
+   "note": "",
+   "parentUnion": "u31",
+   "surname": ""
+  },
+  "p124": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p124",
+   "name": "Жахонгир",
+   "note": "",
+   "parentUnion": "u31",
+   "surname": ""
+  },
+  "p125": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p125",
+   "name": "Лобархон",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p126": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p126",
+   "name": "Фотима",
+   "note": "",
+   "parentUnion": "u32",
+   "surname": ""
+  },
+  "p127": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p127",
+   "name": "Зухра",
+   "note": "",
+   "parentUnion": "u32",
+   "surname": ""
+  },
+  "p128": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p128",
+   "name": "Амирхон",
+   "note": "",
+   "parentUnion": "u32",
+   "surname": ""
+  },
+  "p129": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p129",
+   "name": "Жахонгир",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p13": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p13",
+   "name": "Комилжон",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p130": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p130",
+   "name": "Хожакбар",
+   "note": "",
+   "parentUnion": "u33",
+   "surname": ""
+  },
+  "p131": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p131",
+   "name": "Худайерхон",
+   "note": "",
+   "parentUnion": "u33",
+   "surname": ""
+  },
+  "p132": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p132",
+   "name": "Зайнаб",
+   "note": "",
+   "parentUnion": "u33",
+   "surname": ""
+  },
+  "p133": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p133",
+   "name": "Гузал",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p134": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p134",
+   "name": "Жанона",
+   "note": "",
+   "parentUnion": "u34",
+   "surname": ""
+  },
+  "p135": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p135",
+   "name": "Шодия",
+   "note": "",
+   "parentUnion": "u34",
+   "surname": ""
+  },
+  "p136": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p136",
+   "name": "Самира",
+   "note": "",
+   "parentUnion": "u34",
+   "surname": ""
+  },
+  "p137": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p137",
+   "name": "Дилобар",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p138": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p138",
+   "name": "Жасмина",
+   "note": "",
+   "parentUnion": "u35",
+   "surname": ""
+  },
+  "p139": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p139",
+   "name": "Давлатбек",
+   "note": "",
+   "parentUnion": "u35",
+   "surname": ""
+  },
+  "p14": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p14",
+   "name": "Бувинисо",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p140": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p140",
+   "name": "Сарвиноз",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p141": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p141",
+   "name": "Саидахмад",
+   "note": "",
+   "parentUnion": "u36",
+   "surname": ""
+  },
+  "p143": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p143",
+   "name": "Анна",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p144": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p144",
+   "name": "Ленара",
+   "note": "",
+   "parentUnion": "u37",
+   "surname": ""
+  },
+  "p145": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p145",
+   "name": "Солиха",
+   "note": "",
+   "parentUnion": "u37",
+   "surname": ""
+  },
+  "p146": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p146",
+   "name": "Мухаммадсаид",
+   "note": "",
+   "parentUnion": "u37",
+   "surname": ""
+  },
+  "p147": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p147",
+   "name": "Хуршид",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p148": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p148",
+   "name": "Жавохир",
+   "note": "",
+   "parentUnion": "u38",
+   "surname": ""
+  },
+  "p149": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p149",
+   "name": "Диербек",
+   "note": "",
+   "parentUnion": "u38",
+   "surname": ""
+  },
+  "p15": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p15",
+   "name": "Манзура",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p150": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p150",
+   "name": "Омина",
+   "note": "",
+   "parentUnion": "u38",
+   "surname": ""
+  },
+  "p151": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p151",
+   "name": "Азиз",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p152": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p152",
+   "name": "Абдулазиз",
+   "note": "",
+   "parentUnion": "u39",
+   "surname": ""
+  },
+  "p153": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p153",
+   "name": "Кобилжон",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p154": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p154",
+   "name": "Далер",
+   "note": "",
+   "parentUnion": "u40",
+   "surname": ""
+  },
+  "p155": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p155",
+   "name": "Лобар",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p156": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p156",
+   "name": "Севинч",
+   "note": "",
+   "parentUnion": "u41",
+   "surname": ""
+  },
+  "p157": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p157",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u41",
+   "surname": ""
+  },
+  "p158": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p158",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u41",
+   "surname": ""
+  },
+  "p159": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p159",
+   "name": "Акмал",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p16": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p16",
+   "name": "Умиджон",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p160": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p160",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u42",
+   "surname": ""
+  },
+  "p161": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p161",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u42",
+   "surname": ""
+  },
+  "p162": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p162",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p163": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p163",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u43",
+   "surname": ""
+  },
+  "p164": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p164",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u43",
+   "surname": ""
+  },
+  "p165": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p165",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u43",
+   "surname": ""
+  },
+  "p166": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p166",
+   "name": "Шахло",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p167": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p167",
+   "name": "Дилшод",
+   "note": "",
+   "parentUnion": "u44",
+   "surname": ""
+  },
+  "p168": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p168",
+   "name": "Дилноз",
+   "note": "",
+   "parentUnion": "u44",
+   "surname": ""
+  },
+  "p169": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p169",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p17": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p17",
+   "name": "Замира",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p170": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p170",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u45",
+   "surname": ""
+  },
+  "p171": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p171",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p172": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p172",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u46",
+   "surname": ""
+  },
+  "p173": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p173",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u47",
+   "surname": ""
+  },
+  "p174": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p174",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u47",
+   "surname": ""
+  },
+  "p175": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p175",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p176": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p176",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u48",
+   "surname": ""
+  },
+  "p177": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p177",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u48",
+   "surname": ""
+  },
+  "p178": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p178",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u49",
+   "surname": ""
+  },
+  "p179": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p179",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u49",
+   "surname": ""
+  },
+  "p18": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p18",
+   "name": "Бахтиниссо",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p180": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p180",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u49",
+   "surname": ""
+  },
+  "p181": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p181",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u50",
+   "surname": ""
+  },
+  "p182": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p182",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p183": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p183",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u51",
+   "surname": ""
+  },
+  "p184": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p184",
+   "name": "Малохат",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p185": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p185",
+   "name": "Ширина",
+   "note": "",
+   "parentUnion": "u52",
+   "surname": ""
+  },
+  "p186": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p186",
+   "name": "Шохина",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p187": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p187",
+   "name": "Шохжахон",
+   "note": "",
+   "parentUnion": "u53",
+   "surname": ""
+  },
+  "p188": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p188",
+   "name": "Муслима",
+   "note": "",
+   "parentUnion": "u53",
+   "surname": ""
+  },
+  "p189": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p189",
+   "name": "Абдуносир",
+   "note": "",
+   "parentUnion": "u53",
+   "surname": ""
+  },
+  "p19": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p19",
+   "name": "Зульфия",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p190": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p190",
+   "name": "Миржалол",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p191": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p191",
+   "name": "Бобур",
+   "note": "",
+   "parentUnion": "u54",
+   "surname": ""
+  },
+  "p192": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p192",
+   "name": "Улугбек",
+   "note": "",
+   "parentUnion": "u54",
+   "surname": ""
+  },
+  "p193": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p193",
+   "name": "Нозима",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p194": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p194",
+   "name": "Мухаммадали",
+   "note": "",
+   "parentUnion": "u55",
+   "surname": ""
+  },
+  "p195": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p195",
+   "name": "Саъдия",
+   "note": "",
+   "parentUnion": "u55",
+   "surname": ""
+  },
+  "p196": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p196",
+   "name": "Нилюфар",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p197": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p197",
+   "name": "Нигина",
+   "note": "",
+   "parentUnion": "u56",
+   "surname": ""
+  },
+  "p198": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p198",
+   "name": "Солиха",
+   "note": "",
+   "parentUnion": "u56",
+   "surname": ""
+  },
+  "p199": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p199",
+   "name": "Мухаммадюсуф",
+   "note": "",
+   "parentUnion": "u56",
+   "surname": ""
+  },
+  "p2": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p2",
+   "name": "Хакимжон",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p20": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p20",
+   "name": "Раъно",
+   "note": "",
+   "parentUnion": "u4",
+   "surname": ""
+  },
+  "p200": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p200",
+   "name": "Жавохир",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p201": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p201",
+   "name": "Хадича",
+   "note": "",
+   "parentUnion": "u57",
+   "surname": ""
+  },
+  "p202": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p202",
+   "name": "Даврон",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p203": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p203",
+   "name": "Шодия",
+   "note": "",
+   "parentUnion": "u58",
+   "surname": ""
+  },
+  "p204": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p204",
+   "name": "Жахонгир",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p205": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p205",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p206": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p206",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u60",
+   "surname": ""
+  },
+  "p207": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p207",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u60",
+   "surname": ""
+  },
+  "p208": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p208",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u60",
+   "surname": ""
+  },
+  "p209": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p209",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p21": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p21",
+   "name": "Хамид",
+   "note": "",
+   "parentUnion": "",
+   "surname": "Каршиев"
+  },
+  "p210": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p210",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u61",
+   "surname": ""
+  },
+  "p211": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p211",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p212": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p212",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u62",
+   "surname": ""
+  },
+  "p213": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p213",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u63",
+   "surname": ""
+  },
+  "p214": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p214",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p215": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p215",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u64",
+   "surname": ""
+  },
+  "p216": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p216",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u64",
+   "surname": ""
+  },
+  "p217": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p217",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p218": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p218",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u65",
+   "surname": ""
+  },
+  "p219": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p219",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p22": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p22",
+   "name": "Дилором",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиева"
+  },
+  "p220": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p220",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u66",
+   "surname": ""
+  },
+  "p221": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p221",
+   "name": "Файзулло",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p222": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p222",
+   "name": "Умар",
+   "note": "",
+   "parentUnion": "u67",
+   "surname": ""
+  },
+  "p223": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p223",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p224": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p224",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p225": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p225",
+   "name": "Самир",
+   "note": "",
+   "parentUnion": "u69",
+   "surname": ""
+  },
+  "p226": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p226",
+   "name": "?",
+   "note": "",
+   "parentUnion": "u69",
+   "surname": ""
+  },
+  "p227": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p227",
+   "name": "Умар",
+   "note": "",
+   "parentUnion": "u59",
+   "surname": ""
+  },
+  "p228": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p228",
+   "name": "Диёрбек",
+   "note": "",
+   "parentUnion": "u58",
+   "surname": ""
+  },
+  "p229": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p229",
+   "name": "Мустаффо",
+   "note": "",
+   "parentUnion": "u56",
+   "surname": ""
+  },
+  "p23": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p23",
+   "name": "Диловар",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиева"
+  },
+  "p24": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p24",
+   "name": "Собит",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиев"
+  },
+  "p25": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p25",
+   "name": "Собир",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиев"
+  },
+  "p26": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p26",
+   "name": "Дилбар",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиева"
+  },
+  "p27": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p27",
+   "name": "Голиб",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиев"
+  },
+  "p28": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p28",
+   "name": "Хамза",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиев"
+  },
+  "p29": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p29",
+   "name": "Тимур",
+   "note": "",
+   "parentUnion": "u5",
+   "surname": "Каршиев"
+  },
+  "p3": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p3",
+   "name": "Умринисо",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p30": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p30",
+   "name": "Мавлуда",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p31": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p31",
+   "name": "Гулбахор",
+   "note": "",
+   "parentUnion": "u6",
+   "surname": ""
+  },
+  "p32": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p32",
+   "name": "Муборак",
+   "note": "",
+   "parentUnion": "u6",
+   "surname": ""
+  },
+  "p33": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p33",
+   "name": "Мамлакат",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p34": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p34",
+   "name": "Дилмурод",
+   "note": "",
+   "parentUnion": "u7",
+   "surname": ""
+  },
+  "p35": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p35",
+   "name": "Фуркат",
+   "note": "",
+   "parentUnion": "u7",
+   "surname": ""
+  },
+  "p36": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p36",
+   "name": "Шухрат",
+   "note": "",
+   "parentUnion": "u7",
+   "surname": ""
+  },
+  "p37": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p37",
+   "name": "Озода",
+   "note": "",
+   "parentUnion": "u7",
+   "surname": ""
+  },
+  "p38": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p38",
+   "name": "Саидахмад",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p39": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p39",
+   "name": "Саидмурод",
+   "note": "",
+   "parentUnion": "u8",
+   "surname": ""
+  },
+  "p4": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p4",
+   "name": "Тупанисо",
+   "note": "",
+   "parentUnion": "u1",
+   "surname": ""
+  },
+  "p40": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p40",
+   "name": "Шерзод",
+   "note": "",
+   "parentUnion": "u8",
+   "surname": ""
+  },
+  "p41": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p41",
+   "name": "Паризод",
+   "note": "",
+   "parentUnion": "u8",
+   "surname": ""
+  },
+  "p42": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p42",
+   "name": "Бекзод",
+   "note": "",
+   "parentUnion": "u8",
+   "surname": ""
+  },
+  "p43": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p43",
+   "name": "Абубакр",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p44": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p44",
+   "name": "Нодира",
+   "note": "",
+   "parentUnion": "u9",
+   "surname": ""
+  },
+  "p45": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p45",
+   "name": "Гузал",
+   "note": "",
+   "parentUnion": "u9",
+   "surname": ""
+  },
+  "p46": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p46",
+   "name": "Мухайё",
+   "note": "",
+   "parentUnion": "u9",
+   "surname": ""
+  },
+  "p47": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p47",
+   "name": "Хадича",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p48": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p48",
+   "name": "Анвар",
+   "note": "",
+   "parentUnion": "u10",
+   "surname": ""
+  },
+  "p49": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p49",
+   "name": "Зилола",
+   "note": "",
+   "parentUnion": "u10",
+   "surname": ""
+  },
+  "p5": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p5",
+   "name": "Ойсанам",
+   "note": "",
+   "parentUnion": "u1",
+   "surname": "Каршиева"
+  },
+  "p50": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p50",
+   "name": "Фарида",
+   "note": "",
+   "parentUnion": "u10",
+   "surname": ""
+  },
+  "p51": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p51",
+   "name": "Мавлон",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p52": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p52",
+   "name": "Насибали",
+   "note": "",
+   "parentUnion": "u11",
+   "surname": ""
+  },
+  "p53": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p53",
+   "name": "Дилафруз",
+   "note": "",
+   "parentUnion": "u11",
+   "surname": ""
+  },
+  "p54": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p54",
+   "name": "Мансур",
+   "note": "",
+   "parentUnion": "u11",
+   "surname": ""
+  },
+  "p55": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p55",
+   "name": "Файзулла",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p56": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p56",
+   "name": "Шахноза",
+   "note": "",
+   "parentUnion": "u12",
+   "surname": ""
+  },
+  "p57": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p57",
+   "name": "Фарход",
+   "note": "",
+   "parentUnion": "u12",
+   "surname": ""
+  },
+  "p58": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p58",
+   "name": "Гулноза",
+   "note": "",
+   "parentUnion": "u12",
+   "surname": ""
+  },
+  "p59": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p59",
+   "name": "Фаррух",
+   "note": "",
+   "parentUnion": "u12",
+   "surname": ""
+  },
+  "p6": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p6",
+   "name": "Минисо",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p60": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p60",
+   "name": "Сайера",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p61": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p61",
+   "name": "Юлдуз",
+   "note": "",
+   "parentUnion": "u13",
+   "surname": ""
+  },
+  "p62": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p62",
+   "name": "Гулмира",
+   "note": "",
+   "parentUnion": "u13",
+   "surname": ""
+  },
+  "p63": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p63",
+   "name": "Милана",
+   "note": "",
+   "parentUnion": "u13",
+   "surname": ""
+  },
+  "p64": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p64",
+   "name": "Гулмира",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p65": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p65",
+   "name": "Саидумар",
+   "note": "",
+   "parentUnion": "u14",
+   "surname": ""
+  },
+  "p66": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p66",
+   "name": "Имрон",
+   "note": "",
+   "parentUnion": "u14",
+   "surname": ""
+  },
+  "p67": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p67",
+   "name": "Хасан",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p68": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p68",
+   "name": "Бунёд",
+   "note": "",
+   "parentUnion": "u15",
+   "surname": ""
+  },
+  "p69": {
+   "birth": "",
+   "death": "",
+   "gender": "",
+   "id": "p69",
+   "name": "?",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p7": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p7",
+   "name": "Абдураим",
+   "note": "",
+   "parentUnion": "u2",
+   "surname": ""
+  },
+  "p70": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p70",
+   "name": "Танзилахон",
+   "note": "",
+   "parentUnion": "u16",
+   "surname": ""
+  },
+  "p71": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p71",
+   "name": "Эльнур",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p72": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p72",
+   "name": "Шахзод",
+   "note": "",
+   "parentUnion": "u17",
+   "surname": ""
+  },
+  "p73": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p73",
+   "name": "Алижон",
+   "note": "",
+   "parentUnion": "u17",
+   "surname": ""
+  },
+  "p74": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p74",
+   "name": "Исакул",
+   "note": "",
+   "parentUnion": "",
+   "surname": "Шоназаров"
+  },
+  "p75": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p75",
+   "name": "Азиза",
+   "note": "",
+   "parentUnion": "u18",
+   "surname": "Шоназарова"
+  },
+  "p76": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p76",
+   "name": "Умида",
+   "note": "",
+   "parentUnion": "u18",
+   "surname": "Шоназарова"
+  },
+  "p77": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p77",
+   "name": "Абдухамид",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p78": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p78",
+   "name": "Хуррамбек",
+   "note": "",
+   "parentUnion": "u19",
+   "surname": ""
+  },
+  "p79": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p79",
+   "name": "Динора",
+   "note": "",
+   "parentUnion": "u19",
+   "surname": ""
+  },
+  "p8": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p8",
+   "name": "Олим",
+   "note": "",
+   "parentUnion": "u3",
+   "surname": ""
+  },
+  "p80": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p80",
+   "name": "Дилмира",
+   "note": "",
+   "parentUnion": "u19",
+   "surname": ""
+  },
+  "p81": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p81",
+   "name": "Арофат",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p82": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p82",
+   "name": "Саиджон",
+   "note": "",
+   "parentUnion": "u20",
+   "surname": ""
+  },
+  "p83": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p83",
+   "name": "Сиддикжон",
+   "note": "",
+   "parentUnion": "u20",
+   "surname": ""
+  },
+  "p84": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p84",
+   "name": "Шахризода",
+   "note": "",
+   "parentUnion": "u20",
+   "surname": ""
+  },
+  "p85": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p85",
+   "name": "Севинч",
+   "note": "",
+   "parentUnion": "u20",
+   "surname": ""
+  },
+  "p86": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p86",
+   "name": "Шохида",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p87": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p87",
+   "name": "Хакимжон",
+   "note": "",
+   "parentUnion": "u21",
+   "surname": "Каршиев"
+  },
+  "p88": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p88",
+   "name": "Хамза",
+   "note": "",
+   "parentUnion": "u21",
+   "surname": "Каршиев"
+  },
+  "p89": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p89",
+   "name": "Аброрходжа",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p9": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p9",
+   "name": "Одил",
+   "note": "",
+   "parentUnion": "u3",
+   "surname": ""
+  },
+  "p90": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p90",
+   "name": "Камронходжа",
+   "note": "",
+   "parentUnion": "u22",
+   "surname": ""
+  },
+  "p91": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p91",
+   "name": "Ойгул",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p92": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p92",
+   "name": "Дилшода",
+   "note": "",
+   "parentUnion": "u23",
+   "surname": ""
+  },
+  "p93": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p93",
+   "name": "Самандар",
+   "note": "",
+   "parentUnion": "u23",
+   "surname": ""
+  },
+  "p94": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p94",
+   "name": "Дилчирой",
+   "note": "",
+   "parentUnion": "u23",
+   "surname": ""
+  },
+  "p95": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p95",
+   "name": "Одина",
+   "note": "",
+   "parentUnion": "u23",
+   "surname": ""
+  },
+  "p97": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p97",
+   "name": "Саидбурхон",
+   "note": "",
+   "parentUnion": "u24",
+   "surname": ""
+  },
+  "p98": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p98",
+   "name": "Озода",
+   "note": "",
+   "parentUnion": "",
+   "surname": ""
+  },
+  "p99": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p99",
+   "name": "Дилнура",
+   "note": "",
+   "parentUnion": "u25",
+   "surname": ""
+  },
+  "p_hab": {
+   "birth": "",
+   "death": "",
+   "gender": "m",
+   "id": "p_hab",
+   "name": "Хабиб",
+   "note": "",
+   "parentUnion": "",
+   "surname": "Якубов"
+  }
+ },
+ "unions": {
+  "u1": {
+   "anchor": "",
+   "children": [
+    "p4",
+    "p5"
+   ],
+   "id": "u1",
+   "partners": [
+    "p1",
+    "p3"
+   ]
+  },
+  "u10": {
+   "anchor": "",
+   "children": [
+    "p48",
+    "p49",
+    "p50"
+   ],
+   "id": "u10",
+   "partners": [
+    "p13",
+    "p47"
+   ]
+  },
+  "u11": {
+   "anchor": "",
+   "children": [
+    "p52",
+    "p53",
+    "p54"
+   ],
+   "id": "u11",
+   "partners": [
+    "p14",
+    "p51"
+   ]
+  },
+  "u12": {
+   "anchor": "",
+   "children": [
+    "p56",
+    "p57",
+    "p58",
+    "p59"
+   ],
+   "id": "u12",
+   "partners": [
+    "p15",
+    "p55"
+   ]
+  },
+  "u13": {
+   "anchor": "",
+   "children": [
+    "p61",
+    "p62",
+    "p63"
+   ],
+   "id": "u13",
+   "partners": [
+    "p16",
+    "p60"
+   ]
+  },
+  "u14": {
+   "anchor": "",
+   "children": [
+    "p65",
+    "p66"
+   ],
+   "id": "u14",
+   "partners": [
+    "p16",
+    "p64"
+   ]
+  },
+  "u15": {
+   "anchor": "",
+   "children": [
+    "p68"
+   ],
+   "id": "u15",
+   "partners": [
+    "p17",
+    "p67"
+   ]
+  },
+  "u16": {
+   "anchor": "",
+   "children": [
+    "p70"
+   ],
+   "id": "u16",
+   "partners": [
+    "p19",
+    "p69"
+   ]
+  },
+  "u17": {
+   "anchor": "",
+   "children": [
+    "p72",
+    "p73"
+   ],
+   "id": "u17",
+   "partners": [
+    "p20",
+    "p71"
+   ]
+  },
+  "u18": {
+   "anchor": "",
+   "children": [
+    "p75",
+    "p76"
+   ],
+   "id": "u18",
+   "partners": [
+    "p22",
+    "p74"
+   ]
+  },
+  "u19": {
+   "anchor": "",
+   "children": [
+    "p78",
+    "p79",
+    "p80"
+   ],
+   "id": "u19",
+   "partners": [
+    "p23",
+    "p77"
+   ]
+  },
+  "u2": {
+   "anchor": "",
+   "children": [
+    "p7"
+   ],
+   "id": "u2",
+   "partners": [
+    "p1",
+    "p6"
+   ]
+  },
+  "u20": {
+   "anchor": "",
+   "children": [
+    "p82",
+    "p83",
+    "p84",
+    "p85"
+   ],
+   "id": "u20",
+   "partners": [
+    "p24",
+    "p81"
+   ]
+  },
+  "u21": {
+   "anchor": "",
+   "children": [
+    "p87",
+    "p88"
+   ],
+   "id": "u21",
+   "partners": [
+    "p25",
+    "p86"
+   ]
+  },
+  "u22": {
+   "anchor": "",
+   "children": [
+    "p90"
+   ],
+   "id": "u22",
+   "partners": [
+    "p26",
+    "p89"
+   ]
+  },
+  "u23": {
+   "anchor": "",
+   "children": [
+    "p92",
+    "p93",
+    "p94",
+    "p95"
+   ],
+   "id": "u23",
+   "partners": [
+    "p27",
+    "p91"
+   ]
+  },
+  "u24": {
+   "anchor": "p29",
+   "children": [
+    "p97"
+   ],
+   "id": "u24",
+   "partners": [
+    "p29",
+    "p41"
+   ]
+  },
+  "u25": {
+   "anchor": "",
+   "children": [
+    "p99",
+    "p100",
+    "p101"
+   ],
+   "id": "u25",
+   "partners": [
+    "p29",
+    "p98"
+   ]
+  },
+  "u26": {
+   "anchor": "",
+   "children": [
+    "p103",
+    "p104",
+    "p105",
+    "p106"
+   ],
+   "id": "u26",
+   "partners": [
+    "p31",
+    "p102"
+   ]
+  },
+  "u27": {
+   "anchor": "",
+   "children": [
+    "p108",
+    "p109"
+   ],
+   "id": "u27",
+   "partners": [
+    "p32",
+    "p107"
+   ]
+  },
+  "u28": {
+   "anchor": "",
+   "children": [
+    "p111",
+    "p112",
+    "p113",
+    "p114"
+   ],
+   "id": "u28",
+   "partners": [
+    "p34",
+    "p110"
+   ]
+  },
+  "u29": {
+   "anchor": "",
+   "children": [
+    "p116",
+    "p117"
+   ],
+   "id": "u29",
+   "partners": [
+    "p35",
+    "p115"
+   ]
+  },
+  "u3": {
+   "anchor": "",
+   "children": [
+    "p8",
+    "p9"
+   ],
+   "id": "u3",
+   "partners": [
+    "p2",
+    "p3"
+   ]
+  },
+  "u30": {
+   "anchor": "",
+   "children": [
+    "p119",
+    "p120",
+    "p121"
+   ],
+   "id": "u30",
+   "partners": [
+    "p35",
+    "p118"
+   ]
+  },
+  "u31": {
+   "anchor": "",
+   "children": [
+    "p123",
+    "p124"
+   ],
+   "id": "u31",
+   "partners": [
+    "p36",
+    "p122"
+   ]
+  },
+  "u32": {
+   "anchor": "",
+   "children": [
+    "p126",
+    "p127",
+    "p128"
+   ],
+   "id": "u32",
+   "partners": [
+    "p36",
+    "p125"
+   ]
+  },
+  "u33": {
+   "anchor": "",
+   "children": [
+    "p130",
+    "p131",
+    "p132"
+   ],
+   "id": "u33",
+   "partners": [
+    "p37",
+    "p129"
+   ]
+  },
+  "u34": {
+   "anchor": "",
+   "children": [
+    "p134",
+    "p135",
+    "p136"
+   ],
+   "id": "u34",
+   "partners": [
+    "p39",
+    "p133"
+   ]
+  },
+  "u35": {
+   "anchor": "",
+   "children": [
+    "p138",
+    "p139"
+   ],
+   "id": "u35",
+   "partners": [
+    "p40",
+    "p137"
+   ]
+  },
+  "u36": {
+   "anchor": "",
+   "children": [
+    "p141"
+   ],
+   "id": "u36",
+   "partners": [
+    "p40",
+    "p140"
+   ]
+  },
+  "u37": {
+   "anchor": "",
+   "children": [
+    "p144",
+    "p145",
+    "p146"
+   ],
+   "id": "u37",
+   "partners": [
+    "p42",
+    "p143"
+   ]
+  },
+  "u38": {
+   "anchor": "",
+   "children": [
+    "p148",
+    "p149",
+    "p150"
+   ],
+   "id": "u38",
+   "partners": [
+    "p44",
+    "p147"
+   ]
+  },
+  "u39": {
+   "anchor": "",
+   "children": [
+    "p152"
+   ],
+   "id": "u39",
+   "partners": [
+    "p45",
+    "p151"
+   ]
+  },
+  "u4": {
+   "anchor": "",
+   "children": [
+    "p12",
+    "p13",
+    "p14",
+    "p15",
+    "p16",
+    "p17",
+    "p18",
+    "p19",
+    "p20",
+    "p11"
+   ],
+   "id": "u4",
+   "partners": [
+    "p4",
+    "p10"
+   ]
+  },
+  "u40": {
+   "anchor": "",
+   "children": [
+    "p154"
+   ],
+   "id": "u40",
+   "partners": [
+    "p46",
+    "p153"
+   ]
+  },
+  "u41": {
+   "anchor": "",
+   "children": [
+    "p156",
+    "p157",
+    "p158"
+   ],
+   "id": "u41",
+   "partners": [
+    "p48",
+    "p155"
+   ]
+  },
+  "u42": {
+   "anchor": "",
+   "children": [
+    "p160",
+    "p161"
+   ],
+   "id": "u42",
+   "partners": [
+    "p49",
+    "p159"
+   ]
+  },
+  "u43": {
+   "anchor": "",
+   "children": [
+    "p163",
+    "p164",
+    "p165"
+   ],
+   "id": "u43",
+   "partners": [
+    "p50",
+    "p162"
+   ]
+  },
+  "u44": {
+   "anchor": "",
+   "children": [
+    "p167",
+    "p168"
+   ],
+   "id": "u44",
+   "partners": [
+    "p52",
+    "p166"
+   ]
+  },
+  "u45": {
+   "anchor": "",
+   "children": [
+    "p170"
+   ],
+   "id": "u45",
+   "partners": [
+    "p53",
+    "p169"
+   ]
+  },
+  "u46": {
+   "anchor": "",
+   "children": [
+    "p172"
+   ],
+   "id": "u46",
+   "partners": [
+    "p54",
+    "p171"
+   ]
+  },
+  "u47": {
+   "anchor": "",
+   "children": [
+    "p173",
+    "p174"
+   ],
+   "id": "u47",
+   "partners": [
+    "p56"
+   ]
+  },
+  "u48": {
+   "anchor": "",
+   "children": [
+    "p176",
+    "p177"
+   ],
+   "id": "u48",
+   "partners": [
+    "p59",
+    "p175"
+   ]
+  },
+  "u49": {
+   "anchor": "",
+   "children": [
+    "p178",
+    "p179",
+    "p180"
+   ],
+   "id": "u49",
+   "partners": [
+    "p58"
+   ]
+  },
+  "u5": {
+   "anchor": "",
+   "children": [
+    "p29",
+    "p22",
+    "p23",
+    "p24",
+    "p25",
+    "p26",
+    "p27",
+    "p28"
+   ],
+   "id": "u5",
+   "partners": [
+    "p5",
+    "p21"
+   ]
+  },
+  "u50": {
+   "anchor": "",
+   "children": [
+    "p181"
+   ],
+   "id": "u50",
+   "partners": [
+    "p57"
+   ]
+  },
+  "u51": {
+   "anchor": "",
+   "children": [
+    "p183"
+   ],
+   "id": "u51",
+   "partners": [
+    "p68",
+    "p182"
+   ]
+  },
+  "u52": {
+   "anchor": "",
+   "children": [
+    "p185"
+   ],
+   "id": "u52",
+   "partners": [
+    "p72",
+    "p184"
+   ]
+  },
+  "u53": {
+   "anchor": "",
+   "children": [
+    "p187",
+    "p188",
+    "p189"
+   ],
+   "id": "u53",
+   "partners": [
+    "p78",
+    "p186"
+   ]
+  },
+  "u54": {
+   "anchor": "",
+   "children": [
+    "p191",
+    "p192"
+   ],
+   "id": "u54",
+   "partners": [
+    "p80",
+    "p190"
+   ]
+  },
+  "u55": {
+   "anchor": "",
+   "children": [
+    "p194",
+    "p195"
+   ],
+   "id": "u55",
+   "partners": [
+    "p82",
+    "p193"
+   ]
+  },
+  "u56": {
+   "anchor": "",
+   "children": [
+    "p197",
+    "p198",
+    "p199",
+    "p229"
+   ],
+   "id": "u56",
+   "partners": [
+    "p83",
+    "p196"
+   ]
+  },
+  "u57": {
+   "anchor": "",
+   "children": [
+    "p201"
+   ],
+   "id": "u57",
+   "partners": [
+    "p85",
+    "p200"
+   ]
+  },
+  "u58": {
+   "anchor": "",
+   "children": [
+    "p203",
+    "p228"
+   ],
+   "id": "u58",
+   "partners": [
+    "p92",
+    "p202"
+   ]
+  },
+  "u59": {
+   "anchor": "",
+   "children": [
+    "p227"
+   ],
+   "id": "u59",
+   "partners": [
+    "p94",
+    "p204"
+   ]
+  },
+  "u6": {
+   "anchor": "",
+   "children": [
+    "p31",
+    "p32"
+   ],
+   "id": "u6",
+   "partners": [
+    "p7",
+    "p30"
+   ]
+  },
+  "u60": {
+   "anchor": "",
+   "children": [
+    "p206",
+    "p207",
+    "p208"
+   ],
+   "id": "u60",
+   "partners": [
+    "p103",
+    "p205"
+   ]
+  },
+  "u61": {
+   "anchor": "",
+   "children": [
+    "p210"
+   ],
+   "id": "u61",
+   "partners": [
+    "p104",
+    "p209"
+   ]
+  },
+  "u62": {
+   "anchor": "",
+   "children": [
+    "p212"
+   ],
+   "id": "u62",
+   "partners": [
+    "p105",
+    "p211"
+   ]
+  },
+  "u63": {
+   "anchor": "",
+   "children": [
+    "p213"
+   ],
+   "id": "u63",
+   "partners": [
+    "p106"
+   ]
+  },
+  "u64": {
+   "anchor": "",
+   "children": [
+    "p215",
+    "p216"
+   ],
+   "id": "u64",
+   "partners": [
+    "p111",
+    "p214"
+   ]
+  },
+  "u65": {
+   "anchor": "",
+   "children": [
+    "p218"
+   ],
+   "id": "u65",
+   "partners": [
+    "p112",
+    "p217"
+   ]
+  },
+  "u66": {
+   "anchor": "",
+   "children": [
+    "p220"
+   ],
+   "id": "u66",
+   "partners": [
+    "p113",
+    "p219"
+   ]
+  },
+  "u67": {
+   "anchor": "",
+   "children": [
+    "p222"
+   ],
+   "id": "u67",
+   "partners": [
+    "p116",
+    "p221"
+   ]
+  },
+  "u68": {
+   "anchor": "",
+   "children": [],
+   "id": "u68",
+   "partners": [
+    "p124",
+    "p223"
+   ]
+  },
+  "u69": {
+   "anchor": "",
+   "children": [
+    "p225",
+    "p226"
+   ],
+   "id": "u69",
+   "partners": [
+    "p130",
+    "p224"
+   ]
+  },
+  "u7": {
+   "anchor": "",
+   "children": [
+    "p34",
+    "p35",
+    "p36",
+    "p37"
+   ],
+   "id": "u7",
+   "partners": [
+    "p9",
+    "p33"
+   ]
+  },
+  "u8": {
+   "anchor": "",
+   "children": [
+    "p39",
+    "p40",
+    "p42",
+    "p41"
+   ],
+   "id": "u8",
+   "partners": [
+    "p11",
+    "p38"
+   ]
+  },
+  "u9": {
+   "anchor": "",
+   "children": [
+    "p44",
+    "p45",
+    "p46"
+   ],
+   "id": "u9",
+   "partners": [
+    "p12",
+    "p43"
+   ]
+  },
+  "u_hab": {
+   "anchor": "",
+   "children": [],
+   "id": "u_hab",
+   "partners": [
+    "p75",
+    "p_hab"
+   ]
+  }
+ }
+}

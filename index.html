@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Семейное дерево</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Spectral:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+/* Layout: toolbar on top, branch chips under it, a green wooden panel with three trees fills the rest; details dock right (bottom sheet on phones). */
+:root {
+  --bg: #efe5cf;
+  --panel: #f8f1e0;
+  --ink: #2e2616;
+  --muted: #75694f;
+  --line: #d6c8a6;
+  --conn: #6e5233;
+  --accent: #7a5c1c;
+  --accent-ink: #fff8e4;
+  --accent-soft: #eadcb6;
+  --danger: #b3261e;
+  --title: #5a4410; --field: rgba(255,255,255,.55);
+  --gold: #e2bf5c; --gold-d: #9a7b2c;
+  --parch: #efe3c3; --parch-d: #a99568; --pen: #3a2a14;
+  --bark: #3a2817; --bark-hi: #8a6a44; --bark-d: #1c1209;
+  --m-bg: #2b5368; --m-sil: #93b9cd;
+  --f-bg: #6c3049; --f-sil: #e0a6bd;
+  --u-bg: #3a4a42; --u-sil: #9fb0a6;
+  --font-ui: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Spectral", Georgia, "Times New Roman", serif;
+  --pk: #f2b6c6; --pk-c: #f6dc7a; --shade: #5f8f35;
+  color-scheme: light;
+}
+:root[data-skin="wall"] {
+  --bg: #e8e3d6; --panel: #f6f2e8; --ink: #2b261d; --muted: #6c675a; --line: #cdc6b3;
+  --accent: #5d7340; --accent-ink: #ffffff; --accent-soft: #e0e7d0; --danger: #b3261e;
+  --title: #4d5e31; --field: rgba(255,255,255,.65);
+  --bark: #4a3a2d; --bark-hi: #8b7765; --bark-d: #2c2119;
+  --gold: #cdaa55; --gold-d: #8a6f2c; --parch: #d9bd73; --parch-d: #8a6f2c; --pen: #3a2d12;
+  --m-bg: #d5d8da; --m-sil: #2f2c28; --f-bg: #e5d6d3; --f-sil: #3a2c2a; --u-bg: #dcd9cf; --u-sil: #77736a;
+  --pk: #c8d6dc; --pk-c: #a98d52; --shade: #6f9a5c;
+  color-scheme: light;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 14px; overflow: hidden; }
+* { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+#app { height: 100%; display: flex; flex-direction: column; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.brand h1 { font: 600 22px/1.1 var(--font-display); margin: 0; letter-spacing: .2px; color: var(--title); }
+.brand span { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
+.mob { display: none; }
+.ibtn { border: 1px solid var(--line); background: var(--field); width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; color: var(--ink); padding: 0; }
+.ibtn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.tabs { display: flex; gap: 4px; padding: 3px; background: var(--field); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; max-width: 100%; scrollbar-width: thin; }
+.tabs button { border: 0; background: transparent; padding: 5px 10px; font-size: 13px; border-radius: 7px; white-space: nowrap; color: var(--muted); font-weight: 500; }
+.tabs button:hover { color: var(--ink); }
+.tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+.tools { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.search { position: relative; }
+.search input { width: 180px; max-width: 60vw; padding: 7px 11px; border: 1px solid var(--line); border-radius: 9px; background: var(--field); }
+.search input::placeholder { color: var(--muted); }
+.results { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; width: 300px; max-width: 86vw; max-height: 55vh; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
+.results button { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 8px 12px; }
+.results button:hover, .results button:focus-visible { background: var(--accent-soft); }
+.results small { display: block; color: var(--muted); font-size: 12px; }
+.btn { border: 1px solid var(--line); background: var(--field); padding: 7px 12px; border-radius: 9px; font-weight: 500; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.danger { color: var(--danger); border-color: var(--danger); background: transparent; }
+.btn.small { padding: 4px 9px; font-size: 13px; }
+.btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+#chips { display: flex; gap: 6px; padding: 8px 16px; align-items: center; overflow-x: auto; border-bottom: 1px solid var(--line); background: var(--field); scrollbar-width: thin; min-height: 44px; }
+#chips b { font-weight: 500; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; white-space: nowrap; }
+.chip { border: 1px solid var(--line); background: var(--field); border-radius: 999px; padding: 4px 11px; white-space: nowrap; font-size: 13px; }
+.chip:hover { border-color: var(--accent); }
+.chip i { font-style: normal; color: var(--accent); margin-left: 5px; font-variant-numeric: tabular-nums; }
+
+main { flex: 1; min-height: 0; display: flex; position: relative; }
+#wrap { flex: 1; min-width: 0; position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255,250,235,.7), transparent 62%),
+    linear-gradient(#f6eedb, #e9dcbc); }
+#wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .12; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.004 0.22' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+#wrap::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(140,110,50,.2) 100%); }
+:root[data-skin="wall"] #wrap::before { opacity: .35; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+:root[data-skin="wall"] #wrap::after { background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(120,100,60,.16) 100%); }
+:root[data-skin="wall"] #wrap {
+  background:
+    radial-gradient(ellipse 38% 30% at 16% 24%, rgba(110,135,100,.22), transparent 70%),
+    radial-gradient(ellipse 34% 34% at 84% 30%, rgba(140,165,170,.26), transparent 70%),
+    radial-gradient(ellipse 44% 30% at 58% 88%, rgba(160,140,100,.2), transparent 70%),
+    linear-gradient(#f3f0e8, #e8e3d6); }
+#wrap { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+#wrap:active { cursor: grabbing; }
+/* the drawing is a plain SVG moved by a CSS transform, so panning is a cheap compositor move instead of a full repaint */
+#stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+#stage.moving { will-change: transform; }
+#fol, #svg { position: absolute; left: 0; top: 0; display: block; }
+#fol { pointer-events: none; transition: opacity .2s; }
+#svg { overflow: visible; }
+#stage:has(#svg.has-sel) #fol { opacity: .38; }
+.crumbs { position: absolute; left: 12px; top: 10px; right: 120px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 13px; pointer-events: none; }
+.crumbs > * { pointer-events: auto; }
+.crumbs button { background: var(--panel); border: 1px solid var(--line); border-radius: 7px; padding: 3px 9px; }
+.crumbs button:hover { border-color: var(--accent); }
+.crumbs .sep { color: var(--muted); }
+.crumbs b { background: var(--panel); border: 1px solid var(--line); border-radius: 7px; padding: 3px 9px; color: var(--title); }
+.zoomctl { position: absolute; right: 12px; top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.zoomctl button { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); font-size: 18px; line-height: 1; }
+.zoomctl button:hover { border-color: var(--accent); }
+.legend { position: absolute; left: 12px; bottom: 10px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); background: rgba(248,241,224,.85); padding: 5px 9px; border-radius: 8px; max-width: calc(100% - 24px); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 11px; height: 14px; border-radius: 50%; border: 2px solid var(--gold); display: inline-block; }
+.legend .lm { background: var(--m-bg); }
+.legend .lf { background: var(--f-bg); }
+.legend .lu { background: var(--u-bg); border-style: dashed; }
+.legend .lg { background: transparent; border-color: var(--parch-d); border-style: dashed; }
+#empty { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; text-align: center; }
+#empty div { max-width: 380px; display: grid; gap: 12px; justify-items: center; }
+#empty h2 { font: 600 22px var(--font-display); margin: 0; color: var(--title); }
+#empty p { margin: 0; color: var(--muted); line-height: 1.5; }
+
+/* SVG */
+[data-n] { transition: opacity .25s; }
+.has-sel [data-n]:not(.in) { opacity: .26; }
+.card { cursor: pointer; }
+.editing .card { cursor: ew-resize; }
+.card.dragging { opacity: .85; filter: drop-shadow(0 6px 10px rgba(60,40,10,.35)); }
+.picking .card { cursor: crosshair; }
+.relbox { margin: 0 0 14px; border-color: var(--accent); }
+.relrow { margin-top: 8px; line-height: 1.45; }
+.relt { color: var(--accent); font-weight: 600; }
+.rels { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+.card .mfill { fill: var(--m-bg); }
+.card.f .mfill { fill: var(--f-bg); }
+.card.u .mfill { fill: var(--u-bg); }
+.card .sil { fill: var(--m-sil); }
+.card.f .sil { fill: var(--f-sil); }
+.card.u .sil { fill: var(--u-sil); }
+.card .shadow { fill: rgba(0,0,0,.35); }
+.card .mframe { fill: none; stroke: url(#goldg); stroke-width: 4.5; }
+.card .mframe2 { fill: none; stroke: rgba(0,0,0,.45); stroke-width: 1; }
+.card.u .mframe { stroke-dasharray: 5 3; }
+.card.ghost { opacity: .6; }
+.card.dup { filter: saturate(.35) brightness(1.08); opacity: .72; }
+.dupl { fill: none; stroke: var(--bark); stroke-width: 4.5; stroke-dasharray: 13 9; stroke-linecap: round; }
+.dupu { fill: none; stroke: var(--parch); stroke-width: 10; stroke-linecap: round; opacity: .9; }
+.rings circle { fill: none; stroke: var(--gold); stroke-width: 3.5; }
+.card.ghost .mframe, .card.ghost .wframe { stroke-dasharray: 5 3; }
+.card .halo { fill: none; stroke: #fff; stroke-width: 3; opacity: 0; }
+.card:hover .halo { opacity: .55; }
+.card.sel .halo { opacity: 1; stroke: var(--accent); stroke-width: 4; }
+.card .rib { fill: var(--parch); stroke: var(--parch-d); stroke-width: 1.2; }
+.card .ribf { fill: #c3b184; stroke: var(--parch-d); stroke-width: 1; }
+.card.ghost .rib { fill: transparent; stroke-dasharray: 4 3; }
+.card text { text-anchor: middle; pointer-events: none; }
+.card .nm { fill: var(--pen); font-family: var(--font-display); font-weight: 600; font-size: 13px; }
+.card .sn { fill: #6b5a3a; font-family: var(--font-ui); font-size: 9.5px; }
+.card.ghost .nm, .card.ghost .sn { fill: var(--muted); }
+.card .q { fill: var(--u-sil); font: 600 30px var(--font-display); }
+.card .badge rect { fill: var(--accent); }
+.card .badge text { fill: var(--accent-ink); font: 600 11px var(--font-ui); }
+.card .wframe { fill: none; stroke: #4a3425; stroke-width: 8; }
+.card .wring { fill: none; stroke: #c9a55b; stroke-width: 1.6; }
+.card .hook { fill: #c9a55b; stroke: #7a5f22; stroke-width: 1; }
+.card .cord { fill: none; stroke: #6b5a40; stroke-width: 1.2; }
+.card .plq { fill: url(#brass); stroke: #8a6f2c; stroke-width: 1; }
+.card .plq-t { fill: #3a2d12; font-family: var(--font-display); font-weight: 600; font-size: 12px; }
+.card .plq-s { fill: #5b4818; font-family: var(--font-ui); font-size: 8.5px; }
+.cb { fill: url(#blobg); }
+.ground { fill: var(--shade); opacity: .35; }
+.bk.sp-pine { fill: #4b2a1c; }
+.bk.sp-poplar { fill: #6a6253; }
+.bk { fill: var(--bark); stroke: var(--bark-d); stroke-width: .8; stroke-linejoin: round; }
+.bh { fill: none; stroke: var(--bark-hi); stroke-linecap: round; opacity: .55; }
+.bd { fill: none; stroke: var(--bark-d); stroke-linecap: round; opacity: .55; }
+.tw { fill: none; stroke: var(--bark); stroke-linecap: round; }
+.stm { fill: none; stroke: var(--bark-hi); stroke-width: 1.1; stroke-linecap: round; }
+.bar { fill: none; stroke: var(--bark); stroke-linecap: round; }
+.knot { fill: var(--gold); stroke: var(--gold-d); stroke-width: 1.5; }
+.banner .bb { fill: var(--parch); stroke: var(--parch-d); stroke-width: 1.5; }
+.banner .bf { fill: #c3b184; stroke: var(--parch-d); stroke-width: 1.2; }
+.banner text { fill: var(--pen); font: 600 21px var(--font-display); text-anchor: middle; letter-spacing: 1.5px; }
+.banner .brass { fill: url(#brass); stroke: #8a6f2c; stroke-width: 1.5; }
+
+/* Panel */
+#panel { width: 340px; flex: none; background: var(--panel); border-left: 1px solid var(--line); overflow-y: auto; padding: 16px; display: none; }
+#panel.open { display: block; }
+.ph { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.ph h2 { font: 600 24px/1.15 var(--font-display); margin: 0; overflow-wrap: anywhere; color: var(--title); }
+.ph .sub { color: var(--muted); margin-top: 3px; }
+.x { border: 0; background: transparent; font-size: 22px; line-height: 1; color: var(--muted); padding: 2px 6px; }
+.sec { margin-top: 16px; }
+.sec h3 { margin: 0 0 6px; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.links { display: flex; flex-wrap: wrap; gap: 5px; }
+.links button { border: 1px solid var(--line); background: var(--field); border-radius: 8px; padding: 3px 9px; font-size: 13px; }
+.links button:hover { border-color: var(--accent); }
+.note { white-space: pre-wrap; line-height: 1.45; }
+.acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.f { display: grid; gap: 4px; margin-top: 10px; font-size: 12.5px; color: var(--muted); }
+.f input, .f select, .f textarea { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--field); color: var(--ink); width: 100%; font-size: 14px; }
+.f textarea { min-height: 70px; resize: vertical; }
+.row3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 8px; }
+.box { margin-top: 14px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--field); }
+.box h4 { margin: 0 0 4px; font-size: 14px; }
+.warn { color: var(--danger); font-size: 13px; line-height: 1.4; }
+
+#toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--parch); color: var(--pen); padding: 9px 14px; border-radius: 10px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 50; max-width: 90vw; }
+#toast.on { opacity: 1; }
+#dlg { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; place-items: center; z-index: 60; padding: 16px; }
+#dlg.on { display: grid; }
+#dlg > div { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; max-width: 400px; display: grid; gap: 12px; }
+#dlg p { margin: 0; line-height: 1.5; }
+#dlg .acts { margin: 0; justify-content: flex-end; }
+
+@media (max-width: 760px) {
+  /* phone: one compact title row with search and menu icons, the tree gets the rest of the screen */
+  header { padding: 8px 10px 6px; gap: 6px; position: relative; }
+  .brand { width: 100%; align-items: center; }
+  .brand h1 { font-size: 19px; }
+  .mob { display: flex; gap: 6px; margin-left: auto; }
+  .tabs { width: 100%; } .tabs button { padding: 6px 10px; font-size: 13px; }
+  .tools { display: none; margin-left: 0; width: 100%; }
+  header.searching .tools { display: flex; }
+  header.searching:not(.menu-open) .tools > .btn { display: none; }
+  .search { flex: 1 1 100%; } .search input { width: 100%; max-width: none; font-size: 16px; padding: 9px 12px; }
+  header.menu-open .tools { display: flex; flex-direction: column; align-items: stretch; position: absolute; right: 10px; top: 54px; width: 210px; z-index: 50; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px; box-shadow: 0 10px 30px rgba(40,30,10,.25); }
+  header.menu-open .tools .search { display: none; }
+  header.menu-open .tools .btn { padding: 10px 12px; text-align: left; }
+  .results { max-height: 50vh; }
+  #chips { padding: 6px 12px; }
+  .crumbs { right: 56px; left: 8px; top: 8px; }
+  .zoomctl { right: 8px; top: 8px; } .zoomctl button { width: 30px; height: 30px; }
+  #panel { position: absolute; left: 0; right: 0; bottom: 0; width: auto; max-height: 46%; overscroll-behavior: contain; border-left: 0; border-top: 1px solid var(--line); box-shadow: 0 -8px 24px rgba(0,0,0,.4); border-radius: 14px 14px 0 0; padding: 12px 14px 16px; }
+  .legend { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { [data-n] { transition: none; } }
+</style>
+</head>
+<body>
+
+
+<div id="app">
+  <header>
+    <div class="brand"><h1>Семейное дерево</h1><span id="count"></span><span class="mob"><button class="ibtn" id="sBtn" aria-label="Поиск"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button><button class="ibtn" id="mBtn" aria-label="Меню"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></svg></button></span></div>
+    <nav class="tabs" id="tabs" aria-label="Какое дерево показать"></nav>
+    <div class="tools">
+      <div class="search">
+        <input id="q" type="search" placeholder="Найти человека" autocomplete="off" aria-label="Найти человека">
+        <div class="results" id="results" hidden></div>
+      </div>
+      <button class="btn" id="skinBtn" title="Сменить оформление">Стиль: Лес</button>
+      <button class="btn" id="editBtn" aria-pressed="false" hidden>Править</button>
+      <button class="btn" id="saveBtn" title="Сохранить копию данных в файл">Сохранить</button>
+      <button class="btn" id="loadBtn" title="Загрузить данные из файла" hidden>Загрузить</button>
+      <input type="file" id="file" accept=".json,application/json" hidden>
+    </div>
+  </header>
+  <div id="chips"></div>
+  <main>
+    <div id="wrap">
+      <div id="stage"><canvas id="fol" aria-hidden="true"></canvas><svg id="svg" role="img" aria-label="Семейное дерево"><defs>
+        <linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc8c"/><stop offset=".5" stop-color="#c79a35"/><stop offset="1" stop-color="#f0d27a"/></linearGradient>
+        <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6cb85"/><stop offset=".55" stop-color="#c9a55b"/><stop offset="1" stop-color="#b08d40"/></linearGradient>
+        <radialGradient id="blobg"><stop offset="0" style="stop-color:var(--shade);stop-opacity:.5"/><stop offset=".55" style="stop-color:var(--shade);stop-opacity:.32"/><stop offset="1" style="stop-color:var(--shade);stop-opacity:0"/></radialGradient>
+        <clipPath id="clipOval"><ellipse cx="58" cy="37" rx="26" ry="33"/></clipPath>
+      </defs><g id="vp"></g></svg></div>
+      <div class="crumbs" id="crumbs"></div>
+      <div class="zoomctl">
+        <button id="zin" aria-label="Приблизить">+</button>
+        <button id="zout" aria-label="Отдалить">−</button>
+        <button id="zfit" aria-label="Показать всё" title="Показать всё">⤢</button>
+      </div>
+      <div class="legend"><span><i class="lm"></i>мужчина</span><span><i class="lf"></i>женщина</span><span><i class="lu"></i>неизвестно</span><span><i class="lg"></i>ещё один брак</span><span>Клик: ветка · Двойной клик: показать отдельно · В режиме «Править» карточки можно двигать</span></div>
+      <div id="empty" hidden></div>
+    </div>
+    <aside id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+<div id="toast" role="status"></div>
+<div id="dlg"><div id="dlgbox"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+(() => {
+'use strict';
+const CW = 116, CH = 104, GS = 10, GG = 34, GC = 12, TOPGAP = 150, STK = 40, SPITCH = CH + 16, MY = 37, MRX = 27, MRY = 34;
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const num = (id) => parseInt(String(id).replace(/\D/g, ''), 10) || 0;
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+let initSkin = 'forest'; try { initSkin = localStorage.getItem('tree-skin') === 'wall' ? 'wall' : 'forest'; } catch (e) {}
+const S = { skin: initSkin, persons: {}, unions: {}, exp: new Set(), sel: null, mode: { t: 'all' }, edit: false, canWrite: true, loaded: false, dbOn: false, form: null };
+let X = {}, L = null, zoomB = null, curK = 1;
+const refs = {};
+let queue = Promise.resolve(), pending = 0, lastSnap = { p: null, u: null };
+
+/* ---------- index ---------- */
+function rebuildIndex() {
+  X = { uBy: {}, par: {}, anchor: {} };
+  const us = Object.values(S.unions).sort((a, b) => num(a.id) - num(b.id));
+  for (const u of us) {
+    u.partners = (u.partners || []).filter((p) => S.persons[p]);
+    u.children = (u.children || []).filter((c) => S.persons[c]);
+    for (const p of u.partners) (X.uBy[p] = X.uBy[p] || []).push(u);
+    for (const c of u.children) if (!X.par[c]) X.par[c] = u.id;
+  }
+  /* generation of every person: children sit one row above the higher of their two parents; in-laws share their partner's row */
+  X.gen = {}; Object.keys(S.persons).forEach((p) => (X.gen[p] = 0));
+  for (let it = 0, ch = true; ch && it < 60; it++) {
+    ch = false;
+    for (const u of us) {
+      const g = Math.max(0, ...u.partners.map((p) => X.gen[p]));
+      for (const p of u.partners) if (!X.par[p] && X.gen[p] < g) { X.gen[p] = g; ch = true; }
+      for (const c of u.children) if (X.gen[c] < g + 1) { X.gen[c] = g + 1; ch = true; }
+    }
+  }
+  for (const u of us) {
+    X.anchor[u.id] = u.anchor && u.partners.includes(u.anchor) ? u.anchor : (u.partners.find((p) => X.par[p]) ?? u.partners[0]);
+  }
+}
+const anchored = (pid) => (X.uBy[pid] || []).filter((u) => X.anchor[u.id] === pid);
+const isExt = (pid) => (X.uBy[pid] || []).some((u) => X.anchor[u.id] !== pid) && !!X.par[pid];
+const spouseOnly = (pid) => !anchored(pid).length && (X.uBy[pid] || []).length > 0;
+function clusterAnchor(pid) {
+  if (isExt(pid) || anchored(pid).length || !(X.uBy[pid] || []).length) return pid;
+  const u = X.uBy[pid].find((u) => X.anchor[u.id] !== pid);
+  return u ? X.anchor[u.id] : pid;
+}
+const nameOf = (pid) => { const p = S.persons[pid]; return p ? ((p.name || '?') + (p.surname ? ' ' + p.surname : '')) : ''; };
+function descendants(pid, seen = new Set()) {
+  for (const u of anchored(pid)) for (const c of u.children) if (!seen.has(c)) { seen.add(c); descendants(c, seen); }
+  return seen;
+}
+function lineage(pid) {
+  const out = []; const seen = new Set(); let cur = clusterAnchor(pid);
+  while (cur && !seen.has(cur)) {
+    seen.add(cur); out.unshift(cur);
+    const pu = X.par[cur]; if (!pu) break;
+    cur = clusterAnchor(X.anchor[pu]);
+  }
+  return out;
+}
+
+/* ---------- layout ---------- */
+const openAll = () => S.mode.t !== 'all';
+function finishNode(persons, links, seen, ai, depth, open) {
+  const node = { persons, links, groups: [], ai, parent: null };
+  if (!open) { const h = descendants(persons[ai]).size; if (h) node.hidden = h; }
+  for (const lk of links) {
+    const kids = [];
+    if (open) for (const cid of lk.u.children) {
+      if (seen.has(cid)) continue;
+      const n = buildNode(cid, seen, depth + 1); n.parent = node; kids.push(n);
+    }
+    node.groups.push({ lk, kids });
+  }
+  node.groups.sort((a, b) => (a.lk.a + a.lk.b) - (b.lk.a + b.lk.b));
+  return node;
+}
+function buildNode(pid, seen, depth = 0) {
+  seen.add(pid);
+  const sp = [], solo = [];
+  for (const u of anchored(pid)) {
+    const o = u.partners.find((x) => x !== pid);
+    if (o && isExt(o)) solo.push({ u, ext: o });
+    else if (o) { seen.add(o); sp.push({ u, o }); } else solo.push({ u });
+  }
+  const l = Math.floor(sp.length / 2), left = sp.slice(0, l), right = sp.slice(l);
+  const persons = [...left.map((s) => s.o), pid, ...right.map((s) => s.o)], pi = left.length, links = [];
+  left.forEach((s, i) => links.push({ u: s.u, a: i, b: pi }));
+  solo.forEach((s) => links.push({ u: s.u, a: pi, b: pi, ext: s.ext }));
+  right.forEach((s, i) => links.push({ u: s.u, a: pi, b: pi + 1 + i }));
+  return finishNode(persons, links, seen, pi, depth, depth === 0 || openAll() || S.exp.has(pid));
+}
+function unionNode(u, seen, ps = u.partners.slice(0, 2), dup = null) {
+  ps.forEach((p) => seen.add(p));
+  const links = [{ u, a: 0, b: ps.length > 1 ? 1 : 0 }];
+  const n = finishNode(ps, links, seen, Math.max(0, ps.indexOf(X.anchor[u.id])), 0, true);
+  if (dup && dup.size) n.dup = dup;
+  return n;
+}
+function rootFlat() {
+  const rootU = Object.values(S.unions).filter((u) => u.partners.length && !X.par[X.anchor[u.id]]).sort((a, b) => num(a.id) - num(b.id));
+  const parent = {}; const find = (x) => (parent[x] === x ? x : (parent[x] = find(parent[x])));
+  rootU.forEach((u) => u.partners.forEach((p) => { if (!(p in parent)) parent[p] = p; }));
+  rootU.forEach((u) => { for (let i = 1; i < u.partners.length; i++) parent[find(u.partners[i])] = find(u.partners[0]); });
+  const comps = {};
+  rootU.forEach((u) => u.partners.forEach((p) => { (comps[find(p)] = comps[find(p)] || { ps: new Set(), us: [] }).ps.add(p); }));
+  rootU.forEach((u) => comps[find(u.partners[0])].us.push(u));
+  const out = [];
+  for (const c of Object.values(comps)) {
+    const ps = [...c.ps]; const adj = {}; ps.forEach((p) => (adj[p] = []));
+    c.us.forEach((u) => { if (u.partners.length === 2) { adj[u.partners[0]].push(u.partners[1]); adj[u.partners[1]].push(u.partners[0]); } });
+    let order = [];
+    const isPath = ps.every((p) => adj[p].length <= 2) && c.us.filter((u) => u.partners.length === 2).length === ps.length - 1;
+    if (isPath) {
+      let start = ps.find((p) => adj[p].length <= 1) ?? ps[0], prev = null, cur = start;
+      while (cur) { order.push(cur); const nx = adj[cur].find((n) => n !== prev && !order.includes(n)); prev = cur; cur = nx; }
+    } else order = ps;
+    const us = c.us.slice().sort((a, b) => (order.indexOf(a.partners[0]) + order.indexOf(a.partners[a.partners.length - 1])) - (order.indexOf(b.partners[0]) + order.indexOf(b.partners[b.partners.length - 1])));
+    out.push({ us, key: Math.min(...ps.map(num)) });
+  }
+  return out.sort((a, b) => a.key - b.key).flatMap((o) => o.us);
+}
+function speciesMap() {
+  const flat = rootFlat(), cnt = {}; flat.forEach((u) => u.partners.forEach((p) => (cnt[p] = (cnt[p] || 0) + 1)));
+  let mid = Math.floor((flat.length - 1) / 2), best = -1;
+  flat.forEach((u, i) => { const sc = u.partners.filter((p) => cnt[p] > 1).length; if (sc > best) { best = sc; mid = i; } });
+  const m = {}; flat.forEach((u, i) => (m[u.id] = i < mid ? 'poplar' : i > mid ? 'pine' : 'oak'));
+  return m;
+}
+function speciesOfPerson(pid, spm) {
+  let cur = clusterAnchor(pid), last = null, guard = 0;
+  while (X.par[cur] && guard++ < 50) { last = X.par[cur]; cur = X.anchor[last]; }
+  if (last) return spm[last] || 'oak';
+  return (X.uBy[cur] || []).map((u) => spm[u.id]).find(Boolean) || 'oak';
+}
+function rootNodes() {
+  const flat = rootFlat();
+  /* a person married more than once is shown in each of these root trees; the main copy sits in the union where most partners are multi-married, the others are drawn paler and linked by a dashed line */
+  const cnt = {}; flat.forEach((u) => u.partners.forEach((p) => (cnt[p] = (cnt[p] || 0) + 1)));
+  const score = (u) => u.partners.filter((p) => cnt[p] > 1).length;
+  const mainOf = {}; flat.forEach((u, i) => u.partners.forEach((p) => { if (cnt[p] > 1 && (mainOf[p] == null || score(u) > score(flat[mainOf[p]]))) mainOf[p] = i; }));
+  const trees = flat.map((u, i) => {
+    let ps = u.partners.slice(0, 2); const dup = new Set(ps.filter((p) => cnt[p] > 1 && mainOf[p] !== i));
+    if (ps.length === 2) for (const p of dup) { const inner = mainOf[p] > i ? 1 : 0; if (ps.indexOf(p) !== inner) ps = [ps[1], ps[0]]; }
+    const tn = unionNode(u, new Set(), ps, dup); tn.ru = u.id; return { n: tn, key: 0 };
+  });
+  const seen = new Set();
+  for (const p of Object.keys(S.persons)) if (!X.par[p] && !(X.uBy[p] || []).length) { seen.add(p); trees.push({ n: finishNode([p], [], seen, 0, 0, true), key: 1 }); }
+  return trees.map((t) => t.n);
+}
+const genOf = (n) => X.gen[n.persons[n.ai]] || 0, genSh = (n, k) => (k.ghost ? 2 : Math.max(2, 2 * (genOf(k) - genOf(n))));
+let JIT = 150;
+let LV = 720, HL = LV / 2, SROWS = 3;
+/* on a tall (portrait) screen the generations are spaced further apart and leaf-only children stack higher, so the tree fills the screen instead of a thin strip */
+function tuneForScreen() {
+  const w = $('#wrap'), asp = w && w.clientWidth ? w.clientHeight / w.clientWidth : 0.6;
+  LV = Math.round(900 * clamp(asp * 1.4, 1, 3)); HL = LV / 2; SROWS = asp > 1 ? 5 : 3; JIT = Math.round(LV * 0.34);
+  return LV + ':' + SROWS;
+}
+const DG = 28, colX = (g, j) => g.x0 + j * (CW + STK + GC);
+function measure(n) {
+  n.cw = n.persons.length * CW + (n.persons.length - 1) * GS;
+  const items = [];
+  for (const g of n.groups) {
+    g.kids.forEach((k) => { if (!k.ghost) measure(k); });
+    g.stack = g.kids.length >= 2 && g.kids.every((k) => k.ghost || (k.persons.length === 1 && !k.hidden && k.groups.every((x) => !x.kids.length)));
+    if (!g.kids.length) { g.gw = 0; continue; }
+    g.gw = 1;
+    if (g.stack) {
+      const cols = Math.ceil(g.kids.length / SROWS), sw = cols * (CW + STK) + (cols - 1) * GC, lv = Math.floor((Math.min(g.kids.length, SROWS) - 1) * SPITCH / HL), cont = [];
+      g.cols = cols;
+      for (let d = 0; d <= lv; d++) cont.push([-sw / 2, sw / 2]);
+      items.push({ g, stack: 1, sw, cont, sh: genSh(n, g.kids[0]), gap: items.length ? GG : 0 });
+    } else {
+      const wave = g.kids.length >= 3;
+      g.kids.forEach((k, i) => items.push({ g, k, cont: k.ghost ? [[-CW / 2, CW / 2]] : k.cont, sh: genSh(n, k), gap: i ? GC : (items.length ? GG : 0) }));
+    }
+  }
+  const acc = []; let first = 0, last = 0;
+  items.forEach((it, i) => {
+    let p = 0;
+    if (i) { p = -Infinity; it.cont.forEach((c, d) => { const a = acc[d + it.sh]; if (a !== undefined) p = Math.max(p, a + (d || it.sh !== items[i - 1].sh ? DG : it.gap) - c[0]); }); if (p === -Infinity) p = 0; p = Math.max(p, (items[i - 1].pos) + 40); }
+    it.pos = p; if (!i) first = p; last = p;
+    it.cont.forEach((c, d) => { acc[d + it.sh] = Math.max(acc[d + it.sh] ?? -Infinity, p + c[1]); });
+    if (it.sh === 3) acc[2] = Math.max(acc[2] ?? -Infinity, p + 60);
+    if (it.sh === 2) acc[3] = Math.max(acc[3] ?? -Infinity, p + 60);
+  });
+  const cxp = items.length ? (first + last) / 2 : 0, cont = [[-n.cw / 2, n.cw / 2]];
+  if (items.length) cont[1] = [-60, 60];
+  items.forEach((it) => {
+    it.off = it.pos - cxp;
+    it.cont.forEach((c, d) => { const L = it.off + c[0], R = it.off + c[1], j = d + it.sh, e = cont[j]; if (!e) cont[j] = [L, R]; else { e[0] = Math.min(e[0], L); e[1] = Math.max(e[1], R); } });
+  });
+  for (let j = 0; j < cont.length; j++) if (!cont[j]) cont[j] = [0, 0];
+  n.items = items; n.cont = cont;
+  n.lmin = Math.min(...cont.map((c) => c[0])); n.rmax = Math.max(...cont.map((c) => c[1])); n.w = n.rmax - n.lmin;
+}
+/* Trees grow upward: level hl (half generations) = HL px higher; n.y is the top edge of a card. Subtrees are packed by contour so narrow branches tuck under wide ones; siblings alternate heights. */
+function place(n, cx, hl) {
+  n.cx = cx; n.x0 = cx + n.lmin; n.depth = hl; n.y = -(hl * HL) - CH + (hl ? Math.round((rng('y' + n.persons[n.ai])() - 0.5) * JIT) : 0); n.minY = n.y - (n.hidden ? 22 : 0);
+  n.px = n.persons.map((_, i) => cx - n.cw / 2 + i * (CW + GS));
+  for (const it of n.items) {
+    const g = it.g, c = cx + it.off, kh = hl + it.sh;
+    if (it.stack) {
+      g.x0 = c - it.sw / 2;
+      const gj = Math.round((rng('s' + g.lk.u.id)() - 0.5) * JIT);
+      g.kids.forEach((k, i) => {
+        const kx = colX(g, Math.floor(i / SROWS)) + STK, ky = -(kh * HL + (i % SROWS) * SPITCH) - CH + gj;
+        if (k.ghost) { k.x = kx; k.y = ky; n.minY = Math.min(n.minY, ky); }
+        else { place(k, kx + CW / 2, kh); k.y = ky; k.minY = ky; n.minY = Math.min(n.minY, ky); }
+      });
+    } else if (it.k.ghost) { it.k.x = c - CW / 2; it.k.y = -(kh * HL) - CH; n.minY = Math.min(n.minY, it.k.y); }
+    else { place(it.k, c, kh); n.minY = Math.min(n.minY, it.k.minY); }
+  }
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function layout() {
+  rebuildIndex(); layout.tuned = tuneForScreen();
+  const seen = new Set(); let tops = [];
+  const m = S.mode;
+  if (m.t === 'union' && S.unions[m.id]) tops = [unionNode(S.unions[m.id], seen)];
+  else if (m.t === 'node' && S.persons[m.id]) tops = [buildNode(clusterAnchor(m.id), seen)];
+  else { S.mode = { t: 'all' }; tops = rootNodes(); }
+  const spm = speciesMap();
+  tops.forEach((t) => { t.sp = S.mode.t === 'union' ? spm[S.mode.id] || 'oak' : S.mode.t === 'node' ? speciesOfPerson(S.mode.id, spm) : (t.ru && spm[t.ru]) || 'oak'; });
+  let x = 0;
+  for (const t of tops) { measure(t); place(t, x - t.lmin, 0); x += t.w + TOPGAP; }
+  const out = { tops, nodes: [], cards: [], branches: [], knots: [], banners: [], links: [], ext: [], ground: [], cardNode: {}, bbox: [0, 0, 1, 1] };
+  const dcCache = {};
+  const dc = (n) => { const pid = n.persons[n.ai]; return dcCache[pid] ?? (dcCache[pid] = descendants(pid).size); };
+  const posOf = {};
+  const walkPos = (n) => { n.persons.forEach((p, i) => { if (!(n.dup && n.dup.has(p)) && !posOf[p]) posOf[p] = { x: n.px[i], y: n.y }; }); n.groups.forEach((g) => g.kids.forEach((k) => !k.ghost && walkPos(k))); };
+  tops.forEach(walkPos);
+  const emit = (n, parent) => {
+    n.id = out.nodes.length; n.pnode = parent; out.nodes.push(n); if (parent) { n.sp = parent.sp; n.ti = parent.ti; }
+    n.persons.forEach((pid, i) => { const dup = !!(n.dup && n.dup.has(pid)); out.cards.push({ pid, x: n.px[i], y: n.y, n: n.id, hidden: i === n.ai ? n.hidden : 0, dup }); if (!dup || out.cardNode[pid] == null) out.cardNode[pid] = n.id; });
+    const top = !parent;
+    for (const g of n.groups) {
+      const lk = g.lk, pa = n.px[lk.a] + CW / 2, pb = n.px[lk.b] + CW / 2; let ax, ay;
+      let fy0 = null;
+      if (lk.a === lk.b) {
+        ax = pa; ay = n.y + 6;
+        if (lk.ext) {
+          out.ext.push({ a: n.persons[lk.a], b: lk.ext, n: n.id });
+          const q = posOf[lk.ext];
+          /* remember where the other parent stands, so a second branch can grow from them to the children */
+          if (q) g.extPos = q;
+        }
+      }
+      else {
+        ax = (pa + pb) / 2; ay = n.y + MY;
+        const xl = Math.min(pa, pb) + MRX + 2, xr = Math.max(pa, pb) - MRX - 2;
+        out.branches.push({ k: 'bar', d: `M${xl},${ay}L${xr},${ay}`, w: 6, n: n.id, id: lk.u.id + 'm' });
+        if (!top) out.knots.push({ x: ax, y: ay, n: n.id });
+      }
+      if (g.gw <= 0) continue;
+      const tot = g.kids.reduce((s, k) => s + (k.ghost ? 0 : 1 + dc(k)), 0), R = rng(lk.u.id + 'g');
+      const fy = fy0 ?? n.y - (LV - CH) * 0.42, trW = clamp(9 + 3.1 * Math.sqrt(tot), 9, 50);
+      const trunkBase = top && lk.a !== lk.b;
+      const by = trunkBase ? 70 : ay, bw = trunkBase ? clamp(trW * 2.3, 64, 124) : trW, sway = (R() - 0.5) * 16;
+      if (trunkBase) {
+        /* roots flaring out at the foot of the trunk */
+        const nr = 5;
+        for (let i = 0; i < nr; i++) {
+          const side = i % 2 ? 1 : -1, sp = (0.45 + i * 0.32 + R() * 0.25) * bw * side, ey = 92 + R() * 26;
+          out.branches.push({ k: 'br', pts: [[ax + side * bw * 0.12, 54], [ax + sp * 0.35, 62 + R() * 8], [ax + sp * 0.75, ey - 8], [ax + sp * 1.25, ey]], w0: bw * (0.42 - i * 0.04), w1: 2.5, n: n.id, id: lk.u.id + 'r' + i, wob: 0.18, noleaf: true });
+        }
+        out.ground.push({ x: ax, y: 104, rx: bw * 2.6 + 60, n: n.id });
+      }
+      out.branches.push({ k: 'knob', x: ax, y: fy, r: trW * 0.55, n: n.id });
+      out.branches.push({ k: 'br', pts: [[ax, by], [ax - sway, by - (by - fy) * 0.34], [ax + sway, fy + (by - fy) * 0.3], [ax, fy]], w0: bw, w1: trW * 0.92, n: n.id, id: lk.u.id + 't', wob: trunkBase ? 0.18 : 0.08 });
+      const tw = (pts, w, id, w1) => out.branches.push({ k: 'tw', pts, w0: w, w1: w1 ?? w * 0.5, n: n.id, id });
+      if (g.stack) {
+        const bot = g.kids[0].y + CH - 6;
+        for (let j = 0; j < g.cols; j++) {
+          const sx = colX(g, j) + 8, ks = g.kids.slice(j * SROWS, j * SROWS + SROWS), lastCy = ks[ks.length - 1].y + MY, sw0 = clamp(trW * 0.7, 6, 18);
+          out.branches.push({ k: 'br', pts: [[ax, fy], [ax + (sx - ax) * 0.2, fy - (fy - bot) * 0.5], [sx, bot + (fy - bot) * 0.35], [sx, bot]], w0: sw0, w1: clamp(sw0 * 0.8, 5, 14), n: n.id, id: lk.u.id + 's1' + j, wob: 0.06 });
+          out.branches.push({ k: 'br', pts: [[sx, bot], [sx, bot + (lastCy - bot) * 0.33], [sx, bot + (lastCy - bot) * 0.66], [sx, lastCy]], w0: clamp(sw0 * 0.8, 5, 14), w1: 3.5, n: n.id, id: lk.u.id + 's2' + j, wob: 0.1 });
+        }
+        g.kids.forEach((k, i) => {
+          const sx = colX(g, Math.floor(i / SROWS)) + 8;
+          const cy = k.y + MY, mx = (k.ghost ? k.x : k.px[0]) + CW / 2 - MRX - 2;
+          tw([[sx, cy + 18], [sx + 18, cy + 18], [mx - 22, cy + 2], [mx, cy]], 3.4, (k.ghost || k.persons[0]) + 'b', 2);
+          if (k.ghost) out.cards.push({ pid: k.ghost, x: k.x, y: k.y, n: n.id, ghost: true }); else emit(k, n);
+        });
+      } else {
+        g.kids.forEach((k) => {
+          const kx = k.ghost ? k.x + CW / 2 : k.px[k.ai] + CW / 2, ky = k.y + CH - 2;
+          const kid = k.ghost || k.persons[k.ai], Rk = rng(kid + 'b');
+          const w = k.ghost ? 2.4 : clamp(6 + 2.9 * Math.sqrt(dc(k)), 6, 42), my = (fy + ky) / 2;
+          const p = [[ax, fy], [ax + (kx - ax) * 0.18 + (Rk() - 0.5) * 36, my + (fy - my) * 0.25], [kx + (Rk() - 0.5) * 40, my - (my - ky) * 0.1], [kx, ky]];
+          out.branches.push({ k: 'br', pts: p, w0: Math.min(trW * 0.95, w * 1.35), w1: Math.max(3.6, w * 0.6), n: n.id, id: kid + 'b', wob: 0.1 });
+          if (k.ghost) out.cards.push({ pid: k.ghost, x: k.x, y: k.y, n: n.id, ghost: true }); else emit(k, n);
+          /* the other parent lives in another branch: a second branch grows from that parent to the child */
+          if (g.extPos) { const ex = g.extPos.x + CW / 2, ey = g.extPos.y + 4, Re = rng(kid + 'e'), m2 = (ey + ky) / 2; out.branches.push({ k: 'br', pts: [[ex, ey], [ex + (Re() - 0.5) * 30, m2 + (ey - m2) * 0.3], [kx + (ex - kx) * 0.3, m2 - (m2 - ky) * 0.2], [kx, ky]], w0: Math.max(5, w), w1: Math.max(3.6, w * 0.6), n: n.id, id: kid + 'e', wob: 0.1 }); }
+        });
+      }
+    }
+  };
+  tops.forEach((t, i) => { t.ti = i; emit(t, null); });
+  const cardOf = (pid, dup) => out.cards.find((c) => c.pid === pid && !c.ghost && !!c.dup === dup);
+  out.cards.filter((c) => c.dup).forEach((c) => {
+    const m = cardOf(c.pid, false); if (!m) return;
+    const r = c.x < m.x, x1 = r ? c.x + CW / 2 + MRX + 4 : c.x + CW / 2 - MRX - 4, x2 = r ? m.x + CW / 2 - MRX - 4 : m.x + CW / 2 + MRX + 4, y = c.y + MY, lift = Math.min(220, Math.abs(x2 - x1) * 0.18);
+    out.links.push({ d: `M${f1(x1)},${y}C${f1(x1 + (x2 - x1) * 0.25)},${y - lift} ${f1(x2 - (x2 - x1) * 0.25)},${y - lift} ${f1(x2)},${y}`, n: c.n, n2: m.n });
+  });
+  out.ext.forEach((e) => {
+    const a = cardOf(e.a, false), b = cardOf(e.b, false); if (!a || !b) return;
+    const ax = a.x + CW / 2, ay = a.y + MY, bx = b.x + CW / 2, by = b.y + MY, dx = bx - ax, dy = by - ay, L2 = Math.hypot(dx, dy) || 1;
+    const x1 = ax + dx / L2 * (MRX + 6), y1 = ay + dy / L2 * (MRY + 6), x2 = bx - dx / L2 * (MRX + 6), y2 = by - dy / L2 * (MRY + 6);
+    out.links.push({ d: `M${f1(x1)},${f1(y1)}C${f1(x1 + dx * 0.3)},${f1(y1)} ${f1(x2 - dx * 0.3)},${f1(y2)} ${f1(x2)},${f1(y2)}`, n: a.n, n2: b.n, ring: [(x1 + x2) / 2, (y1 + y2) / 2] });
+  });
+  tops.forEach((t) => {
+    const names = t.persons.map((p) => S.persons[p].name).join(' · ');
+    out.banners.push({ x: t.px[0] + t.cw / 2, y: 22, text: names, n: t.id });
+  });
+  out.bbox = tops.length ? [Math.min(...tops.map((t) => t.x0)) - 40, Math.min(...tops.map((t) => t.minY)) - 60, Math.max(1, x - TOPGAP) + 40, 150] : [0, 0, 1, 1];
+  return out;
+}
+function nodeBox(n) { return [n.x0 - 10, n.minY - 14, n.x0 + n.w + 10, n.y + CH + 10]; }
+
+/* ---------- drawing helpers ---------- */
+function rng(seed) { let h = 2166136261; for (const c of String(seed)) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return () => { h += 0x6d2b79f5; let t = Math.imul(h ^ (h >>> 15), 1 | h); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+const f1 = (v) => v.toFixed(1);
+/* each of the three root trees is a different species: poplar (left), oak (centre), pine (right) */
+const OAK_LEAF = [['M', 0, 0], ['C', 3, -4, 6, -6, 9, -5], ['C', 10, -9, 15, -9, 15, -5.5], ['C', 18, -8, 23, -6, 21, -2], ['C', 26, -1, 26, 2, 21, 2.5], ['C', 23, 6, 18, 8, 15, 5.5], ['C', 15, 9, 10, 9, 9, 5], ['C', 6, 6, 3, 4, 0, 0]];
+const POPLAR_LEAF = [['M', 0, 0], ['L', 3, 0], ['C', 2.5, -5.5, 6.5, -8, 9.5, -7.2], ['C', 13, -6.2, 16, -2.5, 19, 0], ['C', 16, 2.5, 13, 6.2, 9.5, 7.2], ['C', 6.5, 8, 2.5, 5.5, 3, 0], ['L', 0, 0]];
+const NEEDLE = [['M', 0, 0], ['C', 6, -1, 15, -1, 22, 0], ['C', 15, 1, 6, 1, 0, 0]];
+const ACORN = [['M', 0, -3.4], ['C', 4, -4.2, 10, -3.6, 12, 0], ['C', 10, 3.6, 4, 4.2, 0, 3.4], ['Z']];
+const ACAP = [['M', -1.5, -4.8], ['C', 2, -5.6, 4.2, -4, 4, 0], ['C', 4.2, 4, 2, 5.6, -1.5, 4.8], ['C', -3, 2.5, -3, -2.5, -1.5, -4.8]];
+const CONE = [['M', 0, 0], ['C', 2, -5, 10, -6.5, 17, -3.5], ['C', 20.5, -1.8, 20.5, 1.8, 17, 3.5], ['C', 10, 6.5, 2, 5, 0, 0]];
+const CONE_SC = [['M', 4, -2], ['L', 7, 0], ['L', 4, 2], ['M', 8.5, -2.6], ['L', 11.5, 0], ['L', 8.5, 2.6], ['M', 13, -2.4], ['L', 15.6, 0], ['L', 13, 2.4]];
+const SPECIES = {
+  oak: { cols: ['#3f8a2e', '#5aa53a', '#78bf47', '#2f6f2a', '#94c95a', '#4d9a3c'], leaf: OAK_LEAF, ls: [0.75, 1.1], step: 52, len: [24, 42], gap: 14, halo: 2, fruit: 'acorn', fp: 0.13, cell: 104, R: 155, cr: 70, cn: 20 },
+  poplar: { cols: ['#6fb83a', '#8fcb44', '#56a332', '#b3d865', '#c4d6a2', '#469a30'], leaf: POPLAR_LEAF, ls: [0.85, 1.25], step: 44, len: [20, 38], gap: 11, halo: 2, fruit: null, fp: 0, cell: 96, R: 150, cr: 60, cn: 26 },
+  pine: { cols: ['#1f5d3a', '#2e7444', '#3d8a4f', '#28684a', '#4a9a5a'], leaf: NEEDLE, ls: [0.85, 1.15], step: 40, len: [18, 30], gap: 6, halo: 2, fruit: 'cone', fp: 0.09, cell: 96, R: 150, cr: 58, tufts: 8, needles: 12, needle: true }
+};
+const FRUIT = { acorn: ['#b07a34', '#6b4a24'], cone: ['#8a5a2e', '#4e2e16'] };
+const spN = (n) => (L && L.nodes[n] && L.nodes[n].sp) || 'oak';
+function addFruit(bk, kind, x, y, r) {
+  const rot = Math.PI / 2 + (r() - 0.5) * 0.8, sc = kind === 'acorn' ? 1.25 + r() * 0.3 : 1.2 + r() * 0.3;
+  if (kind === 'acorn') { bk.fa += shapeD(ACORN, x, y, rot, sc); bk.fb += shapeD(ACAP, x, y, rot, sc); }
+  else { bk.fa += shapeD(CONE, x, y, rot, sc); bk.fs += shapeD(CONE_SC, x, y, rot, sc).replace(/Z$/, ''); }
+}
+const PETAL = [['M', 0, 0], ['C', -3.2, -3, -3.2, -8, 0, -10.5], ['C', 3.2, -8, 3.2, -3, 0, 0]];
+function shapeD(shape, x, y, rot, sc) {
+  const c = Math.cos(rot) * sc, sn = Math.sin(rot) * sc; let d = '';
+  for (const cmd of shape) { d += cmd[0]; for (let i = 1; i < cmd.length; i += 2) d += f1(x + cmd[i] * c - cmd[i + 1] * sn) + ',' + f1(y + cmd[i] * sn + cmd[i + 1] * c) + ' '; }
+  return d + 'Z';
+}
+function sampleBranch(b, N) {
+  const [p0, p1, p2, p3] = b.pts, out = [];
+  const R = rng(b.id + 'w'), ph = R() * 6, ph2 = R() * 6;
+  for (let i = 0; i <= N; i++) {
+    const t = i / N, u = 1 - t;
+    const x = u * u * u * p0[0] + 3 * u * u * t * p1[0] + 3 * u * t * t * p2[0] + t * t * t * p3[0];
+    const y = u * u * u * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t * t * t * p3[1];
+    let dx = 3 * u * u * (p1[0] - p0[0]) + 6 * u * t * (p2[0] - p1[0]) + 3 * t * t * (p3[0] - p2[0]);
+    let dy = 3 * u * u * (p1[1] - p0[1]) + 6 * u * t * (p2[1] - p1[1]) + 3 * t * t * (p3[1] - p2[1]);
+    const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+    const base = b.w0 + (b.w1 - b.w0) * Math.pow(t, 0.85);
+    const w = base * (1 + (b.wob || 0) * (Math.sin(t * 11 + ph) * 0.6 + Math.sin(t * 27 + ph2) * 0.4));
+    out.push({ x, y, dx, dy, nx: -dy, ny: dx, w, t });
+  }
+  return out;
+}
+function polyD(pts) { return 'M' + pts.map((p) => f1(p[0]) + ',' + f1(p[1])).join('L'); }
+function bucketFor(B, n) { return B[n] || (B[n] = { c: [], st: '', fl: '', fc: '', fa: '', fb: '', fs: '', sp: spN(n) }); }
+function addLeaf(bk, SK, x, y, rot, sc, r) { const i = Math.floor(r() * SK.cols.length); bk.c[i] = (bk.c[i] || '') + shapeD(SK.leaf, x, y, rot, sc); }
+function addSprig(bk, SK, x, y, ang, len, r) {
+  const segs = Math.max(3, Math.round(len / SK.gap)), bend = (r() - 0.5) * 0.7; let a = ang, px = x, py = y, st = 'M' + f1(x) + ',' + f1(y);
+  for (let i = 1; i <= segs; i++) {
+    a += bend / segs; const sx = px + Math.cos(a) * len / segs, sy = py + Math.sin(a) * len / segs; st += 'L' + f1(sx) + ',' + f1(sy);
+    const side = i % 2 ? 1 : -1, sc = SK.ls[0] + r() * (SK.ls[1] - SK.ls[0]) * (1 - 0.35 * i / segs);
+    addLeaf(bk, SK, sx, sy, a + side * (0.85 + r() * 0.5), sc, r);
+    if ((SK.needle || SK.leaf.length > 4) && r() < (SK.needle ? 0.95 : 0.5)) addLeaf(bk, SK, sx, sy, a - side * (0.85 + r() * 0.5), sc * 0.85, r);
+    px = sx; py = sy;
+  }
+  addLeaf(bk, SK, px, py, a + (r() - 0.5) * 0.4, SK.ls[1] * 1.05, r);
+  bk.st += st;
+  if (SK.fruit && r() < SK.fp) addFruit(bk, SK.fruit, px, py, r);
+}
+function foliage(b, B) {
+  if (b.k === 'bar' || b.k === 'knob' || b.noleaf) return;
+  const SK = SPECIES[spN(b.n)];
+  const r = rng(b.id + 'f'), sm = sampleBranch(b, 24); let dist = 0;
+  const bk = bucketFor(B, b.n);
+  let next = SK.step * (0.4 + r() * 0.6);
+  for (let i = 1; i < sm.length; i++) {
+    dist += Math.hypot(sm[i].x - sm[i - 1].x, sm[i].y - sm[i - 1].y);
+    if (dist < next) continue;
+    dist = 0; next = SK.step * (0.7 + r() * 0.7);
+    const q = sm[i]; if (q.w > 15 || q.t < 0.6) continue;
+    const side = r() < 0.5 ? -1 : 1, base = Math.atan2(q.dy, q.dx);
+    const ang = base + side * (0.55 + r() * 0.7), len = SK.len[0] + r() * (SK.len[1] - SK.len[0]);
+    addSprig(bk, SK, q.x + q.nx * side * q.w * 0.4, q.y + q.ny * side * q.w * 0.4, ang, len, r);
+    if (r() < 0.45) addSprig(bk, SK, q.x - q.nx * side * q.w * 0.4, q.y - q.ny * side * q.w * 0.4, base - side * (0.6 + r() * 0.6), len * 0.8, r);
+  }
+  if (b.k !== 'tw' || b.w1 < 3) { const e = sm[sm.length - 1]; addSprig(bk, SK, e.x, e.y, Math.atan2(e.dy, e.dx), SK.len[0] + r() * 14, r); }
+}
+/* ---------- crown: the whole space around branches and portraits is filled with leaf clumps ---------- */
+function mixHex(h, t, k) { const a = parseInt(h.slice(1), 16), b = parseInt(t.slice(1), 16); const c = (s) => Math.round(((a >> s) & 255) * (1 - k) + ((b >> s) & 255) * k); return '#' + ((1 << 24) + (c(16) << 16) + (c(8) << 8) + c(0)).toString(16).slice(1); }
+const NCL = 6;
+function crown(L) {
+  const groups = {};
+  const cut = -CH - Math.max(230, LV * 0.4);
+  for (const b of L.branches) {
+    if ((b.k !== 'br' && b.k !== 'tw') || b.noleaf) continue;
+    const sm = sampleBranch(b, 14);
+    const gi = L.nodes[b.n].ti; const g = groups[gi] || (groups[gi] = []);
+    for (const q of sm) if (q.y < cut) g.push([q.x, q.y, b.n]);
+  }
+  for (const c of L.cards) if (c.y + MY < cut && !c.ghost) { const x = c.x + CW / 2, y = c.y + MY, g = groups[L.nodes[c.n].ti] || (groups[L.nodes[c.n].ti] = []); g.push([x, y, c.n], [x - 40, y - 30, c.n], [x + 40, y - 30, c.n], [x, y - 60, c.n]); }
+  const out = { back: [], front: [], shade: [] };
+  for (const [gi, pts] of Object.entries(groups)) { if (!pts.length) continue; const sp = L.tops[gi] ? L.tops[gi].sp || 'oak' : 'oak'; const o = crownOne(pts, SPECIES[sp], sp, cut, gi); out.back.push(...o.back); out.front.push(...o.front); out.shade.push(...o.shade); }
+  return out;
+}
+function crownOne(pts, SK, sp, cut, gi) {
+  const H = 160, grid = new Map(), key = (i, j) => i * 100003 + j;
+  for (const p of pts) { const k = key(Math.floor(p[0] / H), Math.floor(p[1] / H)); if (!grid.has(k)) grid.set(k, []); grid.get(k).push(p); }
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const p of pts) { x0 = Math.min(x0, p[0]); y0 = Math.min(y0, p[1]); x1 = Math.max(x1, p[0]); y1 = Math.max(y1, p[1]); }
+  const R = SK.R, cs = SK.cell, r = rng('crown' + sp + gi), vk = Math.min(1.7, Math.sqrt(LV / 720));
+  /* crown silhouette: for every column take the highest and lowest leafy point around it, smooth the top edge, and fill everything in between so expanded branches never leave bald holes */
+  const nc = Math.ceil((x1 - x0 + 2 * R) / cs) + 1, top = new Array(nc).fill(Infinity), bot = new Array(nc).fill(-Infinity);
+  for (const p of pts) {
+    const c0 = Math.max(0, Math.floor((p[0] - R - (x0 - R)) / cs)), c1 = Math.min(nc - 1, Math.ceil((p[0] + R - (x0 - R)) / cs));
+    for (let c = c0; c <= c1; c++) {
+      const dx = x0 - R + c * cs - p[0], h = R * R - dx * dx; if (h <= 0) continue; const e = Math.sqrt(h);
+      top[c] = Math.min(top[c], p[1] - e); bot[c] = Math.max(bot[c], Math.min(cut, p[1] + e * 0.75));
+    }
+  }
+  const top2 = top.map((v, c) => { let m = v, n = 0, sum = 0; for (let k = -3; k <= 3; k++) { const t = top[c + k]; if (t !== undefined && t !== Infinity) { sum += t; n++; } } return v === Infinity ? v : Math.min(m, sum / n); });
+  /* round the underside: the bottom edge follows a half-ellipse from the outer tips down to the lowest leafy point, so a wide crown curves into the trunk instead of ending in a flat, angular line */
+  const used = top.map((v, c) => (v !== Infinity ? c : -1)).filter((c) => c >= 0);
+  if (used.length > 2) {
+    const c0 = used[0], c1 = used[used.length - 1], cm = (c0 + c1) / 2, rx = (c1 - c0) / 2 + 0.5;
+    const tmin = Math.min(...used.map((c) => top2[c])), bmax = Math.max(...used.map((c) => bot[c])), cy = (tmin + bmax) / 2, ry = bmax - cy;
+    for (let c = c0; c <= c1; c++) { const u = (c - cm) / rx, arc = cy + ry * Math.sqrt(Math.max(0, 1 - u * u)) * 0.98; if (top2[c] === Infinity) top2[c] = cy; bot[c] = Math.max(bot[c], Math.min(cut, arc)); }
+  }
+  const nearest = (ox, oy) => { const gi = Math.floor(ox / H), gj = Math.floor(oy / H); let best = Infinity, bn = null; for (let rad = 1; rad <= 4 && bn === null; rad++) for (let a = -rad; a <= rad; a++) for (let b2 = -rad; b2 <= rad; b2++) for (const p of grid.get(key(gi + a, gj + b2)) || []) { const d = (p[0] - ox) ** 2 + (p[1] - oy) ** 2; if (d < best) { best = d; bn = p[2]; } } return bn ?? 0; };
+  const back = [], front = [], shade = [];
+  for (let c = 0; c < nc; c++) {
+    if (top2[c] === Infinity || bot[c] < top2[c]) continue;
+    const cx = x0 - R + c * cs;
+    for (let y = top2[c] + cs * 0.3; y < bot[c]; y += cs * 0.8 * vk) {
+      const ox = cx + (r() - 0.5) * cs * 0.8, oy = y + (r() - 0.5) * cs * 0.6, edge = Math.min(y - top2[c], bot[c] - y) < cs * 0.6;
+      if (edge && r() < 0.35) continue;
+      const sc = (0.85 + r() * 0.5) * Math.sqrt(vk), rot = Math.round(r() * 360);
+      if (r() < 0.4) back.push([ox + 14, oy + 16, rot * Math.PI / 180, sc * 1.15, `d-${sp}-${Math.floor(r() * NCL)}`]);
+      front.push([ox, oy, ((rot + 140) % 360) * Math.PI / 180, sc, `-${sp}-${Math.floor(r() * NCL)}`]);
+      if (r() < 0.6) shade.push([ox, oy, 115 + r() * 30, 95 + r() * 25]);
+    }
+  }
+  return { back, front, shade };
+}
+function haloLeaves(c, B) {
+  const SK = SPECIES[spN(c.n)];
+  const r = rng(c.pid + 'h'), bk = bucketFor(B, c.n), cx = c.x + CW / 2, cy = c.y + MY;
+  for (let i = 0; i < SK.halo; i++) {
+    const a = -Math.PI * (0.05 + 0.9 * r()) - (r() < 0.25 ? -Math.PI * 1.1 : 0);
+    const ex = Math.cos(a) * (MRX + 6), ey = Math.sin(a) * (MRY + 4);
+    addSprig(bk, SK, cx + ex, cy + ey, a + (r() - 0.5) * 0.6, 14 + r() * 16, r);
+  }
+}
+function branchSvg(b) {
+  if (b.k === 'knob') return `<ellipse class="bk knob" data-n="${b.n}" cx="${f1(b.x)}" cy="${f1(b.y)}" rx="${f1(b.r * 1.05)}" ry="${f1(b.r * 1.25)}"/>`;
+  if (b.k === 'bar') return `<path class="bar" data-n="${b.n}" stroke-width="${b.w}" d="${b.d}"/>`;
+  if (b.k === 'tw') return `<path class="tw" data-n="${b.n}" stroke-width="${f1(b.w0)}" d="M${b.pts[0]}C${b.pts[1]} ${b.pts[2]} ${b.pts[3]}"/>`;
+  const sm = sampleBranch(b, 22), Ls = sm.map((q) => [q.x + q.nx * q.w / 2, q.y + q.ny * q.w / 2]), Rs = sm.map((q) => [q.x - q.nx * q.w / 2, q.y - q.ny * q.w / 2]).reverse();
+  let h = `<path class="bk sp-${spN(b.n)}" data-n="${b.n}" d="${polyD(Ls)}L${Rs.map((p) => f1(p[0]) + ',' + f1(p[1])).join('L')}Z"/>`;
+  if (b.w0 > 7) {
+    h += `<path class="bh" data-n="${b.n}" stroke-width="${f1(Math.max(1, b.w0 * 0.1))}" d="${polyD(sm.map((q) => [q.x + q.nx * q.w * 0.24, q.y + q.ny * q.w * 0.24]))}"/>`;
+    h += `<path class="bd" data-n="${b.n}" stroke-width="${f1(Math.max(1, b.w0 * 0.08))}" d="${polyD(sm.map((q) => [q.x - q.nx * q.w * 0.18, q.y - q.ny * q.w * 0.18]))}"/>`;
+    if (b.w0 > 14) h += `<path class="bd" data-n="${b.n}" stroke-width="1.1" d="${polyD(sm.map((q) => [q.x + q.nx * q.w * 0.04, q.y + q.ny * q.w * 0.04]))}"/>`;
+  }
+  return h;
+}
+function cardSvg(c) {
+  const p = S.persons[c.pid]; if (!p) return '';
+  const wall = S.skin === 'wall';
+  const g = p.gender === 'f' ? 'f' : p.gender === 'm' ? 'm' : 'u';
+  const years = p.birth || p.death ? `${p.birth || '…'}–${p.death || ''}` : '';
+  const sub = c.dup ? 'ещё один брак' : c.ghost ? (p.surname ? p.surname + ' ↗' : 'другая ветка ↗') : [p.surname, years].filter(Boolean).join(' · ');
+  const nm = p.name || '?'; const fs = (wall ? 0.93 : 1) * (nm.length > 15 ? 10.5 : nm.length > 12 ? 11.5 : 13);
+  const cx = CW / 2;
+  let h = `<g class="card ${g}${c.ghost ? ' ghost' : ''}${c.dup ? ' dup' : ''}" data-id="${esc(c.pid)}" data-n="${c.n}" transform="translate(${c.x},${c.y})"><title>${esc(nameOf(c.pid))}${years ? ' · ' + esc(years) : ''}</title>`;
+  if (wall) h += `<path class="cord" d="M${cx - 17},${MY - 22}L${cx},-7L${cx + 17},${MY - 22}"/><circle class="hook" cx="${cx}" cy="-7" r="4"/>`;
+  else h += `<ellipse class="shadow" cx="${cx + 2}" cy="${MY + 5}" rx="${MRX + 3}" ry="${MRY + 3}"/>`;
+  h += `<ellipse class="mfill" cx="${cx}" cy="${MY}" rx="${MRX}" ry="${MRY}"/>`;
+  if (p.photo) h += `<image href="${esc(p.photo)}" x="${cx - MRX}" y="${MY - MRY}" width="${MRX * 2}" height="${MRY * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#clipOval)"/>`;
+  else if (g === 'u') h += `<text class="q" x="${cx}" y="${MY + 11}">?</text>`;
+  else h += `<g clip-path="url(#clipOval)"><g class="sil"><circle cx="${cx}" cy="${MY - 8}" r="10.5"/><path d="M${cx - 24},${MY + 40}C${cx - 24},${MY + 14} ${cx - 10},${MY + 8} ${cx},${MY + 8}C${cx + 10},${MY + 8} ${cx + 24},${MY + 14} ${cx + 24},${MY + 40}Z"/></g></g>`;
+  if (wall) h += `<ellipse class="wframe" cx="${cx}" cy="${MY}" rx="${MRX + 3}" ry="${MRY + 3}"/><ellipse class="wring" cx="${cx}" cy="${MY}" rx="${MRX - 1}" ry="${MRY - 1}"/>`;
+  else h += `<ellipse class="mframe" cx="${cx}" cy="${MY}" rx="${MRX}" ry="${MRY}"/><ellipse class="mframe2" cx="${cx}" cy="${MY}" rx="${MRX - 3}" ry="${MRY - 3}"/>`;
+  h += `<ellipse class="halo" cx="${cx}" cy="${MY}" rx="${MRX + 7}" ry="${MRY + 7}"/>`;
+  if (wall) {
+    h += `<rect class="plq" x="5" y="76" width="${CW - 10}" height="26" rx="2"/>`;
+    h += `<text class="plq-t" x="${cx}" y="${sub ? 88 : 93.5}" style="font-size:${f1(fs * 0.95)}px">${esc(nm)}</text>`;
+    if (sub) h += `<text class="plq-s" x="${cx}" y="98.5">${esc(sub)}</text>`;
+  } else {
+    h += `<path class="ribf" d="M1,80L12,89L1,98Z"/><path class="ribf" d="M${CW - 1},80L${CW - 12},89L${CW - 1},98Z"/>`;
+    h += `<path class="rib" d="M8,76Q${cx},70 ${CW - 8},76L${CW - 8},102Q${cx},96 8,102Z"/>`;
+    h += `<text class="nm" x="${cx}" y="${sub ? 87.5 : 93}" style="font-size:${fs}px">${esc(nm)}</text>`;
+    if (sub) h += `<text class="sn" x="${cx}" y="98">${esc(sub)}</text>`;
+  }
+  if (c.hidden) h += `<g class="badge"><rect x="${cx - 22}" y="-19" width="44" height="18" rx="9"/><text x="${cx}" y="-6">+${c.hidden}</text></g>`;
+  return h + '</g>';
+}
+function bannerSvg(b) {
+  const wall = S.skin === 'wall';
+  const w = Math.max(250, b.text.length * 15 + 90), x = b.x - w / 2;
+  if (wall) return `<g class="banner" data-n="${b.n}"><rect class="brass" x="${x}" y="${b.y + 4}" width="${w}" height="40" rx="3"/><text x="${b.x}" y="${b.y + 31}" style="fill:#3a2d12;font-size:20px">${esc(b.text)}</text></g>`;
+  return `<g class="banner" data-n="${b.n}"><path class="bf" d="M${x - 34},${b.y + 8}H${x + 14}V${b.y + 50}H${x - 34}L${x - 20},${b.y + 29}Z"/><path class="bf" d="M${x + w + 34},${b.y + 8}H${x + w - 14}V${b.y + 50}H${x + w + 34}L${x + w + 20},${b.y + 29}Z"/><path class="bb" d="M${x},${b.y}Q${b.x},${b.y - 8} ${x + w},${b.y}V${b.y + 42}Q${b.x},${b.y + 34} ${x},${b.y + 42}Z"/><text x="${b.x}" y="${b.y + 28}">${esc(b.text)}</text></g>`;
+}
+function render(opts = {}) {
+  L = layout();
+  const B = {};
+  L.branches.forEach((b) => foliage(b, B));
+  L.cards.forEach((c) => { if (!c.ghost) haloLeaves(c, B); });
+  const CR = crown(L);
+  $('#vp').innerHTML = L.branches.map(branchSvg).join('') + L.banners.map(bannerSvg).join('') +
+    L.links.map((l) => `<path class="dupu" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/><path class="dupl" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/>` + (l.ring ? `<g class="rings" data-n="${l.n}" data-n2="${l.n2}" transform="translate(${f1(l.ring[0])},${f1(l.ring[1])})"><circle cx="-6" r="9"/><circle cx="6" r="9"/></g>` : '')).join('') +
+    L.knots.map((k) => `<circle class="knot" data-n="${k.n}" cx="${k.x}" cy="${k.y}" r="6"/>`).join('') +
+    L.cards.map(cardSvg).join('');
+  setWorld([L.bbox[0] - 450, L.bbox[1] - 450, L.bbox[2] + 450, L.bbox[3] + 120]);
+  paintFoliage(B, CR); limitZoom();
+  const total = Object.keys(S.persons).length;
+  $('#count').textContent = total ? `${total} ${plural(total, 'человек', 'человека', 'человек')}` : '';
+  renderTabs(); renderChips(); renderCrumbs(); renderEmpty(); renderPanel();
+  if (S.sel && L.cardNode[S.sel] == null) { if (S.persons[S.sel]) { S.mode = { t: 'all' }; return render(opts); } S.sel = null; }
+  applySel(); applyRel();
+  if (opts.fit !== false) { if (S.sel && opts.zoomSel) zoomSel(); else fitBox(L.bbox, { maxK: 1 }); }
+}
+function setSkin(k) {
+  S.skin = k; document.documentElement.dataset.skin = k;
+  try { localStorage.setItem('tree-skin', k); } catch (e) {}
+  $('#skinBtn').textContent = 'Стиль: ' + (k === 'wall' ? 'Стена' : 'Лес');
+  if (L) render({ fit: false });
+}
+function plural(n, a, b, c) { const m = n % 100, d = n % 10; return m > 10 && m < 20 ? c : d === 1 ? a : d > 1 && d < 5 ? b : c; }
+function applySel() {
+  const svg = $('#svg'); const all = svg.querySelectorAll('[data-n]');
+  svg.querySelectorAll('.sel').forEach((e) => e.classList.remove('sel'));
+  if (!S.sel || L.cardNode[S.sel] == null) { svg.classList.remove('has-sel'); all.forEach((e) => e.classList.remove('in')); return; }
+  const nid = L.cardNode[S.sel], br = new Set(), an = new Set();
+  const walk = (n) => { br.add(n.id); n.groups.forEach((g) => g.kids.forEach((k) => !k.ghost && walk(k))); };
+  walk(L.nodes[nid]);
+  for (let n = L.nodes[nid].pnode; n; n = n.pnode) an.add(n.id);
+  svg.classList.add('has-sel');
+  all.forEach((e) => { const n = +e.dataset.n, n2 = e.dataset.n2 != null ? +e.dataset.n2 : -1; e.classList.toggle('in', br.has(n) || an.has(n) || br.has(n2)); });
+  svg.querySelectorAll(`.card[data-id="${CSS.escape(S.sel)}"]:not(.ghost)`).forEach((e) => e.classList.add('sel'));
+}
+
+/* ---------- foliage is painted once into a canvas behind the SVG: thousands of leaves as vector shapes made panning and zooming crawl ---------- */
+const SPR = {}, SS = 2;
+function buildSprites() {
+  if (buildSprites.done) return; buildSprites.done = true;
+  for (const [sp, SK] of Object.entries(SPECIES)) for (const dark of [0, 1]) for (let v = 0; v < NCL; v++) {
+    const r = rng(sp + 'cl' + v + dark), cols = SK.cols.map((c) => (dark ? mixHex(c, '#123018', 0.42) : c)), bk = { c: [], fa: '', fb: '', fs: '' };
+    if (SK.needle) {
+      for (let t = 0; t < SK.tufts; t++) {
+        const a0 = r() * Math.PI * 2, d = SK.cr * Math.sqrt(r()), tx = Math.cos(a0) * d, ty = Math.sin(a0) * d * 0.85, dir = r() * Math.PI * 2;
+        for (let k = 0; k < SK.needles; k++) { const ci = Math.floor(r() * cols.length); bk.c[ci] = (bk.c[ci] || '') + shapeD(SK.leaf, tx, ty, dir + (k / SK.needles - 0.5) * 3.4 + (r() - 0.5) * 0.3, (0.9 + r() * 0.5) * (dark ? 1.2 : 1)); }
+      }
+    } else {
+      const n = Math.round(SK.cn * (dark ? 0.8 : 1));
+      for (let i = 0; i < n; i++) {
+        const a = r() * Math.PI * 2, d = SK.cr * Math.sqrt(r()), x = Math.cos(a) * d, y = Math.sin(a) * d * 0.85;
+        const sc = (SK.ls[0] + r() * (SK.ls[1] - SK.ls[0])) * (dark ? 1.25 : 1.1);
+        const ci = Math.floor(r() * cols.length); bk.c[ci] = (bk.c[ci] || '') + shapeD(SK.leaf, x, y, a + (r() - 0.5) * 1.6, sc);
+      }
+    }
+    if (!dark && SK.fruit && v < 3) for (let k = 0; k < 1 + (v === 0); k++) addFruit(bk, SK.fruit, (r() - 0.5) * SK.cr, (r() - 0.5) * SK.cr * 0.7, r);
+    const half = SK.cr + 40, cv = document.createElement('canvas'); cv.width = cv.height = Math.ceil(half * 2 * SS);
+    const g = cv.getContext('2d'); g.setTransform(SS, 0, 0, SS, half * SS, half * SS);
+    paintBucket(g, bk, cols, FRUIT[SK.fruit] || []);
+    SPR[`${dark ? 'd' : ''}-${sp}-${v}`] = { cv, half };
+  }
+  const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d'), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+  gr.addColorStop(0, 'rgba(0,0,0,.5)'); gr.addColorStop(0.55, 'rgba(0,0,0,.32)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+  SPR.blob = cv;
+}
+function paintBucket(g, bk, cols, F, stem) {
+  if (stem && bk.st) { g.strokeStyle = stem; g.lineWidth = 1.1; g.lineCap = 'round'; g.stroke(new Path2D(bk.st)); }
+  bk.c.forEach((d, i) => { if (d) { g.fillStyle = cols[i]; g.fill(new Path2D(d)); } });
+  if (bk.fa) { g.fillStyle = F[0]; g.fill(new Path2D(bk.fa)); }
+  if (bk.fb) { g.fillStyle = F[1]; g.fill(new Path2D(bk.fb)); }
+  if (bk.fs) { g.strokeStyle = F[1]; g.lineWidth = 0.8; g.stroke(new Path2D(bk.fs)); }
+}
+function tintedBlob(color) {
+  const k = 'blob' + color; if (SPR[k]) return SPR[k];
+  const cv = document.createElement('canvas'); cv.width = cv.height = 128; const g = cv.getContext('2d');
+  g.drawImage(SPR.blob, 0, 0); g.globalCompositeOperation = 'source-in'; g.fillStyle = color; g.fillRect(0, 0, 128, 128);
+  return (SPR[k] = cv);
+}
+function paintFoliage(B, CR) {
+  const key = [world.join(), CR.front.length, CR.back.length, CR.front.length ? CR.front[0][0].toFixed(1) + CR.front[CR.front.length - 1][1].toFixed(1) : '', Object.keys(B).length, S.skin].join('|');
+  if (key === paintFoliage.key) return; paintFoliage.key = key;
+  cancelAnimationFrame(paintFoliage.raf);
+  paintFoliage.raf = requestAnimationFrame(() => paintNow(B, CR));
+}
+function paintNow(B, CR) {
+  buildSprites();
+  const cv = $('#fol'), w = world[2] - world[0], h = world[3] - world[1];
+  const rs = Math.min(devicePixelRatio > 1 ? 1.4 : 1, Math.sqrt(8e6 / (w * h)));
+  cv.width = Math.max(1, Math.round(w * rs)); cv.height = Math.max(1, Math.round(h * rs));
+  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  const g = cv.getContext('2d'), cs = getComputedStyle(document.documentElement), shadeC = cs.getPropertyValue('--shade').trim() || '#5f8f35', stem = cs.getPropertyValue('--bark-hi').trim() || '#8a6a44';
+  g.setTransform(rs, 0, 0, rs, -world[0] * rs, -world[1] * rs);
+  g.globalAlpha = 0.35; g.fillStyle = shadeC;
+  for (const e of L.ground) { g.beginPath(); g.ellipse(e.x, e.y, e.rx, 22, 0, 0, Math.PI * 2); g.fill(); }
+  g.globalAlpha = 1;
+  const blob = tintedBlob(shadeC);
+  for (const s of CR.shade) g.drawImage(blob, s[0] - s[2], s[1] - s[3], s[2] * 2, s[3] * 2);
+  const stamp = (c) => { const sp = SPR[c[4]]; if (!sp) return; const co = Math.cos(c[2]) * c[3] / SS, si = Math.sin(c[2]) * c[3] / SS; g.setTransform(rs * co, rs * si, -rs * si, rs * co, (c[0] - world[0]) * rs, (c[1] - world[1]) * rs); g.drawImage(sp.cv, -sp.half * SS, -sp.half * SS); };
+  CR.back.forEach(stamp); CR.front.forEach(stamp);
+  g.setTransform(rs, 0, 0, rs, -world[0] * rs, -world[1] * rs);
+  for (const n of Object.keys(B)) { const bk = B[n], SK = SPECIES[bk.sp]; paintBucket(g, bk, SK.cols, FRUIT[SK.fruit] || [], stem); }
+}
+
+/* ---------- zoom ---------- */
+let curT = { x: 0, y: 0, k: 1 }, world = [0, 0, 1, 1];
+function applyT() {
+  const el = $('#stage'), t = curT;
+  el.style.transform = `translate(${t.x + world[0] * t.k}px,${t.y + world[1] * t.k}px) scale(${t.k})`;
+  el.classList.add('moving'); clearTimeout(applyT.h); applyT.h = setTimeout(() => el.classList.remove('moving'), 220);
+}
+function setWorld(b) {
+  world = b; const el = $('#svg'); $('#stage').style.width = (b[2] - b[0]) + 'px'; $('#stage').style.height = (b[3] - b[1]) + 'px';
+  el.setAttribute('viewBox', `${b[0]} ${b[1]} ${b[2] - b[0]} ${b[3] - b[1]}`); el.setAttribute('width', b[2] - b[0]); el.setAttribute('height', b[3] - b[1]);
+  applyT();
+}
+function initZoom() {
+  zoomB = d3.zoom().scaleExtent([0.04, 3]).on('zoom', (e) => { curT = e.transform; curK = e.transform.k; applyT(); });
+  zoomB.filter((e) => (!e.ctrlKey || e.type === 'wheel') && !e.button && !(e.target.closest && e.target.closest('button, .crumbs, .zoomctl, .legend, #empty, #results')) && !(e.type !== 'wheel' && S.edit && e.target.closest && e.target.closest('.card') && dragTarget(e.target.closest('.card'))));
+  d3.select('#wrap').call(zoomB).on('dblclick.zoom', null);
+}
+/* zooming out stops once all trees fit on screen, and panning cannot leave the trees */
+function fitK(b) {
+  const svg = $('#wrap'), W = svg.clientWidth, H = svg.clientHeight; if (!W || !H) return 1;
+  return Math.min((W - 56) / (b[2] - b[0]), (H - 100) / (b[3] - b[1]));
+}
+function limitZoom() {
+  if (!L || !zoomB) return;
+  const b = L.bbox, W = $('#wrap').clientWidth || 1, H = $('#wrap').clientHeight || 1, kMin = Math.min(1, fitK(b)) * 0.9;
+  zoomB.scaleExtent([kMin, 3]);
+  const mx = Math.max(120, W * 0.25 / kMin * 0.2), my = Math.max(120, H * 0.25 / kMin * 0.2);
+  zoomB.translateExtent([[b[0] - mx, b[1] - my], [b[2] + mx, b[3] + my + H * 0.45 / kMin]]);
+}
+function fitBox(b, o = {}) {
+  const svg = $('#wrap'); const W = svg.clientWidth, H = svg.clientHeight; if (!W || !H) return;
+  const sheet = matchMedia('(max-width:760px)').matches && $('#panel').classList.contains('open') ? $('#panel').offsetHeight : 0;
+  const padT = 64, padB = 36 + sheet, padX = 28;
+  const w = b[2] - b[0], h = b[3] - b[1];
+  const k = Math.min(o.maxK ?? 1.2, (W - padX * 2) / w, (H - padT - padB) / h);
+  const tx = padX + (W - padX * 2 - w * k) / 2 - b[0] * k;
+  const ty = padT + Math.min(Math.max(0, (H - padT - padB - h * k) / 2), 70) - b[1] * k;
+  const t = d3.zoomIdentity.translate(tx, ty).scale(k);
+  const sel = d3.select('#wrap');
+  (reduce || o.instant ? sel : sel.transition().duration(650)).call(zoomB.transform, t);
+}
+function zoomSel() {
+  if (!S.sel || L.cardNode[S.sel] == null) return;
+  let n = L.nodes[L.cardNode[S.sel]];
+  if (!n.groups.some((g) => g.kids.length) && n.pnode) n = n.pnode;
+  const nb = nodeBox(n);
+  /* a big branch would shrink to unreadable size: then centre on the chosen person at a readable zoom instead */
+  if (fitK(nb) >= 0.5) return fitBox(nb, { maxK: 1.15 });
+  const c = L.cards.find((x) => x.pid === S.sel && !x.dup); if (!c) return fitBox(nb, { maxK: 1.15 });
+  const W = $('#wrap').clientWidth, H = $('#wrap').clientHeight, sheet = matchMedia('(max-width:760px)').matches && $('#panel').classList.contains('open') ? $('#panel').offsetHeight : 0;
+  const k = matchMedia('(max-width:760px)').matches ? 0.75 : 0.6, X = c.x + CW / 2, Y = c.y + MY;
+  d3.select('#wrap').transition().duration(reduce ? 0 : 650).call(zoomB.transform, d3.zoomIdentity.translate(W / 2 - X * k, (H - sheet) / 2 - Y * k).scale(k));
+}
+function zoomBy(f) { d3.select('#wrap').transition().duration(reduce ? 0 : 200).call(zoomB.scaleBy, f); }
+
+/* ---------- tabs, chips, crumbs ---------- */
+function setMode(m, o = {}) { S.mode = m; if (!o.keepSel) S.sel = null; S.form = null; render({ zoomSel: !!o.zoomSel }); }
+function renderTabs() {
+  if (S.mode.t === 'all' || !S.tabU) { const ids = []; L.tops.forEach((t) => t.groups.forEach((g) => ids.push(g.lk.u.id))); if (S.mode.t === 'all') S.tabU = ids; else S.tabU = Object.values(S.unions).filter((u) => u.partners.length === 2 && !X.par[X.anchor[u.id]]).map((u) => u.id); }
+  const items = [{ label: 'Всё дерево', m: { t: 'all' } }];
+  S.tabU.forEach((id) => { const u = S.unions[id]; if (u && u.partners.length === 2) items.push({ label: u.partners.map((p) => S.persons[p].name).join(' + '), m: { t: 'union', id } }); });
+  const cur = S.mode;
+  $('#tabs').innerHTML = items.map((it, i) => `<button data-i="${i}" aria-pressed="${it.m.t === cur.t && it.m.id === cur.id}">${esc(it.label)}</button>`).join('');
+  $('#tabs').onclick = (e) => { const b = e.target.closest('button'); if (b) setMode(items[+b.dataset.i].m); };
+}
+function renderChips() {
+  const chips = [];
+  L.tops.forEach((t) => t.groups.forEach((g) => g.kids.forEach((k) => { if (k.ghost) return; const pid = k.persons[k.ai]; chips.push({ pid, n: descendants(pid).size }); })));
+  const box = $('#chips');
+  box.hidden = !chips.length;
+  box.innerHTML = chips.length ? `<b>Ветки</b>` + chips.map((c) => `<button class="chip" data-id="${esc(c.pid)}">${esc(nameOf(c.pid))}<i>${c.n}</i></button>`).join('') + (S.mode.t === 'all' && S.exp.size ? `<button class="btn small" id="collapseAll" style="margin-left:auto;white-space:nowrap">Свернуть всё</button>` : '') : '';
+  box.onclick = (e) => { if (e.target.closest('#collapseAll')) { S.exp = new Set(); S.sel = null; render(); return; } const b = e.target.closest('.chip'); if (b) select(b.dataset.id, true, S.mode.t === 'all'); };
+}
+function renderCrumbs() {
+  const m = S.mode, box = $('#crumbs');
+  if (m.t === 'all') { box.innerHTML = ''; return; }
+  let h = `<button data-m="all">Всё дерево</button>`;
+  if (m.t === 'union') { const u = S.unions[m.id]; h += `<span class="sep">›</span><b>${esc(u.partners.map((p) => S.persons[p].name).join(' + '))}</b>`; }
+  else {
+    const ln = lineage(m.id);
+    ln.forEach((pid, i) => { h += `<span class="sep">›</span>` + (i === ln.length - 1 ? `<b>${esc(nameOf(pid))}</b>` : `<button data-m="${esc(pid)}">${esc(S.persons[pid].name)}</button>`); });
+  }
+  box.innerHTML = h;
+  box.onclick = (e) => { const b = e.target.closest('button'); if (!b) return; b.dataset.m === 'all' ? setMode({ t: 'all' }) : setMode({ t: 'node', id: b.dataset.m }); };
+}
+function renderEmpty() {
+  const e = $('#empty'); const has = Object.keys(S.persons).length > 0;
+  e.hidden = has || !S.loaded;
+  if (has || !S.loaded) return;
+  e.innerHTML = `<div><h2>Здесь пока пусто</h2><p>Загрузите данные из файла или добавьте первого человека, потом можно будет добавлять супругов и детей.</p><div class="acts" style="justify-content:center"><button class="btn primary" id="emptyAdd">Добавить первого человека</button><button class="btn" id="emptyLoad">Загрузить из файла</button></div></div>`;
+  $('#emptyAdd').onclick = () => { S.edit = true; $('#editBtn').setAttribute('aria-pressed', 'true'); addRoot('Новый человек'); };
+  $('#emptyLoad').onclick = () => $('#file').click();
+}
+
+/* ---------- panel ---------- */
+function expandBranch(pid) {
+  const a = clusterAnchor(pid), before = S.exp.size;
+  lineage(pid).forEach((x) => S.exp.add(x)); S.exp.add(a); descendants(a).forEach((x) => S.exp.add(x));
+  (X.uBy[pid] || []).forEach((u) => u.partners.forEach((o) => { if (o !== pid && (isExt(o) || isExt(pid))) lineage(o).forEach((x) => S.exp.add(x)); }));
+  parentsOf(pid).forEach((o) => { if (isExt(o)) { lineage(o).forEach((x) => S.exp.add(x)); S.exp.add(o); } });
+  return S.exp.size !== before;
+}
+function select(pid, zoom, only) {
+  if (!pid || !S.persons[pid]) return;
+  if (S.relPick && S.relPick !== pid) { finishRel(pid); return; }
+  if (S.rel && S.rel.a !== pid && S.rel.b !== pid) S.rel = null;
+  rebuildIndex();
+  if (only) S.exp = new Set();
+  S.sel = pid; S.form = null;
+  if (S.mode.t === 'all') expandBranch(pid);
+  else if (L.cardNode[pid] == null) S.mode = { t: 'all' }, expandBranch(pid);
+  render({ fit: false });
+  if (zoom) requestAnimationFrame(zoomSel);
+}
+function deselect() { if (S.relPick) { clearRel(); return; } S.rel = null; S.sel = null; S.form = null; applySel(); renderPanel(); }
+function parentsOf(pid) { const u = S.unions[X.par[pid]]; return u ? u.partners : []; }
+function linkBtns(ids) { return ids.length ? `<div class="links">${ids.map((i) => `<button data-go="${esc(i)}">${esc(nameOf(i))}</button>`).join('')}</div>` : `<span style="color:var(--muted)">нет данных</span>`; }
+function renderPanel() {
+  const el = $('#panel'); const pid = S.sel; const p = S.persons[pid];
+  if (!p) { el.classList.remove('open'); el.innerHTML = ''; return; }
+  el.classList.add('open');
+  const spouses = (X.uBy[pid] || []).flatMap((u) => u.partners.filter((x) => x !== pid));
+  const kids = (X.uBy[pid] || []).flatMap((u) => u.children);
+  const nd = descendants(clusterAnchor(pid)).size;
+  const anc = clusterAnchor(pid);
+  let h = (S.rel && (S.rel.a === pid || S.rel.b === pid) ? relHtml() : '') + `<div class="ph"><div><h2>${esc(p.name || '?')}${p.surname ? ' ' + esc(p.surname) : ''}</h2><div class="sub">${p.gender === 'm' ? 'Мужчина' : p.gender === 'f' ? 'Женщина' : 'Пол не указан'}${p.birth || p.death ? ' · ' + esc(p.birth || '…') + '–' + esc(p.death || '') : ''}</div></div><button class="x" id="pClose" aria-label="Закрыть">×</button></div>`;
+  if (p.note) h += `<div class="sec"><h3>Заметка</h3><div class="note">${esc(p.note)}</div></div>`;
+  h += `<div class="sec"><h3>Родители</h3>${linkBtns(parentsOf(pid))}</div>`;
+  h += `<div class="sec"><h3>${p.gender === 'f' ? 'Муж' : p.gender === 'm' ? 'Жена' : 'Супруг(а)'}</h3>${linkBtns(spouses)}</div>`;
+  h += `<div class="sec"><h3>Дети · ${kids.length}</h3>${linkBtns(kids)}</div>`;
+  if (nd) h += `<div class="sec" style="color:var(--muted)">Потомков в этой ветке: <b style="color:var(--ink)">${nd}</b></div>`;
+  h += `<div class="acts">`;
+  const isolated = S.mode.t === 'node' && clusterAnchor(pid) === S.mode.id;
+  if (S.mode.t === 'all' && S.exp.has(anc) && descendants(anc).size) h += `<button class="btn" id="aCol">Свернуть ветку</button>`;
+  h += S.relPick === pid ? `<button class="btn" id="aRelX">Отменить выбор</button>` : `<button class="btn" id="aRel">Кем приходится…</button>`;
+  h += isolated ? `<button class="btn" id="aAll">Показать всё дерево</button>` : `<button class="btn primary" id="aIso">Показать только ветку</button>`;
+  h += `</div>`;
+  if (S.edit) h += editHtml(pid, p);
+  el.innerHTML = h;
+}
+function editHtml(pid, p) {
+  let h = `<div class="box"><h4>Данные человека</h4>
+  <label class="f">Имя<input id="fName" value="${esc(p.name)}"></label>
+  <label class="f">Фамилия<input id="fSur" value="${esc(p.surname)}"></label>
+  <div class="row3"><label class="f">Пол<select id="fGen"><option value="m"${p.gender === 'm' ? ' selected' : ''}>Мужской</option><option value="f"${p.gender === 'f' ? ' selected' : ''}>Женский</option><option value=""${!p.gender ? ' selected' : ''}>Неизвестно</option></select></label>
+  <label class="f">Рождение<input id="fBirth" value="${esc(p.birth)}" placeholder="год"></label><label class="f">Смерть<input id="fDeath" value="${esc(p.death)}" placeholder="год"></label></div>
+  <label class="f">Заметка<textarea id="fNote">${esc(p.note)}</textarea></label></div>`;
+  const f = S.form;
+  if (f && f.t === 'child') {
+    const us = X.uBy[pid] || [];
+    h += `<div class="box"><h4>Новый ребёнок</h4><label class="f">Имя<input id="nName" placeholder="Имя"></label>
+    <label class="f">Пол<select id="nGen"><option value="m">Мужской</option><option value="f">Женский</option><option value="">Неизвестно</option></select></label>
+    ${us.length > 1 ? `<label class="f">От брака с<select id="nUnion">${us.map((u) => `<option value="${u.id}">${esc(u.partners.filter((x) => x !== pid).map(nameOf).join(', ') || 'без супруга')}</option>`).join('')}</select></label>` : ''}
+    <div class="acts"><button class="btn primary" id="doChild">Добавить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
+  } else if (f && f.t === 'spouse') {
+    h += `<div class="box"><h4>Новый супруг(а)</h4><label class="f">Имя<input id="nName" placeholder="Имя"></label>
+    <label class="f">Фамилия<input id="nSur" placeholder="если известна"></label>
+    <div class="acts"><button class="btn primary" id="doSpouse">Добавить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
+  } else if (f && f.t === 'del') {
+    const n = deletionSet(pid).size;
+    h += `<div class="box"><h4>Удалить «${esc(nameOf(pid))}»?</h4><p class="warn">Будет удалено человек: ${n}${n > 1 ? ' (вместе с потомками и их супругами)' : ''}. Это нельзя отменить.</p><div class="acts"><button class="btn danger" id="doDel">Да, удалить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
+  } else {
+    h += `<div class="acts"><button class="btn" id="aChild">Добавить ребёнка</button>${spouseOnly(pid) ? '' : '<button class="btn" id="aSpouse">Добавить супруга(у)</button>'}<button class="btn danger" id="aDel">Удалить</button></div>`;
+  }
+  return h;
+}
+$('#panel').addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.go) return select(t.dataset.go, true);
+  const id = t.id;
+  if (id === 'pClose') return deselect();
+  if (id === 'aRel') return startRel(S.sel);
+  if (id === 'aRelX' || id === 'relX') return clearRel();
+  if (id === 'aIso') return setMode({ t: 'node', id: clusterAnchor(S.sel) }, { keepSel: true, zoomSel: true });
+  if (id === 'aCol') { const a = clusterAnchor(S.sel); S.exp.delete(a); descendants(a).forEach((x) => S.exp.delete(x)); return render({ fit: false }), requestAnimationFrame(zoomSel); }
+  if (id === 'aAll') return setMode({ t: 'all' }, { keepSel: true, zoomSel: true });
+  if (id === 'aChild') { S.form = { t: 'child' }; return renderPanel(), $('#nName')?.focus(); }
+  if (id === 'aSpouse') { S.form = { t: 'spouse' }; return renderPanel(), $('#nName')?.focus(); }
+  if (id === 'aDel') { S.form = { t: 'del' }; return renderPanel(); }
+  if (id === 'cancel') { S.form = null; return renderPanel(); }
+  if (id === 'doChild') return addChild(S.sel, $('#nName').value.trim() || 'Новый ребёнок', $('#nGen').value, $('#nUnion')?.value);
+  if (id === 'doSpouse') return addSpouse(S.sel, $('#nName').value.trim() || 'Супруг(а)', $('#nSur').value.trim());
+  if (id === 'doDel') return deletePerson(S.sel);
+});
+$('#panel').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.id === 'nName') { e.preventDefault(); ($('#doChild') || $('#doSpouse'))?.click(); } });
+$('#panel').addEventListener('change', (e) => {
+  const m = { fName: 'name', fSur: 'surname', fGen: 'gender', fBirth: 'birth', fDeath: 'death', fNote: 'note' }[e.target.id];
+  if (!m || !S.sel) return;
+  const p = S.persons[S.sel]; p[m] = e.target.value.trim(); commit({ p: [S.sel] }); render({ fit: false });
+});
+
+/* ---------- editing ---------- */
+function nextId(prefix, map) { let m = 0; for (const k of Object.keys(map)) m = Math.max(m, num(k)); return prefix + (m + 1); }
+function blank(id, name, gender, parentUnion) { return { id, name, surname: '', gender: gender || '', parentUnion: parentUnion || '', birth: '', death: '', note: '' }; }
+function addChild(pid, name, gender, uid) {
+  rebuildIndex();
+  let u = uid ? S.unions[uid] : (X.uBy[pid] || [])[0]; const chg = { p: [], u: [] };
+  if (!u) { u = { id: nextId('u', S.unions), partners: [pid], children: [], anchor: '' }; S.unions[u.id] = u; }
+  const c = blank(nextId('p', S.persons), name, gender, u.id); S.persons[c.id] = c; u.children = [...u.children, c.id];
+  chg.p.push(c.id); chg.u.push(u.id); commit(chg); S.form = null; render({ fit: false }); select(c.id, true);
+}
+function addSpouse(pid, name, surname) {
+  const me = S.persons[pid]; const g = me.gender === 'm' ? 'f' : me.gender === 'f' ? 'm' : '';
+  const sp = blank(nextId('p', S.persons), name, g, ''); sp.surname = surname; S.persons[sp.id] = sp;
+  const u = { id: nextId('u', S.unions), partners: [pid, sp.id], children: [], anchor: pid }; S.unions[u.id] = u;
+  commit({ p: [sp.id], u: [u.id] }); S.form = null; render({ fit: false }); select(sp.id, true);
+}
+function addRoot(name) {
+  const p = blank(nextId('p', S.persons), name, '', ''); S.persons[p.id] = p; commit({ p: [p.id] });
+  S.mode = { t: 'all' }; S.sel = p.id; render({ zoomSel: true });
+}
+function deletionSet(pid) {
+  rebuildIndex(); const del = new Set();
+  const rec = (id) => {
+    if (del.has(id)) return; del.add(id);
+    for (const u of anchored(id)) { u.children.forEach((c) => { rec(c); }); u.partners.forEach((o) => { if (o !== id && !X.par[o] && (X.uBy[o] || []).every((v) => X.anchor[v.id] === id || v.partners.includes(id))) del.add(o); }); }
+  };
+  rec(pid); return del;
+}
+function deletePerson(pid) {
+  const del = deletionSet(pid);
+  for (const id of del) delete S.persons[id];
+  for (const u of Object.values(S.unions)) {
+    u.partners = u.partners.filter((x) => !del.has(x)); u.children = u.children.filter((x) => !del.has(x));
+    if (u.anchor && del.has(u.anchor)) u.anchor = '';
+    if (!u.partners.length) delete S.unions[u.id];
+  }
+  S.sel = null; S.form = null; commit({ all: true });
+  if (S.mode.t !== 'all' && (!S.persons[S.mode.id] && S.mode.t === 'node')) S.mode = { t: 'all' };
+  render(); toast(`Удалено: ${del.size}`);
+}
+
+/* ---------- kinship ---------- */
+const gOf = (pid) => (S.persons[pid] || {}).gender || '';
+const G = (pid, m, f, n) => (gOf(pid) === 'm' ? m : gOf(pid) === 'f' ? f : n);
+const kidsOf = (pid) => (X.uBy[pid] || []).flatMap((u) => u.children);
+const spousesOf = (pid) => (X.uBy[pid] || []).flatMap((u) => u.partners.filter((x) => x !== pid));
+function upMap(pid) {
+  const m = new Map([[pid, { d: 0, prev: null }]]), q = [pid];
+  while (q.length) { const c = q.shift(), d = m.get(c).d; for (const p of parentsOf(c)) if (!m.has(p)) { m.set(p, { d: d + 1, prev: c }); q.push(p); } }
+  return m;
+}
+const PRA = (k) => 'пра'.repeat(Math.max(0, k));
+function ordW(n, pid) {
+  if (n <= 1) return '';
+  const st = { 2: 'двоюродн', 3: 'троюродн', 4: 'четвероюродн', 5: 'пятиюродн', 6: 'шестиюродн', 7: 'семиюродн' }[n] || n + '-юродн';
+  return st + G(pid, 'ый ', 'ая ', 'ый(ая) ');
+}
+/* blood term for A relative to B: a = steps from A up to the common ancestor, b = steps from B */
+function bloodTerm(A, B, a, b, shared) {
+  if (a === 0) return b === 1 ? G(A, 'отец', 'мать', 'родитель') : b === 2 ? G(A, 'дедушка', 'бабушка', 'дедушка/бабушка') : PRA(b - 2) + G(A, 'дедушка', 'бабушка', 'дедушка/бабушка');
+  if (b === 0) return a === 1 ? G(A, 'сын', 'дочь', 'ребёнок') : PRA(a - 2) + G(A, 'внук', 'внучка', 'внук/внучка');
+  if (a === 1 && b === 1) { const base = G(A, 'брат', 'сестра', 'брат/сестра'); if (shared.length === 1) return base + (gOf(shared[0]) === 'm' ? ' по отцу' : gOf(shared[0]) === 'f' ? ' по матери' : ' (единокровн.)'); return base; }
+  if (a === b) return ordW(a, A) + G(A, 'брат', 'сестра', 'брат/сестра');
+  if (a < b) { const d = b - a, o = a + (d >= 2 ? 1 : 0); return ordW(o, A) + (d === 1 ? G(A, 'дядя', 'тётя', 'дядя/тётя') : PRA(d - 2) + G(A, 'дедушка', 'бабушка', 'дедушка/бабушка')); }
+  const d = a - b, o = b + (d >= 2 ? 1 : 0);
+  return ordW(o, A) + (d === 1 ? G(A, 'племянник', 'племянница', 'племянник/племянница') : PRA(d - 2) + G(A, 'внук', 'внучка', 'внук/внучка'));
+}
+function blood(A, B) {
+  if (A === B) return null;
+  const ma = upMap(A), mb = upMap(B); let best = null;
+  for (const [p, va] of ma) { const vb = mb.get(p); if (vb && (!best || va.d + vb.d < best.a + best.b)) best = { lca: p, a: va.d, b: vb.d }; }
+  if (!best) return null;
+  const pa = []; for (let c = best.lca; c; c = ma.get(c).prev) pa.unshift(c);
+  const pb = []; for (let c = mb.get(best.lca).prev; c; c = mb.get(c).prev) pb.push(c);
+  const path = [...pa, ...pb];
+  /* both members of the ancestral couple, when both are shared */
+  const lcas = [best.lca]; const pu = (X.uBy[best.lca] || []).find((u) => u.partners.includes(best.lca) && u.children.includes(pa[pa.length - 2] ?? A) );
+  if (pu) pu.partners.forEach((o) => { if (o !== best.lca && ma.get(o)?.d === best.a && mb.get(o)?.d === best.b) lcas.push(o); });
+  let shared = lcas;
+  if (best.a === 1 && best.b === 1) shared = parentsOf(A).filter((p) => parentsOf(B).includes(p));
+  let side = '';
+  if (best.b >= 2 && best.a >= 1) { const par = pb.length >= 2 ? pb[pb.length - 2] : best.lca; if (par && parentsOf(B).includes(par)) side = gOf(par) === 'm' ? 'по линии отца' : gOf(par) === 'f' ? 'по линии матери' : ''; }
+  return { term: bloodTerm(A, B, best.a, best.b, shared), a: best.a, b: best.b, lcas, path, side };
+}
+function inlaw(A, B) {
+  const nm = (p) => nameOf(p), spWord = (p) => G(p, 'жены', 'мужа', 'супруга(и)');
+  /* A is a relative of B's spouse */
+  for (const s of spousesOf(B)) {
+    const r = blood(A, s); if (!r) continue;
+    const bf = gOf(B) === 'f', bm = gOf(B) === 'm'; let t, close = true;
+    if (r.a === 0 && r.b === 1) t = bf ? G(A, 'свёкор', 'свекровь', 'свёкор/свекровь') : bm ? G(A, 'тесть', 'тёща', 'тесть/тёща') : `${r.term} ${spWord(B)}`;
+    else if (r.a === 1 && r.b === 1) t = bf ? G(A, 'деверь', 'золовка', 'деверь/золовка') + ` (${r.term} мужа)` : bm ? G(A, 'шурин', 'свояченица', 'шурин/свояченица') + ` (${r.term} жены)` : `${r.term} ${spWord(B)}`;
+    else if (r.a === 1 && r.b === 0) t = G(A, 'пасынок', 'падчерица', 'пасынок/падчерица');
+    else { t = `${r.term} ${spWord(B)}`; close = false; }
+    return { main: t, close, path: [...r.path, B], lines: [`${G(B, 'Жена', 'Муж', 'Супруг(а)')} для ${nm(B)}: ${nm(s)}`] };
+  }
+  /* A is the spouse of B's relative */
+  for (const s of spousesOf(A)) {
+    const r = blood(s, B); if (!r) continue;
+    let t, close = true; const lines = [];
+    if ((r.a === 1 && r.b === 0) || (r.a === 1 && r.b === 1)) t = G(A, 'зять', 'невестка', 'зять/невестка');
+    else if (r.a === 0 && r.b === 1) t = G(A, 'отчим', 'мачеха', 'отчим/мачеха');
+    else { t = `${G(A, 'муж', 'жена', 'супруг(а)')}: ${G(s, 'его', 'её', 'его/её')} ${G(A, 'жена', 'муж', 'супруг(а)')} ${nm(s)} для ${nm(B)} — ${r.term}`; t = G(A, 'муж', 'жена', 'супруг(а)') + ' родственни' + G(s, 'ка', 'цы', 'ка/цы'); close = false; }
+    lines.push(`${G(A, 'Жена', 'Муж', 'Супруг(а)')}: ${nm(s)} (для ${nm(B)}: ${r.term})`);
+    return { main: t, close, path: [A, ...r.path], lines };
+  }
+  /* spouses of two blood relatives */
+  for (const s of spousesOf(A)) for (const t of spousesOf(B)) {
+    const r = blood(s, t); if (!r) continue;
+    const main = r.a === 1 && r.b === 1 && gOf(A) === 'm' && gOf(B) === 'm' ? 'свояк' : 'родня по браку';
+    return { main, close: main === 'свояк', path: [A, ...r.path, B], lines: [`${G(A, 'Жена', 'Муж', 'Супруг(а)')}: ${nm(s)}; ${G(B, 'жена', 'муж', 'супруг(а)')} ${nm(B)}: ${nm(t)}`, `${nm(s)} для ${nm(t)}: ${r.term}`] };
+  }
+  return null;
+}
+function relation(A, B) {
+  rebuildIndex();
+  const nm = (p) => nameOf(p), out = { lines: [], path: [A, B] };
+  if (A === B) { out.main = 'Это один и тот же человек'; return out; }
+  const sp = spousesOf(A).includes(B);
+  const bl = blood(A, B);
+  if (sp) { out.main = G(A, 'муж', 'жена', 'супруг(а)'); out.path = [A, B]; if (bl) out.lines.push(`Ещё и по крови: ${bl.term}`); return out; }
+  const il = !bl || bl.a + bl.b >= 4 ? inlaw(A, B) : null;
+  if (bl && (!il || !il.close)) {
+    out.main = bl.term; out.path = bl.path;
+    if (bl.a && bl.b) out.lines.push(`Общ${bl.lcas.length > 1 ? 'ие предки' : 'ий предок'}: ${bl.lcas.map(nm).join(' и ')}`);
+    if (bl.side) out.lines.push(bl.side[0].toUpperCase() + bl.side.slice(1));
+    return out;
+  }
+  if (il) { out.main = il.main; out.path = il.path; out.lines.push(...il.lines); if (bl) out.lines.push(`Также по крови: ${bl.term}`); return out; }
+  /* parents of a married couple */
+  for (const c of kidsOf(A)) for (const s of spousesOf(c)) if (kidsOf(B).includes(s)) {
+    out.main = G(A, 'сват', 'сватья', 'сват/сватья'); out.path = [A, c, s, B]; out.lines.push(`${nm(c)} и ${nm(s)} — супруги`); return out;
+  }
+  /* anything else: shortest chain through parents, children and marriages */
+  const prev = new Map([[A, null]]), q = [A];
+  while (q.length && !prev.has(B)) {
+    const c = q.shift();
+    for (const [n, how] of [...parentsOf(c).map((p) => [p, 'par']), ...kidsOf(c).map((k) => [k, 'kid']), ...spousesOf(c).map((s) => [s, 'sp'])]) if (!prev.has(n)) { prev.set(n, [c, how]); q.push(n); }
+  }
+  if (!prev.has(B)) { out.main = 'Связь в дереве не найдена'; out.path = [A, B]; return out; }
+  const chain = []; for (let c = B; c; c = prev.get(c) ? prev.get(c)[0] : null) chain.unshift(c);
+  out.path = chain;
+  out.main = 'родственник через браки';
+  out.lines.push(chain.map((p, i) => { if (!i) return nm(p); const how = prev.get(p)[1]; return `${how === 'par' ? G(p, 'отец', 'мать', 'родитель') : how === 'kid' ? G(p, 'сын', 'дочь', 'ребёнок') : G(p, 'муж', 'жена', 'супруг(а)')} ${nm(p)}`; }).join(' → '));
+  return out;
+}
+function startRel(pid) { S.relPick = pid; S.rel = null; renderPanel(); toast(`Теперь нажмите на второго человека (или найдите через поиск)`); $('#svg').classList.add('picking'); }
+function finishRel(b) {
+  const a = S.relPick; S.relPick = null; $('#svg').classList.remove('picking'); $('#toast').classList.remove('on');
+  S.rel = { a, b, ab: relation(a, b), ba: relation(b, a) };
+  const pathSet = new Set([...S.rel.ab.path, ...S.rel.ba.path]);
+  if (S.mode.t !== 'all' && [...pathSet].some((p) => L.cardNode[p] == null)) S.mode = { t: 'all' };
+  pathSet.forEach((p) => lineage(p).forEach((x) => S.exp.add(x)));
+  S.sel = a; render({ fit: false }); applyRel(); zoomRel();
+}
+function clearRel() { S.rel = null; S.relPick = null; $('#svg').classList.remove('picking'); applySel(); renderPanel(); }
+function applyRel() {
+  if (!S.rel) return;
+  const svg = $('#svg'), all = svg.querySelectorAll('[data-n]'), ps = new Set([...S.rel.ab.path, ...S.rel.ba.path]);
+  const ns = new Set([...ps].map((p) => L.cardNode[p]).filter((x) => x != null));
+  svg.classList.add('has-sel');
+  all.forEach((e) => { const n = +e.dataset.n, n2 = e.dataset.n2 != null ? +e.dataset.n2 : -1; e.classList.toggle('in', ns.has(n) && (e.classList.contains('card') ? ps.has(e.dataset.id) : true) || (ns.has(n) && ns.has(n2))); });
+  svg.querySelectorAll('.card.sel').forEach((e) => e.classList.remove('sel'));
+  [S.rel.a, S.rel.b].forEach((p) => svg.querySelectorAll(`.card[data-id="${CSS.escape(p)}"]:not(.dup)`).forEach((e) => e.classList.add('sel')));
+}
+function zoomRel() {
+  const ps = new Set([...S.rel.ab.path, ...S.rel.ba.path]); const cs = L.cards.filter((c) => ps.has(c.pid) && !c.dup);
+  if (!cs.length) return;
+  fitBox([Math.min(...cs.map((c) => c.x)) - 40, Math.min(...cs.map((c) => c.y)) - 40, Math.max(...cs.map((c) => c.x + CW)) + 40, Math.max(...cs.map((c) => c.y + CH)) + 40], { maxK: 1.1 });
+}
+function relHtml() {
+  const r = S.rel; if (!r) return '';
+  const line = (x, y, o) => `<div class="relrow"><b>${esc(nameOf(x))}</b> — <span class="relt">${esc(o.main)}</span> для <b>${esc(nameOf(y))}</b>${o.lines.map((l) => `<div class="rels">${esc(l)}</div>`).join('')}</div>`;
+  return `<div class="box relbox"><h4>Кем приходятся друг другу</h4>${line(r.a, r.b, r.ab)}${r.ab.main !== 'Это один и тот же человек' ? line(r.b, r.a, r.ba) : ''}<div class="acts" style="margin-top:10px"><button class="btn small" id="relX">Сбросить</button></div></div>`;
+}
+
+/* ---------- persistence ---------- */
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 3200); }
+function commit(chg) {
+  if (!refs.p) { if (!commit.warned) { commit.warned = true; toast('Хранилище недоступно: изменения не сохранятся. Нажмите «Сохранить копию».'); } return; }
+  const snap = { all: chg.all, p: (chg.p || []).map((id) => [id, S.persons[id]]), u: (chg.u || []).map((id) => [id, S.unions[id]]), P: chg.all ? JSON.parse(JSON.stringify(S.persons)) : null, U: chg.all ? JSON.parse(JSON.stringify(S.unions)) : null };
+  pending++;
+  queue = queue.then(async () => {
+    try {
+      const put = async (ref, pairs) => { const o = {}; pairs.forEach(([id, v]) => (o[id] = JSON.parse(JSON.stringify(v)))); try { await ref.update({ items: o }); } catch (e) { await ref.set({ items: o }); } };
+      if (snap.all) { await refs.p.set({ items: snap.P }); await refs.u.set({ items: snap.U }); }
+      else { if (snap.p.length) await put(refs.p, snap.p); if (snap.u.length) await put(refs.u, snap.u); }
+    } catch (e) {
+      if (e && e.code === 'invalid_argument') { S.canWrite = false; S.edit = false; syncEditBtn(); toast('У вас нет прав на изменение этого дерева.'); }
+      else toast('Не удалось сохранить, попробуйте ещё раз.');
+    } finally { pending--; if (!pending) flushSnap(); }
+  });
+}
+function flushSnap() { let ch = false; if (lastSnap.p) { S.persons = lastSnap.p; ch = true; } if (lastSnap.u) { S.unions = lastSnap.u; ch = true; } lastSnap = { p: null, u: null }; if (ch) render({ fit: false }); }
+function onSnap(kind, snap) {
+  const d = snap.exists ? snap.data() : null; const items = d && d.items ? JSON.parse(JSON.stringify(d.items)) : {};
+  S.loaded = true;
+  if (pending) { lastSnap[kind] = items; return; }
+  const first = !S._got; S._got = (S._got || 0) + 1;
+  S[kind === 'p' ? 'persons' : 'unions'] = items;
+  clearTimeout(onSnap.t); onSnap.t = setTimeout(() => { render({ fit: !S._fitted }); S._fitted = Object.keys(S.persons).length > 0; }, 60);
+}
+/* GitHub Pages copy: read-only, the data comes from data.json next to this page (replace that file to update the site) */
+async function connect() {
+  S.canWrite = false; setEditVisible(false); $('#saveBtn').hidden = true;
+  try {
+    const r = await fetch('data.json?v=' + Date.now(), { cache: 'no-store' }); const j = await r.json();
+    S.persons = j.persons?.items || j.persons || {}; S.unions = j.unions?.items || j.unions || {};
+  } catch (e) { toast('Не удалось загрузить данные дерева'); }
+  S.loaded = true; render();
+}
+function setEditVisible(v) { $('#editBtn').hidden = !v; $('#loadBtn').hidden = !v; }
+function syncEditBtn() { $('#editBtn').setAttribute('aria-pressed', S.edit); $('#svg').classList.toggle('editing', S.edit); renderPanel(); if (S.edit && !syncEditBtn.told) { syncEditBtn.told = true; toast('Карточки можно перетаскивать влево и вправо, чтобы поменять порядок детей'); } }
+
+/* ---------- export / import ---------- */
+function dlg(html, actions) {
+  $('#dlgbox').innerHTML = html + `<div class="acts">${actions.map((a, i) => `<button class="btn ${a.cls || ''}" data-i="${i}">${a.label}</button>`).join('')}</div>`;
+  $('#dlg').classList.add('on');
+  $('#dlgbox').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; $('#dlg').classList.remove('on'); actions[+b.dataset.i].run?.(); };
+}
+$('#saveBtn').onclick = async () => {
+  const data = JSON.stringify({ app: 'family-tree', version: 1, persons: S.persons, unions: S.unions }, null, 1);
+  try { const d = await window.claude.use('downloads'); if (!d) throw 0; await d.save({ filename: 'semeynoe-derevo.json', data }); toast('Копия сохранена'); }
+  catch (e) { if (e && e.code === 'declined') return; navigator.clipboard?.writeText(data).then(() => toast('Скачивание недоступно, данные скопированы в буфер'), () => toast('Не удалось сохранить файл')); }
+};
+$('#loadBtn').onclick = () => $('#file').click();
+$('#file').onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  try {
+    const j = JSON.parse(await f.text()); const P = j.persons?.items || j.persons, U = j.unions?.items || j.unions;
+    if (!P || !U || typeof P !== 'object') throw 0;
+    const n = Object.keys(P).length, cur = Object.keys(S.persons).length;
+    dlg(`<p>Заменить текущие данные${cur ? ` (${cur} чел.)` : ''} данными из файла (${n} чел.)?</p>`, [{ label: 'Отмена' }, { label: 'Заменить', cls: 'primary', run: () => { S.persons = P; S.unions = U; S.sel = null; S.mode = { t: 'all' }; commit({ all: true }); S.loaded = true; render(); } }]);
+  } catch (err) { toast('Не удалось прочитать файл. Нужен файл, сохранённый кнопкой «Сохранить копию».'); }
+};
+$('#editBtn').onclick = () => { S.edit = !S.edit; S.form = null; syncEditBtn(); if (S.edit && !S.sel && !Object.keys(S.persons).length) renderEmpty(); };
+
+/* ---------- search ---------- */
+const hdr = $('header');
+$('#sBtn').onclick = () => { const on = !hdr.classList.contains('searching'); hdr.classList.toggle('searching', on); hdr.classList.remove('menu-open'); $('#sBtn').setAttribute('aria-pressed', on); $('#mBtn').setAttribute('aria-pressed', false); if (on) setTimeout(() => $('#q').focus(), 30); else { $('#results').hidden = true; } };
+$('#mBtn').onclick = (e) => { e.stopPropagation(); const on = !hdr.classList.contains('menu-open'); hdr.classList.toggle('menu-open', on); $('#mBtn').setAttribute('aria-pressed', on); };
+document.addEventListener('click', (e) => { if (hdr.classList.contains('menu-open') && !e.target.closest('.tools') && !e.target.closest('#mBtn')) { hdr.classList.remove('menu-open'); $('#mBtn').setAttribute('aria-pressed', false); } });
+$('.tools').addEventListener('click', (e) => { if (e.target.closest('.btn') && hdr.classList.contains('menu-open')) setTimeout(() => { hdr.classList.remove('menu-open'); $('#mBtn').setAttribute('aria-pressed', false); }, 0); });
+const q = $('#q'), res = $('#results');
+q.addEventListener('input', () => {
+  const v = q.value.trim().toLowerCase(); if (!v) { res.hidden = true; return; }
+  const hits = Object.values(S.persons).filter((p) => p.name !== '?' && (p.name + ' ' + p.surname).toLowerCase().includes(v)).slice(0, 14);
+  res.innerHTML = hits.length ? hits.map((p) => { const ps = parentsOf(p.id).map((x) => S.persons[x].name).join(' и '); return `<button data-id="${esc(p.id)}">${esc(nameOf(p.id))}<small>${ps ? 'родители: ' + esc(ps) : 'основатель ветки'}</small></button>`; }).join('') : `<button disabled>Никого не найдено</button>`;
+  res.hidden = false;
+});
+res.addEventListener('click', (e) => { const b = e.target.closest('button[data-id]'); if (!b) return; res.hidden = true; q.value = ''; q.blur(); if (matchMedia('(max-width:760px)').matches) { hdr.classList.remove('searching'); $('#sBtn').setAttribute('aria-pressed', false); } select(b.dataset.id, true); });
+document.addEventListener('click', (e) => { if (!e.target.closest('.search')) res.hidden = true; });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if ($('#dlg').classList.contains('on')) $('#dlg').classList.remove('on'); else if (!res.hidden) res.hidden = true; else deselect(); } });
+
+/* ---------- drag to reorder siblings (edit mode) ---------- */
+function dragTarget(el) {
+  if (!L || el.classList.contains('dup')) return null;
+  const node = L.nodes[+el.dataset.n]; if (!node || !node.pnode) return null;
+  const kid = node.persons[node.ai], uid = X.par[kid], u = S.unions[uid]; if (!u) return null;
+  const sibs = u.children.filter((c) => L.cardNode[c] != null);
+  return sibs.length > 1 ? { node, kid, uid } : null;
+}
+let drag = null;
+function dragStart(e, el) {
+  const t = dragTarget(el); if (!t) return false;
+  const els = [...$('#svg').querySelectorAll(`.card[data-n="${t.node.id}"]`)].map((g) => { const m = /translate\(([-\d.]+),([-\d.]+)\)/.exec(g.getAttribute('transform')); return { g, x: +m[1], y: +m[2] }; });
+  drag = { ...t, x0: e.clientX, dx: 0, moved: false, els, id: e.pointerId };
+  try { $('#wrap').setPointerCapture(e.pointerId); } catch (err) {}
+  return true;
+}
+function dragMove(e) {
+  if (!drag) return;
+  drag.dx = (e.clientX - drag.x0) / curK;
+  if (Math.abs(drag.dx) > 4) drag.moved = true;
+  if (drag.moved) drag.els.forEach((o) => { o.g.setAttribute('transform', `translate(${o.x + drag.dx},${o.y})`); o.g.classList.add('dragging'); });
+}
+function dragEnd() {
+  if (!drag) return; const d = drag; drag = null;
+  if (!d.moved) return;
+  skipClick = true;
+  const u = S.unions[d.uid], key = (c) => { const n = L.nodes[L.cardNode[c]]; const i = Math.max(0, n.persons.indexOf(c)); return n.px[i] + CW / 2 + (n === d.node ? d.dx : 0) - n.y * 0.001; };
+  const present = u.children.filter((c) => L.cardNode[c] != null), sorted = present.slice().sort((a, b) => key(a) - key(b));
+  const next = u.children.map((c) => (present.includes(c) ? sorted.shift() : c));
+  if (next.join() === u.children.join()) { render({ fit: false }); return; }
+  u.children = next; commit({ u: [u.id] }); render({ fit: false }); toast('Порядок сохранён');
+}
+
+/* ---------- canvas events ---------- */
+const svgEl = $('#wrap');
+let downAt = null, lastTap = null, skipClick = false;
+function isolate(pid) { S.sel = pid; setMode({ t: 'node', id: clusterAnchor(pid) }, { keepSel: true, zoomSel: true }); }
+svgEl.addEventListener('pointermove', dragMove);
+svgEl.addEventListener('pointerup', dragEnd);
+svgEl.addEventListener('pointercancel', () => { if (drag) { drag = null; render({ fit: false }); } });
+svgEl.addEventListener('pointerdown', (e) => {
+  if (uiHit(e)) return;
+  downAt = [e.clientX, e.clientY];
+  const now = performance.now(), c = e.target.closest('.card');
+  if (S.edit && c && !e.button && dragStart(e, c)) { lastTap = null; return; }
+  if (lastTap && lastTap.id && now - lastTap.t < 420 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 12) {
+    const id = lastTap.id; lastTap = null; skipClick = true; isolate(id); return;
+  }
+  lastTap = { t: now, x: e.clientX, y: e.clientY, id: c ? c.dataset.id : null };
+});
+const uiHit = (e) => !!e.target.closest('button, .crumbs, .zoomctl, .legend, #empty');
+svgEl.addEventListener('click', (e) => {
+  if (uiHit(e)) return;
+  if (skipClick) { skipClick = false; return; }
+  if (downAt && Math.hypot(e.clientX - downAt[0], e.clientY - downAt[1]) > 5) return;
+  let c = e.target.closest('.card');
+  if (!c) { let best = 28 * 28; for (const el of $('#svg').querySelectorAll('.card')) { const r = el.getBoundingClientRect(), dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right), dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom), d = dx * dx + dy * dy; if (d < best) { best = d; c = el; } } }
+  if (c) select(c.dataset.id, true); else if (S.sel) deselect();
+});
+$('#zin').onclick = () => zoomBy(1.4); $('#zout').onclick = () => zoomBy(1 / 1.4);
+$('#zfit').onclick = () => fitBox(L ? L.bbox : [0, 0, 1, 1], { maxK: 1 });
+
+$('#skinBtn').onclick = () => setSkin(S.skin === 'wall' ? 'forest' : 'wall');
+document.documentElement.dataset.skin = S.skin;
+$('#skinBtn').textContent = 'Стиль: ' + (S.skin === 'wall' ? 'Стена' : 'Лес');
+initZoom();
+render();
+let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { if (L && tuneForScreen() !== layout.tuned) render(); else limitZoom(); }, 250); });
+connect();
+})();
+</script>
+
+</body>
+</html>
