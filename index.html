@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f8f1e0">
+<meta name="theme-color" content="#6a4529">
 <title>Семейное дерево</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,17 +11,17 @@
 <style>
 /* Layout: toolbar on top, branch chips under it, a green wooden panel with three trees fills the rest; details dock right (bottom sheet on phones). */
 :root {
-  --bg: #efe5cf;
-  --panel: #f8f1e0;
-  --ink: #2e2616;
-  --muted: #75694f;
-  --line: #d6c8a6;
+  --bg: #f3f6ef;
+  --panel: #efe3d0;
+  --ink: #2f241a;
+  --muted: #7a6a58;
+  --line: #d9c8ae;
   --conn: #6e5233;
-  --accent: #7a5c1c;
-  --accent-ink: #fff8e4;
-  --accent-soft: #eadcb6;
+  --accent: #6b4a2f;
+  --accent-ink: #ffffff;
+  --accent-soft: #e6d3b8;
   --danger: #b3261e;
-  --title: #5a4410; --field: rgba(255,255,255,.55);
+  --title: #4a3220; --field: rgba(255,255,255,.7);
   --gold: #e2bf5c; --gold-d: #9a7b2c;
   --parch: #efe3c3; --parch-d: #a99568; --pen: #3a2a14;
   --bark: #3a2817; --bark-hi: #8a6a44; --bark-d: #1c1209;
@@ -34,9 +34,7 @@
   color-scheme: light;
 }
 :root[data-skin="wall"] {
-  --bg: #e8e3d6; --panel: #f6f2e8; --ink: #2b261d; --muted: #6c675a; --line: #cdc6b3;
-  --accent: #5d7340; --accent-ink: #ffffff; --accent-soft: #e0e7d0; --danger: #b3261e;
-  --title: #4d5e31; --field: rgba(255,255,255,.65);
+  --bg: #f6f6f5;
   --bark: #4a3a2d; --bark-hi: #8b7765; --bark-d: #2c2119;
   --gold: #cdaa55; --gold-d: #8a6f2c; --parch: #d9bd73; --parch-d: #8a6f2c; --pen: #3a2d12;
   --m-bg: #d5d8da; --m-sil: #2f2c28; --f-bg: #e5d6d3; --f-sil: #3a2c2a; --u-bg: #dcd9cf; --u-sil: #77736a;
@@ -87,19 +85,17 @@ header { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; pa
 main { flex: 1; min-height: 0; display: flex; position: relative; }
 #wrap { flex: 1; min-width: 0; position: relative; overflow: hidden;
   background:
-    radial-gradient(ellipse at 50% 38%, rgba(255,250,235,.7), transparent 62%),
-    linear-gradient(#f6eedb, #e9dcbc); }
-#wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .12; mix-blend-mode: multiply;
+    radial-gradient(ellipse at 50% 38%, rgba(255,255,255,.65), transparent 62%),
+    linear-gradient(#f3f7ee, #e1ebd5); }
+#wrap::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .05; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.004 0.22' numOctaves='3' seed='7'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
-#wrap::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(140,110,50,.2) 100%); }
-:root[data-skin="wall"] #wrap::before { opacity: .35; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
-:root[data-skin="wall"] #wrap::after { background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(120,100,60,.16) 100%); }
+#wrap::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(80,110,60,.14) 100%); }
+:root[data-skin="wall"] #wrap::before { opacity: .12; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500'><filter id='n' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .3  0 0 0 0 .22  0 0 0 .28 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+:root[data-skin="wall"] #wrap::after { background: radial-gradient(ellipse at 50% 45%, transparent 62%, rgba(0,0,0,.06) 100%); }
 :root[data-skin="wall"] #wrap {
   background:
-    radial-gradient(ellipse 38% 30% at 16% 24%, rgba(110,135,100,.22), transparent 70%),
-    radial-gradient(ellipse 34% 34% at 84% 30%, rgba(140,165,170,.26), transparent 70%),
-    radial-gradient(ellipse 44% 30% at 58% 88%, rgba(160,140,100,.2), transparent 70%),
-    linear-gradient(#f3f0e8, #e8e3d6); }
+    radial-gradient(ellipse at 50% 35%, #ffffff, transparent 65%),
+    linear-gradient(#fbfbfa, #ebedeb); }
 #wrap { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
 #wrap:active { cursor: grabbing; }
 /* the drawing is a plain SVG moved by a CSS transform, so panning is a cheap compositor move instead of a full repaint */
@@ -111,14 +107,14 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 #stage:has(#svg.has-sel) #fol { opacity: .38; }
 .crumbs { position: absolute; left: 12px; top: 10px; right: 120px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 13px; pointer-events: none; }
 .crumbs > * { pointer-events: auto; }
-.crumbs button { background: var(--panel); border: 1px solid var(--line); border-radius: 7px; padding: 3px 9px; }
+.crumbs button { background: rgba(255,255,255,.92); border: 1px solid var(--line); border-radius: 7px; padding: 3px 9px; }
 .crumbs button:hover { border-color: var(--accent); }
 .crumbs .sep { color: var(--muted); }
 .crumbs b { background: var(--panel); border: 1px solid var(--line); border-radius: 7px; padding: 3px 9px; color: var(--title); }
 .zoomctl { position: absolute; right: 12px; top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.zoomctl button { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel); font-size: 18px; line-height: 1; }
+.zoomctl button { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: rgba(255,255,255,.92); color: var(--accent); font-size: 18px; line-height: 1; }
 .zoomctl button:hover { border-color: var(--accent); }
-.legend { position: absolute; left: 12px; bottom: 10px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); background: rgba(248,241,224,.85); padding: 5px 9px; border-radius: 8px; max-width: calc(100% - 24px); }
+.legend { position: absolute; left: 12px; bottom: 10px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); background: rgba(255,255,255,.85); padding: 5px 9px; border-radius: 8px; max-width: calc(100% - 24px); }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 11px; height: 14px; border-radius: 50%; border: 2px solid var(--gold); display: inline-block; }
 .legend .lm { background: var(--m-bg); }
@@ -216,7 +212,7 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 .box h4 { margin: 0 0 4px; font-size: 14px; }
 .warn { color: var(--danger); font-size: 13px; line-height: 1.4; }
 
-#toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--parch); color: var(--pen); padding: 9px 14px; border-radius: 10px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 50; max-width: 90vw; }
+#toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--panel); color: var(--ink); border: 1px solid var(--line); padding: 9px 14px; border-radius: 10px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 50; max-width: 90vw; }
 #toast.on { opacity: 1; }
 #dlg { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: none; place-items: center; z-index: 60; padding: 16px; }
 #dlg.on { display: grid; }
@@ -224,6 +220,27 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 #dlg p { margin: 0; line-height: 1.5; }
 #dlg .acts { margin: 0; justify-content: flex-end; }
 
+
+/* top bars: dark walnut with a real wood grain (noise stretched along the board) */
+header, #chips { background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='240'><filter id='a' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.0025 0.11' numOctaves='4' seed='8'/><feColorMatrix values='0 0 0 0 0.17  0 0 0 0 0.09  0 0 0 0 0.04  -2.2 0 0 0 1.45'/></filter><filter id='b' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.0015 0.05' numOctaves='3' seed='3'/><feColorMatrix values='0 0 0 0 0.93  0 0 0 0 0.76  0 0 0 0 0.55  2.4 0 0 0 -1.25'/></filter><filter id='c' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.9 0.02' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.1  0 0 0 0 0.05  0 0 0 0 0.02  0 0 0 0.35 0'/></filter><rect width='100%' height='100%' filter='url(%23b)'/><rect width='100%' height='100%' filter='url(%23a)'/><rect width='100%' height='100%' filter='url(%23c)' opacity='.6'/></svg>") 0 0 / 100% 240px no-repeat, linear-gradient(180deg, #7b5334 0%, #6a4529 55%, #5b3a22 100%); border-bottom: 1px solid #3f2816; color: #fbf3e6; }
+#chips { background-position: 0 -120px, 0 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.08); }
+header .brand h1 { color: #fff7ea; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
+header .brand span, #chips b { color: rgba(251,243,230,.78); }
+header .tabs { background: rgba(0,0,0,.2); border-color: rgba(255,255,255,.16); }
+header .tabs button { color: rgba(251,243,230,.82); }
+header .tabs button:hover { color: #fff; }
+header .tabs button[aria-pressed="true"] { background: #f1e2cc; color: #4a3220; }
+header .btn, header .ibtn, .chip { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.26); color: #fbf3e6; }
+header .btn:hover, .chip:hover { border-color: rgba(255,255,255,.6); }
+header .btn[aria-pressed="true"], header .ibtn[aria-pressed="true"] { background: #f1e2cc; color: #4a3220; border-color: #f1e2cc; }
+.chip i { color: #f3d7a6; }
+header .search input { background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.28); color: #fff; }
+header .search input::placeholder { color: rgba(251,243,230,.72); }
+header .results { color: var(--ink); }
+/* the person card and the phone bar: light brown */
+#panel { background: var(--panel); }
+#panel .btn { background: rgba(255,255,255,.65); }
+#panel .btn.primary { background: var(--accent); color: #fff; }
 @media (max-width: 760px) {
   /* phone: one compact title row with search and menu icons, the tree gets the rest of the screen */
   header { padding: 8px 10px 6px; gap: 6px; position: relative; }
@@ -237,7 +254,7 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
   .search { flex: 1 1 100%; } .search input { width: 100%; max-width: none; font-size: 16px; padding: 9px 12px; }
   header.menu-open .tools { display: flex; flex-direction: column; align-items: stretch; position: absolute; right: 10px; top: 54px; width: 210px; z-index: 50; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px; box-shadow: 0 10px 30px rgba(40,30,10,.25); }
   header.menu-open .tools .search { display: none; }
-  header.menu-open .tools .btn { padding: 10px 12px; text-align: left; }
+  header.menu-open .tools .btn { padding: 10px 12px; text-align: left; background: rgba(255,255,255,.65); color: var(--ink); border-color: var(--line); }
   .results { max-height: 50vh; }
   #chips { padding: 6px 12px; }
   .crumbs { right: 56px; left: 8px; top: 8px; }
@@ -843,7 +860,7 @@ function render(opts = {}) {
 function setSkin(k) {
   S.skin = k; document.documentElement.dataset.skin = k;
   try { localStorage.setItem('tree-skin', k); } catch (e) {}
-  $('#skinBtn').textContent = 'Стиль: ' + (k === 'wall' ? 'Стена' : 'Лес');
+  $('#skinBtn').textContent = 'Стиль: ' + (k === 'wall' ? 'Светлый' : 'Лес');
   if (L) render({ fit: false });
 }
 function plural(n, a, b, c) { const m = n % 100, d = n % 10; return m > 10 && m < 20 ? c : d === 1 ? a : d > 1 && d < 5 ? b : c; }
@@ -951,7 +968,15 @@ function fitK(b) {
 }
 function limitZoom() {
   if (!L || !zoomB) return;
-  const b = L.bbox, W = $('#wrap').clientWidth || 1, H = $('#wrap').clientHeight || 1, kMin = Math.min(1, fitK(b)) * 0.9;
+  const b = L.bbox, W = $('#wrap').clientWidth || 1, H = $('#wrap').clientHeight || 1;
+  if (isPhone()) {
+    /* phone: never smaller than half of the start view (trees filling the screen height), and no drifting off the edges */
+    const kH = Math.min(1, (H - 90) / (b[3] - b[1]));
+    zoomB.scaleExtent([Math.max(Math.min(1, fitK(b)) * 0.9, kH * 0.5), 3]);
+    zoomB.translateExtent([[b[0] - 40, b[1] - 60], [b[2] + 40, b[3] + 90]]);
+    return;
+  }
+  const kMin = Math.min(1, fitK(b)) * 0.9;
   zoomB.scaleExtent([kMin, 3]);
   const mx = Math.max(120, W * 0.25 / kMin * 0.2), my = Math.max(120, H * 0.25 / kMin * 0.2);
   zoomB.translateExtent([[b[0] - mx, b[1] - my], [b[2] + mx, b[3] + my + H * 0.45 / kMin]]);
@@ -1451,11 +1476,13 @@ svgEl.addEventListener('click', (e) => {
   if (c) select(c.dataset.id, true); else if (S.sel) deselect();
 });
 $('#zin').onclick = () => zoomBy(1.4); $('#zout').onclick = () => zoomBy(1 / 1.4);
-$('#zfit').onclick = () => fitBox(L ? L.bbox : [0, 0, 1, 1], { maxK: 1 });
+$('#zfit').onclick = () => { if (L && isPhone() && S.mode.t === 'all' && L.tops.length > 1) phoneView(); else fitBox(L ? L.bbox : [0, 0, 1, 1], { maxK: 1 }); };
+/* Safari: stop the whole page from pinch-zooming; pinch zooms the tree instead */
+document.addEventListener('gesturestart', (e) => e.preventDefault());
 
 $('#skinBtn').onclick = () => setSkin(S.skin === 'wall' ? 'forest' : 'wall');
 document.documentElement.dataset.skin = S.skin;
-$('#skinBtn').textContent = 'Стиль: ' + (S.skin === 'wall' ? 'Стена' : 'Лес');
+$('#skinBtn').textContent = 'Стиль: ' + (S.skin === 'wall' ? 'Светлый' : 'Лес');
 initZoom();
 render();
 let rsT; addEventListener('resize', () => { clearTimeout(rsT); rsT = setTimeout(() => { if (L && tuneForScreen() !== layout.tuned) render(); else limitZoom(); }, 250); });
