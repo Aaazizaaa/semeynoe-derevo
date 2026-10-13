@@ -100,9 +100,9 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 #wrap:active { cursor: grabbing; }
 /* the drawing is a plain SVG moved by a CSS transform, so panning is a cheap compositor move instead of a full repaint */
 #stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
-#stage.moving { will-change: transform; }
-#fol, #svg { position: absolute; left: 0; top: 0; display: block; }
-#fol { pointer-events: none; }
+#stage { will-change: transform; }
+#fol, #brc, #svg { position: absolute; left: 0; top: 0; display: block; }
+#fol, #brc { pointer-events: none; }
 #svg { overflow: visible; }
 #stage:has(#svg.has-sel) #fol { opacity: .38; }
 .crumbs { position: absolute; left: 12px; top: 10px; right: 120px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 13px; pointer-events: none; }
@@ -291,7 +291,7 @@ header .results { color: var(--ink); }
   <div id="chips"></div>
   <main>
     <div id="wrap">
-      <div id="stage"><canvas id="fol" aria-hidden="true"></canvas><svg id="svg" role="img" aria-label="Семейное дерево"><defs>
+      <div id="stage"><canvas id="fol" aria-hidden="true"></canvas><canvas id="brc" aria-hidden="true"></canvas><svg id="svg" role="img" aria-label="Семейное дерево"><defs>
         <linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc8c"/><stop offset=".5" stop-color="#c79a35"/><stop offset="1" stop-color="#f0d27a"/></linearGradient>
         <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6cb85"/><stop offset=".55" stop-color="#c9a55b"/><stop offset="1" stop-color="#b08d40"/></linearGradient>
         <radialGradient id="blobg"><stop offset="0" style="stop-color:var(--shade);stop-opacity:.5"/><stop offset=".55" style="stop-color:var(--shade);stop-opacity:.32"/><stop offset="1" style="stop-color:var(--shade);stop-opacity:0"/></radialGradient>
@@ -844,12 +844,12 @@ function render(opts = {}) {
   L.branches.forEach((b) => foliage(b, B));
   L.cards.forEach((c) => { if (!c.ghost) haloLeaves(c, B); });
   const CR = crown(L);
-  $('#vp').innerHTML = L.branches.map(branchSvg).join('') + L.banners.map(bannerSvg).join('') +
+  $('#vp').innerHTML = L.banners.map(bannerSvg).join('') +
     L.links.map((l) => `<path class="dupu" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/><path class="dupl" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/>` + (l.ring ? `<g class="rings" data-n="${l.n}" data-n2="${l.n2}" transform="translate(${f1(l.ring[0])},${f1(l.ring[1])})"><circle cx="-6" r="9"/><circle cx="6" r="9"/></g>` : '')).join('') +
     L.knots.map((k) => `<circle class="knot" data-n="${k.n}" cx="${k.x}" cy="${k.y}" r="6"/>`).join('') +
     L.cards.map(cardSvg).join('');
   setWorld([L.bbox[0] - 450, L.bbox[1] - 450, L.bbox[2] + 450, L.bbox[3] + 120]);
-  paintFoliage(B, CR); limitZoom();
+  paintFoliage(B, CR); selNodes = null; paintBranches(); limitZoom();
   const total = Object.keys(S.persons).length;
   $('#count').textContent = total ? `${total} ${plural(total, 'человек', 'человека', 'человек')}` : '';
   renderTabs(); renderChips(); renderCrumbs(); renderEmpty(); renderPanel();
@@ -867,7 +867,7 @@ function plural(n, a, b, c) { const m = n % 100, d = n % 10; return m > 10 && m 
 function applySel() {
   const svg = $('#svg'); const all = svg.querySelectorAll('[data-n]');
   svg.querySelectorAll('.sel').forEach((e) => e.classList.remove('sel'));
-  if (!S.sel || L.cardNode[S.sel] == null) { svg.classList.remove('has-sel'); all.forEach((e) => e.classList.remove('in')); return; }
+  if (!S.sel || L.cardNode[S.sel] == null) { svg.classList.remove('has-sel'); all.forEach((e) => e.classList.remove('in')); setSelNodes(null); return; }
   const nid = L.cardNode[S.sel], br = new Set(), an = new Set();
   const walk = (n) => { br.add(n.id); n.groups.forEach((g) => g.kids.forEach((k) => !k.ghost && walk(k))); };
   walk(L.nodes[nid]);
@@ -875,6 +875,7 @@ function applySel() {
   svg.classList.add('has-sel');
   all.forEach((e) => { const n = +e.dataset.n, n2 = e.dataset.n2 != null ? +e.dataset.n2 : -1; e.classList.toggle('in', br.has(n) || an.has(n) || br.has(n2)); });
   svg.querySelectorAll(`.card[data-id="${CSS.escape(S.sel)}"]:not(.ghost)`).forEach((e) => e.classList.add('sel'));
+  setSelNodes(new Set([...br, ...an]));
 }
 
 /* ---------- foliage is painted once into a canvas behind the SVG: thousands of leaves as vector shapes made panning and zooming crawl ---------- */
@@ -944,12 +945,53 @@ function paintNow(B, CR) {
   for (const n of Object.keys(B)) { const bk = B[n], SK = SPECIES[bk.sp]; paintBucket(g, bk, SK.cols, FRUIT[SK.fruit] || [], stem); }
 }
 
+
+/* ---------- trunks and branches are painted into their own canvas too: as vector shapes they made dragging stutter on phones ---------- */
+let selNodes = null;
+function setSelNodes(ns) { const k = ns ? [...ns].sort().join() : ''; if (k === setSelNodes.k) return; setSelNodes.k = k; selNodes = ns; paintBranches(); }
+function branchGeom(b) {
+  if (b.geo) return b.geo;
+  const out = [];
+  if (b.k === 'knob') { const p = new Path2D(); p.ellipse(b.x, b.y, b.r * 1.05, b.r * 1.25, 0, 0, Math.PI * 2); out.push(['f', p]); }
+  else if (b.k === 'bar') out.push(['s', new Path2D(b.d), b.w, 'bark']);
+  else if (b.k === 'tw') out.push(['s', new Path2D(`M${b.pts[0]}C${b.pts[1]} ${b.pts[2]} ${b.pts[3]}`), b.w0, 'bark']);
+  else {
+    const sm = sampleBranch(b, 22), Ls = sm.map((q) => [q.x + q.nx * q.w / 2, q.y + q.ny * q.w / 2]), Rs = sm.map((q) => [q.x - q.nx * q.w / 2, q.y - q.ny * q.w / 2]).reverse();
+    out.push(['f', new Path2D(polyD(Ls) + 'L' + Rs.map((p) => f1(p[0]) + ',' + f1(p[1])).join('L') + 'Z')]);
+    if (b.w0 > 7) {
+      out.push(['s', new Path2D(polyD(sm.map((q) => [q.x + q.nx * q.w * 0.24, q.y + q.ny * q.w * 0.24]))), Math.max(1, b.w0 * 0.1), 'hi']);
+      out.push(['s', new Path2D(polyD(sm.map((q) => [q.x - q.nx * q.w * 0.18, q.y - q.ny * q.w * 0.18]))), Math.max(1, b.w0 * 0.08), 'dk']);
+      if (b.w0 > 14) out.push(['s', new Path2D(polyD(sm.map((q) => [q.x + q.nx * q.w * 0.04, q.y + q.ny * q.w * 0.04]))), 1.1, 'dk']);
+    }
+  }
+  return (b.geo = out);
+}
+function paintBranches() {
+  if (!L) return;
+  cancelAnimationFrame(paintBranches.raf);
+  paintBranches.raf = requestAnimationFrame(() => {
+    const cv = $('#brc'), w = world[2] - world[0], h = world[3] - world[1];
+    const rs = Math.min(devicePixelRatio > 1 ? 1.6 : 1, Math.sqrt((isPhone() ? 6e6 : 10e6) / (w * h)));
+    cv.width = Math.max(1, Math.round(w * rs)); cv.height = Math.max(1, Math.round(h * rs)); cv.style.width = w + 'px'; cv.style.height = h + 'px';
+    const g = cv.getContext('2d'), cs = getComputedStyle(document.documentElement), V = (n, d) => cs.getPropertyValue(n).trim() || d;
+    const bark = V('--bark', '#3a2817'), hi = V('--bark-hi', '#8a6a44'), dk = V('--bark-d', '#1c1209'), SPC = { pine: '#4b2a1c', poplar: '#6a6253' };
+    g.setTransform(rs, 0, 0, rs, -world[0] * rs, -world[1] * rs); g.lineCap = 'round'; g.lineJoin = 'round';
+    for (const b of L.branches) {
+      g.globalAlpha = selNodes && !selNodes.has(b.n) ? 0.26 : 1;
+      const fill = SPC[spN(b.n)] || bark;
+      for (const [k, p, wd, c] of branchGeom(b)) {
+        if (k === 'f') { g.fillStyle = fill; g.fill(p); g.strokeStyle = dk; g.lineWidth = 0.8; g.stroke(p); }
+        else { const a = g.globalAlpha; if (c !== 'bark') g.globalAlpha = a * 0.55; g.strokeStyle = c === 'hi' ? hi : c === 'dk' ? dk : bark; g.lineWidth = wd; g.stroke(p); g.globalAlpha = a; }
+      }
+    }
+  });
+}
+
 /* ---------- zoom ---------- */
 let curT = { x: 0, y: 0, k: 1 }, world = [0, 0, 1, 1];
 function applyT() {
   const el = $('#stage'), t = curT;
   el.style.transform = `translate(${t.x + world[0] * t.k}px,${t.y + world[1] * t.k}px) scale(${t.k})`;
-  el.classList.add('moving'); clearTimeout(applyT.h); applyT.h = setTimeout(() => el.classList.remove('moving'), 220);
 }
 function setWorld(b) {
   world = b; const el = $('#svg'); $('#stage').style.width = (b[2] - b[0]) + 'px'; $('#stage').style.height = (b[3] - b[1]) + 'px';
@@ -1319,7 +1361,7 @@ function applyRel() {
   if (!S.rel) return;
   const svg = $('#svg'), all = svg.querySelectorAll('[data-n]'), ps = new Set([...S.rel.ab.path, ...S.rel.ba.path]);
   const ns = new Set([...ps].map((p) => L.cardNode[p]).filter((x) => x != null));
-  svg.classList.add('has-sel');
+  svg.classList.add('has-sel'); setSelNodes(ns);
   all.forEach((e) => { const n = +e.dataset.n, n2 = e.dataset.n2 != null ? +e.dataset.n2 : -1; e.classList.toggle('in', ns.has(n) && (e.classList.contains('card') ? ps.has(e.dataset.id) : true) || (ns.has(n) && ns.has(n2))); });
   svg.querySelectorAll('.card.sel').forEach((e) => e.classList.remove('sel'));
   [S.rel.a, S.rel.b].forEach((p) => svg.querySelectorAll(`.card[data-id="${CSS.escape(p)}"]:not(.dup)`).forEach((e) => e.classList.add('sel')));
