@@ -1452,6 +1452,16 @@
    "parentUnion": "u5",
    "surname": "Каршиева"
   },
+  "p230": {
+   "birth": "",
+   "death": "",
+   "gender": "f",
+   "id": "p230",
+   "name": "Мубина",
+   "note": "",
+   "parentUnion": "u57",
+   "surname": ""
+  },
   "p24": {
    "birth": "",
    "death": "",
@@ -2936,7 +2946,8 @@
   "u57": {
    "anchor": "",
    "children": [
-    "p201"
+    "p201",
+    "p230"
    ],
    "id": "u57",
    "partners": [
