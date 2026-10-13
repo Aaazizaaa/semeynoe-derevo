@@ -178,7 +178,7 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 .bk.sp-pine { fill: #4b2a1c; }
 .bk.sp-poplar { fill: #6a6253; }
 .bk { fill: var(--bark); stroke: var(--bark-d); stroke-width: .8; stroke-linejoin: round; }
-.bh { fill: none; stroke: var(--bark-hi); stroke-linecap: round; opacity: .55; }
+.bh { fill: none; stroke: var(--bark-hi); stroke-linecap: round; opacity: .8; }
 .bd { fill: none; stroke: var(--bark-d); stroke-linecap: round; opacity: .55; }
 .tw { fill: none; stroke: var(--bark); stroke-linecap: round; }
 .stm { fill: none; stroke: var(--bark-hi); stroke-width: 1.1; stroke-linecap: round; }
@@ -291,7 +291,7 @@ header .results { color: var(--ink); }
   <div id="chips"></div>
   <main>
     <div id="wrap">
-      <div id="stage"><canvas id="fol" aria-hidden="true"></canvas><canvas id="brc" aria-hidden="true"></canvas><svg id="svg" role="img" aria-label="Семейное дерево"><defs>
+      <div id="stage"><canvas id="fol" aria-hidden="true"></canvas><svg id="svg" role="img" aria-label="Семейное дерево"><defs>
         <linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc8c"/><stop offset=".5" stop-color="#c79a35"/><stop offset="1" stop-color="#f0d27a"/></linearGradient>
         <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6cb85"/><stop offset=".55" stop-color="#c9a55b"/><stop offset="1" stop-color="#b08d40"/></linearGradient>
         <radialGradient id="blobg"><stop offset="0" style="stop-color:var(--shade);stop-opacity:.5"/><stop offset=".55" style="stop-color:var(--shade);stop-opacity:.32"/><stop offset="1" style="stop-color:var(--shade);stop-opacity:0"/></radialGradient>
@@ -580,7 +580,7 @@ function layout() {
       }
       if (g.gw <= 0) continue;
       const tot = g.kids.reduce((s, k) => s + (k.ghost ? 0 : 1 + dc(k)), 0), R = rng(lk.u.id + 'g');
-      const fy = fy0 ?? n.y - (LV - CH) * 0.42, trW = clamp(9 + 3.1 * Math.sqrt(tot), 9, 50);
+      const fy = fy0 ?? n.y - (LV - CH) * 0.42, trW = clamp(13 + 3.8 * Math.sqrt(tot), 13, 60);
       const trunkBase = top && lk.a !== lk.b;
       const by = trunkBase ? 70 : ay, bw = trunkBase ? clamp(trW * 2.3, 64, 124) : trW, sway = (R() - 0.5) * 16;
       if (trunkBase) {
@@ -598,23 +598,23 @@ function layout() {
       if (g.stack) {
         const bot = g.kids[0].y + CH - 6;
         for (let j = 0; j < g.cols; j++) {
-          const sx = colX(g, j) + 8, ks = g.kids.slice(j * SROWS, j * SROWS + SROWS), lastCy = ks[ks.length - 1].y + MY, sw0 = clamp(trW * 0.7, 6, 18);
+          const sx = colX(g, j) + 8, ks = g.kids.slice(j * SROWS, j * SROWS + SROWS), lastCy = ks[ks.length - 1].y + MY, sw0 = clamp(trW * 0.75, 10, 24);
           out.branches.push({ k: 'br', pts: [[ax, fy], [ax + (sx - ax) * 0.2, fy - (fy - bot) * 0.5], [sx, bot + (fy - bot) * 0.35], [sx, bot]], w0: sw0, w1: clamp(sw0 * 0.8, 5, 14), n: n.id, id: lk.u.id + 's1' + j, wob: 0.06 });
-          out.branches.push({ k: 'br', pts: [[sx, bot], [sx, bot + (lastCy - bot) * 0.33], [sx, bot + (lastCy - bot) * 0.66], [sx, lastCy]], w0: clamp(sw0 * 0.8, 5, 14), w1: 3.5, n: n.id, id: lk.u.id + 's2' + j, wob: 0.1 });
+          out.branches.push({ k: 'br', pts: [[sx, bot], [sx, bot + (lastCy - bot) * 0.33], [sx, bot + (lastCy - bot) * 0.66], [sx, lastCy]], w0: clamp(sw0 * 0.8, 8, 18), w1: 5, n: n.id, id: lk.u.id + 's2' + j, wob: 0.22 });
         }
         g.kids.forEach((k, i) => {
           const sx = colX(g, Math.floor(i / SROWS)) + 8;
           const cy = k.y + MY, mx = (k.ghost ? k.x : k.px[0]) + CW / 2 - MRX - 2;
-          tw([[sx, cy + 18], [sx + 18, cy + 18], [mx - 22, cy + 2], [mx, cy]], 3.4, (k.ghost || k.persons[0]) + 'b', 2);
+          out.branches.push({ k: 'br', pts: [[sx, cy + 22], [sx + 22, cy + 16], [mx - 26, cy + 6], [mx, cy]], w0: 7, w1: 4, n: n.id, id: (k.ghost || k.persons[0]) + 'b', wob: 0.2 });
           if (k.ghost) out.cards.push({ pid: k.ghost, x: k.x, y: k.y, n: n.id, ghost: true }); else emit(k, n);
         });
       } else {
         g.kids.forEach((k) => {
           const kx = k.ghost ? k.x + CW / 2 : k.px[k.ai] + CW / 2, ky = k.y + CH - 2;
           const kid = k.ghost || k.persons[k.ai], Rk = rng(kid + 'b');
-          const w = k.ghost ? 2.4 : clamp(6 + 2.9 * Math.sqrt(dc(k)), 6, 42), my = (fy + ky) / 2;
-          const p = [[ax, fy], [ax + (kx - ax) * 0.18 + (Rk() - 0.5) * 36, my + (fy - my) * 0.25], [kx + (Rk() - 0.5) * 40, my - (my - ky) * 0.1], [kx, ky]];
-          out.branches.push({ k: 'br', pts: p, w0: Math.min(trW * 0.95, w * 1.35), w1: Math.max(3.6, w * 0.6), n: n.id, id: kid + 'b', wob: 0.1 });
+          const w = k.ghost ? 4 : clamp(10 + 3.4 * Math.sqrt(dc(k)), 10, 48), my = (fy + ky) / 2, bend = (Rk() < 0.5 ? -1 : 1) * (40 + Rk() * 60);
+          const p = [[ax, fy], [ax + (kx - ax) * 0.35 + bend, my + (fy - my) * 0.35], [kx - bend * 0.7, my - (my - ky) * 0.25], [kx, ky]];
+          out.branches.push({ k: 'br', pts: p, w0: Math.min(trW * 0.95, w * 1.35), w1: Math.max(6, w * 0.62), n: n.id, id: kid + 'b', wob: 0.22 });
           if (k.ghost) out.cards.push({ pid: k.ghost, x: k.x, y: k.y, n: n.id, ghost: true }); else emit(k, n);
           /* the other parent lives in another branch: a second branch grows from that parent to the child */
           if (g.extPos) { const ex = g.extPos.x + CW / 2, ey = g.extPos.y + 4, Re = rng(kid + 'e'), m2 = (ey + ky) / 2; out.branches.push({ k: 'br', pts: [[ex, ey], [ex + (Re() - 0.5) * 30, m2 + (ey - m2) * 0.3], [kx + (ex - kx) * 0.3, m2 - (m2 - ky) * 0.2], [kx, ky]], w0: Math.max(5, w), w1: Math.max(3.6, w * 0.6), n: n.id, id: kid + 'e', wob: 0.1 }); }
@@ -685,7 +685,8 @@ function sampleBranch(b, N) {
     const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
     const base = b.w0 + (b.w1 - b.w0) * Math.pow(t, 0.85);
     const w = base * (1 + (b.wob || 0) * (Math.sin(t * 11 + ph) * 0.6 + Math.sin(t * 27 + ph2) * 0.4));
-    out.push({ x, y, dx, dy, nx: -dy, ny: dx, w, t });
+    const mz = (b.wob || 0) * 26 * Math.sin(t * 6.5 + ph2) * Math.sin(Math.PI * t);
+    out.push({ x: x - dy * mz, y: y + dx * mz, dx, dy, nx: -dy, ny: dx, w, t });
   }
   return out;
 }
@@ -715,7 +716,7 @@ function foliage(b, B) {
     dist += Math.hypot(sm[i].x - sm[i - 1].x, sm[i].y - sm[i - 1].y);
     if (dist < next) continue;
     dist = 0; next = SK.step * (0.7 + r() * 0.7);
-    const q = sm[i]; if (q.w > 15 || q.t < 0.6) continue;
+    const q = sm[i]; if (q.w > 26 || q.t < 0.3) continue;
     const side = r() < 0.5 ? -1 : 1, base = Math.atan2(q.dy, q.dx);
     const ang = base + side * (0.55 + r() * 0.7), len = SK.len[0] + r() * (SK.len[1] - SK.len[0]);
     addSprig(bk, SK, q.x + q.nx * side * q.w * 0.4, q.y + q.ny * side * q.w * 0.4, ang, len, r);
@@ -794,8 +795,8 @@ function branchSvg(b) {
   if (b.k === 'tw') return `<path class="tw" data-n="${b.n}" stroke-width="${f1(b.w0)}" d="M${b.pts[0]}C${b.pts[1]} ${b.pts[2]} ${b.pts[3]}"/>`;
   const sm = sampleBranch(b, 22), Ls = sm.map((q) => [q.x + q.nx * q.w / 2, q.y + q.ny * q.w / 2]), Rs = sm.map((q) => [q.x - q.nx * q.w / 2, q.y - q.ny * q.w / 2]).reverse();
   let h = `<path class="bk sp-${spN(b.n)}" data-n="${b.n}" d="${polyD(Ls)}L${Rs.map((p) => f1(p[0]) + ',' + f1(p[1])).join('L')}Z"/>`;
-  if (b.w0 > 7) {
-    h += `<path class="bh" data-n="${b.n}" stroke-width="${f1(Math.max(1, b.w0 * 0.1))}" d="${polyD(sm.map((q) => [q.x + q.nx * q.w * 0.24, q.y + q.ny * q.w * 0.24]))}"/>`;
+  if (b.w0 > 5) {
+    h += `<path class="bh" data-n="${b.n}" stroke-width="${f1(Math.max(1.4, b.w0 * 0.16))}" d="${polyD(sm.map((q) => [q.x + q.nx * q.w * 0.24, q.y + q.ny * q.w * 0.24]))}"/>`;
     h += `<path class="bd" data-n="${b.n}" stroke-width="${f1(Math.max(1, b.w0 * 0.08))}" d="${polyD(sm.map((q) => [q.x - q.nx * q.w * 0.18, q.y - q.ny * q.w * 0.18]))}"/>`;
     if (b.w0 > 14) h += `<path class="bd" data-n="${b.n}" stroke-width="1.1" d="${polyD(sm.map((q) => [q.x + q.nx * q.w * 0.04, q.y + q.ny * q.w * 0.04]))}"/>`;
   }
@@ -844,12 +845,12 @@ function render(opts = {}) {
   L.branches.forEach((b) => foliage(b, B));
   L.cards.forEach((c) => { if (!c.ghost) haloLeaves(c, B); });
   const CR = crown(L);
-  $('#vp').innerHTML = L.banners.map(bannerSvg).join('') +
+  $('#vp').innerHTML = L.branches.map(branchSvg).join('') + L.banners.map(bannerSvg).join('') +
     L.links.map((l) => `<path class="dupu" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/><path class="dupl" data-n="${l.n}" data-n2="${l.n2}" d="${l.d}"/>` + (l.ring ? `<g class="rings" data-n="${l.n}" data-n2="${l.n2}" transform="translate(${f1(l.ring[0])},${f1(l.ring[1])})"><circle cx="-6" r="9"/><circle cx="6" r="9"/></g>` : '')).join('') +
     L.knots.map((k) => `<circle class="knot" data-n="${k.n}" cx="${k.x}" cy="${k.y}" r="6"/>`).join('') +
     L.cards.map(cardSvg).join('');
   setWorld([L.bbox[0] - 450, L.bbox[1] - 450, L.bbox[2] + 450, L.bbox[3] + 120]);
-  paintFoliage(B, CR); selNodes = null; paintBranches(); limitZoom();
+  paintFoliage(B, CR); limitZoom();
   const total = Object.keys(S.persons).length;
   $('#count').textContent = total ? `${total} ${plural(total, 'человек', 'человека', 'человек')}` : '';
   renderTabs(); renderChips(); renderCrumbs(); renderEmpty(); renderPanel();
@@ -948,7 +949,7 @@ function paintNow(B, CR) {
 
 /* ---------- trunks and branches are painted into their own canvas too: as vector shapes they made dragging stutter on phones ---------- */
 let selNodes = null;
-function setSelNodes(ns) { const k = ns ? [...ns].sort().join() : ''; if (k === setSelNodes.k) return; setSelNodes.k = k; selNodes = ns; paintBranches(); }
+function setSelNodes(ns) { return; const k = ns ? [...ns].sort().join() : ''; if (k === setSelNodes.k) return; setSelNodes.k = k; selNodes = ns; paintBranches(); }
 function branchGeom(b) {
   if (b.geo) return b.geo;
   const out = [];
