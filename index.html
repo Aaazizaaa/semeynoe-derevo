@@ -802,6 +802,16 @@ function branchSvg(b) {
   }
   return h;
 }
+/* ---------- photos: files in the photos/ folder of the GitHub site, named by the person's id (p97.jpg) ---------- */
+const PHOTO_BASE = /github\.io$/.test(location.hostname) ? 'photos/' : 'https://aaazizaaa.github.io/semeynoe-derevo/photos/';
+const PH = {};
+function photoUrl(pid) { const p = S.persons[pid]; return p && p.photo ? (/^(https?:|data:)/.test(p.photo) ? p.photo : PHOTO_BASE + p.photo) : PHOTO_BASE + pid + '.jpg'; }
+function photoOf(pid) { const u = photoUrl(pid); if (PH[u] === undefined) probePhoto(u); return PH[u] ? u : null; }
+function probePhoto(u) {
+  PH[u] = false; const im = new Image();
+  im.onload = () => { PH[u] = true; clearTimeout(probePhoto.t); probePhoto.t = setTimeout(() => { if (L) render({ fit: false }); }, 400); };
+  im.src = u;
+}
 function cardSvg(c) {
   const p = S.persons[c.pid]; if (!p) return '';
   const wall = S.skin === 'wall';
@@ -814,7 +824,8 @@ function cardSvg(c) {
   if (wall) h += `<path class="cord" d="M${cx - 17},${MY - 22}L${cx},-7L${cx + 17},${MY - 22}"/><circle class="hook" cx="${cx}" cy="-7" r="4"/>`;
   else h += `<ellipse class="shadow" cx="${cx + 2}" cy="${MY + 5}" rx="${MRX + 3}" ry="${MRY + 3}"/>`;
   h += `<ellipse class="mfill" cx="${cx}" cy="${MY}" rx="${MRX}" ry="${MRY}"/>`;
-  if (p.photo) h += `<image href="${esc(p.photo)}" x="${cx - MRX}" y="${MY - MRY}" width="${MRX * 2}" height="${MRY * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#clipOval)"/>`;
+  const ph = photoOf(c.pid);
+  if (ph) h += `<image href="${esc(ph)}" x="${cx - MRX}" y="${MY - MRY}" width="${MRX * 2}" height="${MRY * 2}" preserveAspectRatio="xMidYMid slice" clip-path="url(#clipOval)"/>`;
   else if (g === 'u') h += `<text class="q" x="${cx}" y="${MY + 11}">?</text>`;
   else h += `<g clip-path="url(#clipOval)"><g class="sil"><circle cx="${cx}" cy="${MY - 8}" r="10.5"/><path d="M${cx - 24},${MY + 40}C${cx - 24},${MY + 14} ${cx - 10},${MY + 8} ${cx},${MY + 8}C${cx + 10},${MY + 8} ${cx + 24},${MY + 14} ${cx + 24},${MY + 40}Z"/></g></g>`;
   if (wall) h += `<ellipse class="wframe" cx="${cx}" cy="${MY}" rx="${MRX + 3}" ry="${MRY + 3}"/><ellipse class="wring" cx="${cx}" cy="${MY}" rx="${MRX - 1}" ry="${MRY - 1}"/>`;
@@ -1157,7 +1168,8 @@ function editHtml(pid, p) {
   <label class="f">Фамилия<input id="fSur" value="${esc(p.surname)}"></label>
   <div class="row3"><label class="f">Пол<select id="fGen"><option value="m"${p.gender === 'm' ? ' selected' : ''}>Мужской</option><option value="f"${p.gender === 'f' ? ' selected' : ''}>Женский</option><option value=""${!p.gender ? ' selected' : ''}>Неизвестно</option></select></label>
   <label class="f">Рождение<input id="fBirth" value="${esc(p.birth)}" placeholder="год"></label><label class="f">Смерть<input id="fDeath" value="${esc(p.death)}" placeholder="год"></label></div>
-  <label class="f">Заметка<textarea id="fNote">${esc(p.note)}</textarea></label></div>`;
+  <label class="f">Заметка<textarea id="fNote">${esc(p.note)}</textarea></label></div>
+  <div class="box"><h4>Фото</h4><p style="margin:4px 0 0;line-height:1.45">${photoOf(pid) ? 'Фото есть. ' : ''}Положите снимок в папку <b>photos</b> на GitHub с именем файла <b style="user-select:all">${esc(pid)}.jpg</b>, или просто пришлите фото Claude и напишите, кто на нём.</p></div>`;
   const f = S.form;
   if (f && f.t === 'child') {
     const us = X.uBy[pid] || [];
@@ -1165,6 +1177,10 @@ function editHtml(pid, p) {
     <label class="f">Пол<select id="nGen"><option value="m">Мужской</option><option value="f">Женский</option><option value="">Неизвестно</option></select></label>
     ${us.length > 1 ? `<label class="f">От брака с<select id="nUnion">${us.map((u) => `<option value="${u.id}">${esc(u.partners.filter((x) => x !== pid).map(nameOf).join(', ') || 'без супруга')}</option>`).join('')}</select></label>` : ''}
     <div class="acts"><button class="btn primary" id="doChild">Добавить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
+  } else if (f && f.t === 'sib') {
+    h += `<div class="box"><h4>Новый брат или сестра</h4><label class="f">Имя<input id="nName" placeholder="Имя"></label>
+    <label class="f">Пол<select id="nGen"><option value="m">Брат</option><option value="f">Сестра</option></select></label>
+    <div class="acts"><button class="btn primary" id="doSib">Добавить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
   } else if (f && f.t === 'spouse') {
     h += `<div class="box"><h4>Новый супруг(а)</h4><label class="f">Имя<input id="nName" placeholder="Имя"></label>
     <label class="f">Фамилия<input id="nSur" placeholder="если известна"></label>
@@ -1173,7 +1189,7 @@ function editHtml(pid, p) {
     const n = deletionSet(pid).size;
     h += `<div class="box"><h4>Удалить «${esc(nameOf(pid))}»?</h4><p class="warn">Будет удалено человек: ${n}${n > 1 ? ' (вместе с потомками и их супругами)' : ''}. Это нельзя отменить.</p><div class="acts"><button class="btn danger" id="doDel">Да, удалить</button><button class="btn" id="cancel">Отмена</button></div></div>`;
   } else {
-    h += `<div class="acts"><button class="btn" id="aChild">Добавить ребёнка</button>${spouseOnly(pid) ? '' : '<button class="btn" id="aSpouse">Добавить супруга(у)</button>'}<button class="btn danger" id="aDel">Удалить</button></div>`;
+    h += `<div class="acts"><button class="btn" id="aChild">Добавить ребёнка</button>${X.par[pid] ? '<button class="btn" id="aSib">Добавить брата/сестру</button>' : ''}${spouseOnly(pid) ? '' : '<button class="btn" id="aSpouse">Добавить супруга(у)</button>'}<button class="btn danger" id="aDel">Удалить</button></div>`;
   }
   return h;
 }
@@ -1188,14 +1204,16 @@ $('#panel').addEventListener('click', (e) => {
   if (id === 'aCol') { const a = clusterAnchor(S.sel); S.exp.delete(a); descendants(a).forEach((x) => S.exp.delete(x)); return render({ fit: false }), requestAnimationFrame(zoomSel); }
   if (id === 'aAll') return setMode({ t: 'all' }, { keepSel: true, zoomSel: true });
   if (id === 'aChild') { S.form = { t: 'child' }; return renderPanel(), $('#nName')?.focus(); }
+  if (id === 'aSib') { S.form = { t: 'sib' }; return renderPanel(), $('#nName')?.focus(); }
   if (id === 'aSpouse') { S.form = { t: 'spouse' }; return renderPanel(), $('#nName')?.focus(); }
   if (id === 'aDel') { S.form = { t: 'del' }; return renderPanel(); }
   if (id === 'cancel') { S.form = null; return renderPanel(); }
   if (id === 'doChild') return addChild(S.sel, $('#nName').value.trim() || 'Новый ребёнок', $('#nGen').value, $('#nUnion')?.value);
+  if (id === 'doSib') { rebuildIndex(); const uid = X.par[S.sel]; const u = S.unions[uid]; return addChild(u ? X.anchor[uid] : S.sel, $('#nName').value.trim() || 'Новый человек', $('#nGen').value, uid); }
   if (id === 'doSpouse') return addSpouse(S.sel, $('#nName').value.trim() || 'Супруг(а)', $('#nSur').value.trim());
   if (id === 'doDel') return deletePerson(S.sel);
 });
-$('#panel').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.id === 'nName') { e.preventDefault(); ($('#doChild') || $('#doSpouse'))?.click(); } });
+$('#panel').addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.id === 'nName') { e.preventDefault(); ($('#doChild') || $('#doSib') || $('#doSpouse'))?.click(); } });
 $('#panel').addEventListener('change', (e) => {
   const m = { fName: 'name', fSur: 'surname', fGen: 'gender', fBirth: 'birth', fDeath: 'death', fNote: 'note' }[e.target.id];
   if (!m || !S.sel) return;
