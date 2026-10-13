@@ -7,7 +7,7 @@
 <title>Семейное дерево</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Spectral:ital,wght@0,500;0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Spectral:ital,wght@0,500;0,600;0,700;1,500&display=swap">
 <style>
 /* Layout: toolbar on top, branch chips under it, a green wooden panel with three trees fills the rest; details dock right (bottom sheet on phones). */
 :root {
@@ -160,8 +160,8 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 .card .ribf { fill: #c3b184; stroke: var(--parch-d); stroke-width: 1; }
 .card.ghost .rib { fill: transparent; stroke-dasharray: 4 3; }
 .card text { text-anchor: middle; pointer-events: none; }
-.card .nm { fill: var(--pen); font-family: var(--font-display); font-weight: 600; font-size: 13px; }
-.card .sn { fill: #6b5a3a; font-family: var(--font-ui); font-size: 9.5px; }
+.card .nm { fill: #2a1d0e; font-family: var(--font-display); font-weight: 700; font-size: 25px; }
+.card .sn { fill: #5a4528; font-family: var(--font-ui); font-weight: 500; font-size: 13px; }
 .card.ghost .nm, .card.ghost .sn { fill: var(--muted); }
 .card .q { fill: var(--u-sil); font: 600 30px var(--font-display); }
 .card .badge rect { fill: var(--accent); }
@@ -171,8 +171,8 @@ main { flex: 1; min-height: 0; display: flex; position: relative; }
 .card .hook { fill: #c9a55b; stroke: #7a5f22; stroke-width: 1; }
 .card .cord { fill: none; stroke: #6b5a40; stroke-width: 1.2; }
 .card .plq { fill: url(#brass); stroke: #8a6f2c; stroke-width: 1; }
-.card .plq-t { fill: #3a2d12; font-family: var(--font-display); font-weight: 600; font-size: 12px; }
-.card .plq-s { fill: #5b4818; font-family: var(--font-ui); font-size: 8.5px; }
+.card .plq-t { fill: #2a1d0e; font-family: var(--font-display); font-weight: 700; font-size: 24px; }
+.card .plq-s { fill: #4a3812; font-family: var(--font-ui); font-weight: 500; font-size: 12.5px; }
 .cb { fill: url(#blobg); }
 .ground { fill: var(--shade); opacity: .35; }
 .bk.sp-pine { fill: #4b2a1c; }
@@ -295,7 +295,7 @@ header .results { color: var(--ink); }
         <linearGradient id="goldg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dc8c"/><stop offset=".5" stop-color="#c79a35"/><stop offset="1" stop-color="#f0d27a"/></linearGradient>
         <linearGradient id="brass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6cb85"/><stop offset=".55" stop-color="#c9a55b"/><stop offset="1" stop-color="#b08d40"/></linearGradient>
         <radialGradient id="blobg"><stop offset="0" style="stop-color:var(--shade);stop-opacity:.5"/><stop offset=".55" style="stop-color:var(--shade);stop-opacity:.32"/><stop offset="1" style="stop-color:var(--shade);stop-opacity:0"/></radialGradient>
-        <clipPath id="clipOval"><ellipse cx="58" cy="37" rx="26" ry="33"/></clipPath>
+        <clipPath id="clipOval"><ellipse cx="85" cy="37" rx="26" ry="33"/></clipPath>
       </defs><g id="vp"></g></svg></div>
       <div class="crumbs" id="crumbs"></div>
       <div class="zoomctl">
@@ -317,7 +317,7 @@ header .results { color: var(--ink); }
 <script>
 (() => {
 'use strict';
-const CW = 116, CH = 104, STK = 40, SPITCH = CH + 16, MY = 37, MRX = 27, MRY = 34;
+const CW = 170, CH = 132, STK = 40, SPITCH = CH + 16, MY = 37, MRX = 27, MRY = 34;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const num = (id) => parseInt(String(id).replace(/\D/g, ''), 10) || 0;
@@ -807,7 +807,7 @@ function cardSvg(c) {
   const g = p.gender === 'f' ? 'f' : p.gender === 'm' ? 'm' : 'u';
   const years = p.birth || p.death ? `${p.birth || '…'}–${p.death || ''}` : '';
   const sub = c.dup ? 'ещё один брак' : c.ghost ? (p.surname ? p.surname + ' ↗' : 'другая ветка ↗') : [p.surname, years].filter(Boolean).join(' · ');
-  const nm = p.name || '?'; const fs = (wall ? 0.93 : 1) * (nm.length > 15 ? 10.5 : nm.length > 12 ? 11.5 : 13);
+  const nm = p.name || '?'; const fs = Math.min(25, (CW - 30) / (nm.length * 0.56));
   const cx = CW / 2;
   let h = `<g class="card ${g}${c.ghost ? ' ghost' : ''}${c.dup ? ' dup' : ''}" data-id="${esc(c.pid)}" data-n="${c.n}" transform="translate(${c.x},${c.y})"><title>${esc(nameOf(c.pid))}${years ? ' · ' + esc(years) : ''}</title>`;
   if (wall) h += `<path class="cord" d="M${cx - 17},${MY - 22}L${cx},-7L${cx + 17},${MY - 22}"/><circle class="hook" cx="${cx}" cy="-7" r="4"/>`;
@@ -820,14 +820,14 @@ function cardSvg(c) {
   else h += `<ellipse class="mframe" cx="${cx}" cy="${MY}" rx="${MRX}" ry="${MRY}"/><ellipse class="mframe2" cx="${cx}" cy="${MY}" rx="${MRX - 3}" ry="${MRY - 3}"/>`;
   h += `<ellipse class="halo" cx="${cx}" cy="${MY}" rx="${MRX + 7}" ry="${MRY + 7}"/>`;
   if (wall) {
-    h += `<rect class="plq" x="5" y="76" width="${CW - 10}" height="26" rx="2"/>`;
-    h += `<text class="plq-t" x="${cx}" y="${sub ? 88 : 93.5}" style="font-size:${f1(fs * 0.95)}px">${esc(nm)}</text>`;
-    if (sub) h += `<text class="plq-s" x="${cx}" y="98.5">${esc(sub)}</text>`;
+    h += `<rect class="plq" x="6" y="76" width="${CW - 12}" height="50" rx="3"/>`;
+    h += `<text class="plq-t" x="${cx}" y="${sub ? 100 : 108}" style="font-size:${f1(fs * 0.95)}px">${esc(nm)}</text>`;
+    if (sub) h += `<text class="plq-s" x="${cx}" y="118">${esc(sub)}</text>`;
   } else {
-    h += `<path class="ribf" d="M1,80L12,89L1,98Z"/><path class="ribf" d="M${CW - 1},80L${CW - 12},89L${CW - 1},98Z"/>`;
-    h += `<path class="rib" d="M8,76Q${cx},70 ${CW - 8},76L${CW - 8},102Q${cx},96 8,102Z"/>`;
-    h += `<text class="nm" x="${cx}" y="${sub ? 87.5 : 93}" style="font-size:${fs}px">${esc(nm)}</text>`;
-    if (sub) h += `<text class="sn" x="${cx}" y="98">${esc(sub)}</text>`;
+    h += `<path class="ribf" d="M0,84L14,101L0,118Z"/><path class="ribf" d="M${CW},84L${CW - 14},101L${CW},118Z"/>`;
+    h += `<path class="rib" d="M8,76Q${cx},69 ${CW - 8},76L${CW - 8},126Q${cx},119 8,126Z"/>`;
+    h += `<text class="nm" x="${cx}" y="${sub ? 100 : 108}" style="font-size:${f1(fs)}px">${esc(nm)}</text>`;
+    if (sub) h += `<text class="sn" x="${cx}" y="118">${esc(sub)}</text>`;
   }
   if (c.hidden) h += `<g class="badge"><rect x="${cx - 22}" y="-19" width="44" height="18" rx="9"/><text x="${cx}" y="-6">+${c.hidden}</text></g>`;
   return h + '</g>';
